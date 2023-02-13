@@ -18,7 +18,7 @@ String text = "Bitte warten";
     fr.then((value) => {
       {
         if(value) Navigator.push(
-            context, MaterialPageRoute(builder: (context) => recipe(),))
+            context, MaterialPageRoute(builder: (context) => const recipe(),))
         else
           text = "OhOh"
       }});
