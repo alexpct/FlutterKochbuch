@@ -21,9 +21,9 @@ import 'package:sqflite/sqflite.dart';
          final database = openDatabase('db.db');
          final db = await database;
 
-         try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
+        /* try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
         await db.execute("CREATE TABLE Category (`Name` varchar(100) PRIMARY KEY,     `Pic` blob NOT NULL)");
-         await db.execute("INSERT INTO Category (name, pic) values ('wurst', 'ff')");
+         await db.execute("INSERT INTO Category (name, pic) values ('wurst', 'ff')");*/
         
         prefs.setBool('initialized', true );
         return Future<bool>.value(true);

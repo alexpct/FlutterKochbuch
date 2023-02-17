@@ -2,15 +2,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:kochbuch/helper/tinyHelpers.dart';
 
 class ImgBox extends StatelessWidget{
-  ImgBox({super.key, required this.label, this.icon, required this.didTap,this.image,this.size=100,this.fontSize=25});
+  ImgBox({super.key, required this.label, this.icon, required this.didTap,this.image,this.size=-1,this.fontSize=25});
   final String label;
   final IconData? icon;
   final VoidCallback didTap;
   File? image;
-  final double? size;
+  double? size;
   double fontSize;
 
 
@@ -18,6 +18,7 @@ class ImgBox extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    if(size!<0)size=myProps.itemSize(context, "small");
        var wid;
        if(image!=null){
          wid = Image.file(image!,width: size, height: size);
@@ -25,7 +26,7 @@ class ImgBox extends StatelessWidget{
        else  wid = Icon(
          icon ?? Icons.favorite ,
          color:Theme.of(context).colorScheme.primary,
-         size: size??60,
+         size: size,
        );
     return(
         InkWell(
@@ -34,7 +35,7 @@ class ImgBox extends StatelessWidget{
           }
           ,
           child:  Container(
-            margin: const EdgeInsets.all(40),
+            margin:  EdgeInsets.all(myProps.itemSize(context, "tiny")),
             padding: const EdgeInsets.all(5),
             width: size!+size!/4 ,
             height: size!+size!/4 ,

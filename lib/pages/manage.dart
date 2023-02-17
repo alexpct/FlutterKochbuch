@@ -27,7 +27,8 @@ class _ManageState extends State<Manage> {
         title: Text(widget.title),
       ),
       bottomNavigationBar:  BotNav(Index:2),
-      body: Wrap(
+      body: Column( mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.center, children:[Wrap(
+
     alignment: WrapAlignment.spaceBetween,
     direction: Axis.horizontal,
 
@@ -36,7 +37,7 @@ class _ManageState extends State<Manage> {
       ImgBox(label: "Kategorie\n verwalten", icon: Icons.menu_book, didTap: () => navi(context,21) ),
       ImgBox(label: "Zutaten\n verwalten", icon: Icons.kebab_dining,didTap: () =>null),
       ImgBox(label: "Rezepte\nverwalten", icon: Icons.ramen_dining,didTap: () =>null),
-       ]),
+       ]),])
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

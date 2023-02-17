@@ -1,13 +1,16 @@
 //Alex was here
 import 'package:flutter/material.dart';
 
+import '../helper/dbhelper.dart';
 import '../widgets/botnav.dart';
 
 class recipe extends StatefulWidget {
-  const recipe({super.key});
+  recipe({super.key, this.category=""});
 
 
   final String title = "Rezepte";
+  final String category;
+  final db = dbHelper();
 
   @override
   State<recipe> createState() => _recipeState();
@@ -43,7 +46,8 @@ class _recipeState extends State<recipe> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
               'Recipie gets here',

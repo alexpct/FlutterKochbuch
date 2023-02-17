@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 
 class dbHelper {
@@ -13,21 +14,17 @@ class dbHelper {
       _db = await database;
   }
 
-   newRecipe(String name, File image) async {
-    final bytes = await image.readAsBytes();
-
-     var check =await _db.rawQuery("Select Name from Category where name='"+name+"'");
-if (check.length>0) return false;
-
-    //html.Blob blobs = html.Blob(image.readAsBytesSync());
-    var val = {     'Name': name,
+   Future<String>newRecipe(String name, File image) async {
+    final Uint8List bytes;
+    try{bytes = await image.readAsBytes();} catch(e){return Future<String>.value("Dieser Fehler sollte nicht vorkommen");}
+    var val = {'Name': name,
       'Pic': bytes};
-    await _db.insert("Category", val );
-    
-    
+    try { await _db.insert("Category", val );} catch(e){return Future<String>.value("Kategorie schon vorhanden");}
+    return Future<String>.value("OK");
 
-return true;
   }
+
+
   getCat() async {
     if(_db==null) return false;
     resultType ="Cat";
