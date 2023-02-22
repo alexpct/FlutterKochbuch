@@ -13,10 +13,19 @@ failbar(BuildContext context, String fail){
 }
 //kann man mit Theme machen, hier kann ich aber mehr machen, ja ein observerpattern wäre hier auch angebracht, aber .... erst wenns unvermeidbar ist.
 class myProps {
-  static var someValue;
+  static Map NutriAPI={
+    'URL':'https://trackapi.nutritionix.com/v2/search/instant',
+    'Headers': {
+
+  }
+
+  };
 
   static double minScreen(BuildContext context){
    return min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+  }
+  static double percent(BuildContext context, double percent){
+    return minScreen(context)*(percent/100);
   }
   static double  itemSize(BuildContext context, String size){
 

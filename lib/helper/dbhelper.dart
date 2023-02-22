@@ -26,7 +26,6 @@ class dbHelper {
 
 
   getCat() async {
-    if(_db==null) return false;
     resultType ="Cat";
     result = await _db.rawQuery("select * from Category");
   }

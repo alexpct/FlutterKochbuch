@@ -1,5 +1,6 @@
 //Alex was here
 import 'package:alert/alert.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/navi.dart';
 
@@ -10,6 +11,7 @@ import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/widgets/iconbox.dart';
 
 import '../helper/imagepicker.dart';
+import '../helper/objects.dart';
 
 class addCat extends StatefulWidget {
   String title = "Kategorie hinzufügen";
@@ -30,7 +32,7 @@ class _addCatState extends State<addCat> {
         }));
   }
 
-  add() async {
+  add() async { /*
     print(_image);
     if (name == "Name") {setState(() {
       fail = "Bitte Namen eingeben";
@@ -40,8 +42,20 @@ class _addCatState extends State<addCat> {
       fail= "Bild hinzufügen";
     });}
     print(fail);
-   if(fail=="OK") Alert(message: 'Kategorie hinzugefügt').show();
+   if(fail=="OK") Alert(message: 'Kategorie hinzugefügt').show(); */
+
+    if (name == "Name") {setState(() {
+      fail = "Bitte Namen eingeben";
+    });return false;}
+    if(_image==null){setState(() {
+      fail= "Bild hinzufügen";
+    }); return false;}
+    var  cat;
+    await catFromFile(name, _image).then((value) => cat=value);
+    cat.save().then((value) => fail=value);
+
    navi(context, 1);
+
   }
 
   @override
