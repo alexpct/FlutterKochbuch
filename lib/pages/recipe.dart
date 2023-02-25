@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:kochbuch/helper/tinyHelpers.dart';
 
 import '../helper/dbhelper.dart';
 import '../widgets/botnav.dart';
@@ -29,15 +30,17 @@ class recipe extends StatefulWidget {
 
 class _recipeState extends State<recipe> {
   _recipeState(){
+
     test2();
   }
- final db = dbHelper();
+ late final  db ;
   List<Cat> imagefill=[];
   List<File?> imagesreally=[];
 
 
 
  test2() async {
+  db = await dbHelper();
    await db.getCat();
    print( db.result);
    for(int i=0;i<db.result.length;i++){
@@ -46,7 +49,7 @@ class _recipeState extends State<recipe> {
    }
    setState(() {
 
-   imagesreally=imagefill[0].image as List<File?>;
+   //imagesreally=imagefill[0].image as List<File?>;
 
    });
  }
@@ -66,20 +69,25 @@ class _recipeState extends State<recipe> {
       bottomNavigationBar:  BotNav(Index:1),
       body: Center(
         // 
-        child: GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-      ),
-      itemCount: imagesreally.length,
-      itemBuilder: (BuildContext context, int index) {
-        
-        
-        final item = imagesreally[index];
-        return ImgBox(label: "", didTap: () =>null, image: item);
-        
-
-
-  }),
+        child:Padding(
+          padding: EdgeInsets.all(myProps.percent(context, 2)),
+          
+          child: GridView.builder(
+            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: myProps.percent(context, 2),
+            mainAxisSpacing: myProps.percent(context, 2),
+                  
+            ),
+            itemCount: imagefill.length,
+            itemBuilder: (BuildContext context, int index) {
+              
+              
+              final item = imagefill[index];
+              return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
+              
+             }),
+        )
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

@@ -42,7 +42,7 @@ if (label.length > _maxChar) _labelSplit();
        if(file!=null){
          wid = Image.file(file!,width: size, height: size);
        }
-       if (image!=null) wid = Container(child: image, width: size, height: size);
+      else if (image!=null) wid = Container(child: image, width: size, height: size);
        else  wid = Icon(
          icon ?? Icons.favorite ,
          color:Theme.of(context).colorScheme.primary,
