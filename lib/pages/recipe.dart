@@ -12,10 +12,13 @@ import '../pages/testpage.dart';
 class recipe extends StatefulWidget {
   recipe({super.key, this.category=""});
 
-
+// Es fehlt so viel, so viel das wichtig ist, es werden fast keine Fehler
+// abgefangen, es ist fast nichts typsicher, die datenbank kaskadiert nicht
+// anständig und und und, aber das kommt davon wenn man zuviel in zu wenig Zeit
+// will(nicht das sie zu wenig Zeit gegeben haben, aber wann man anfängt )
   final String title = "Rezepte";
   final String category;
-  final db = dbHelper();
+
 
 
 

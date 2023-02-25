@@ -87,9 +87,9 @@ class _addCatState extends State<addCat> {
               children: [
                 ImgBox(
                   label: name,
-                  didTap: () => {getImg(false)},
+                  onTap: () => {getImg(false)},
                   size: myProps.itemSize(context, "huge"),
-                  image: _image,
+                  file: _image,
                   fontSize: myProps.fontSize(context, "big"),
                 ),
               ],

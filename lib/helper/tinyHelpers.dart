@@ -11,6 +11,10 @@ failbar(BuildContext context, String fail){
     ));
 
 }
+
+bool isBetween(num number, num min, num max) {
+  return ((min <= number  &&  max >= number));
+}
 //kann man mit Theme machen, hier kann ich aber mehr machen, ja ein observerpattern wäre hier auch angebracht, aber .... erst wenns unvermeidbar ist.
 class myProps {
   static Map NutriAPI={
@@ -45,6 +49,7 @@ class myProps {
     var val =minScreen(context);
     switch (size) {
       case "tiny": return val/100;
+      case "very small": return val/50;
       case "small": return val/20;
       case "big": return val/13;
       case "huge": return val/10;
