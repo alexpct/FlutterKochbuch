@@ -1,8 +1,14 @@
 //Alex was here
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:kochbuch/helper/tinyHelpers.dart';
 
 import '../helper/dbhelper.dart';
 import '../widgets/botnav.dart';
+import '../widgets/iconbox.dart';
+import '../helper/objects.dart';
+import '../pages/testpage.dart';
 
 class recipe extends StatefulWidget {
   recipe({super.key, this.category=""});
@@ -15,48 +21,73 @@ class recipe extends StatefulWidget {
   final String category;
 
 
+
+
+
   @override
   State<recipe> createState() => _recipeState();
 }
 
 class _recipeState extends State<recipe> {
+  _recipeState(){
+
+    test2();
+  }
+ late final  db ;
+  List<Cat> imagefill=[];
+  List<File?> imagesreally=[];
+
+
+
+ test2() async {
+  db = await dbHelper();
+   await db.getCat();
+   print( db.result);
+   for(int i=0;i<db.result.length;i++){
+  
+    imagefill.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
+   }
+   setState(() {
+
+   //imagesreally=imagefill[0].image as List<File?>;
+
+   });
+ }
+ 
+  
 
   @override
   Widget build(BuildContext context) {
+   //if(!true)print(images[0]);
+  
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+       
         title: Text(widget.title),
       ),
       bottomNavigationBar:  BotNav(Index:1),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Recipie gets here',
+        // 
+        child:Padding(
+          padding: EdgeInsets.all(myProps.percent(context, 2)),
+          
+          child: GridView.builder(
+            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: myProps.percent(context, 2),
+            mainAxisSpacing: myProps.percent(context, 2),
+                  
             ),
-            ],
-        ),
+            itemCount: imagefill.length,
+            itemBuilder: (BuildContext context, int index) {
+              
+              
+              final item = imagefill[index];
+              return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
+              
+             }),
+        )
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
