@@ -47,8 +47,9 @@ double Carbohydrates;
 Uint8List?  bytes;
 Image? image;
 String name;
+bool pieceGood;
 
-Ingredient({required this.name,required this.Calories,this.bytes, this.Carbohydrates=-1, this.Fat=-1, this.Protein=-1 }){
+Ingredient({required this.name,required this.Calories,this.bytes, this.Carbohydrates=-1, this.Fat=-1, this.Protein=-1, required this.pieceGood}){
 if (bytes!=null)  image = Image.memory(bytes!); // auch mit einem nullcheck davor will der compiler den nullcheck -.-
 }
 

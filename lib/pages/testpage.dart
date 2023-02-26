@@ -67,12 +67,11 @@ bool d = false;
     final response = await http.get(
         Uri.parse(
             'https://m.media-amazon.com/images/I/718Rv7lY0HL._AC_SL1500_.jpg'));
-Ingredient wurst = Ingredient(name: "Wurst", Calories: 1337);
-Ingredient kaese = Ingredient(name: "Apfelhuchen mit marmelade und was weiß ich nnicht", Calories: 1337,Fat: 12, Carbohydrates: 15, Protein: 55, bytes:response.bodyBytes );
+Ingredient wurst = Ingredient(name: "Wurst", Calories: 1337,pieceGood: true);
+Ingredient kaese = Ingredient(name: "Apfelhuchen mit marmelade und was weiß ich nnicht", Calories: 1337,Fat: 12, Carbohydrates: 15, Protein: 55, bytes:response.bodyBytes, pieceGood: true );
 
 
-dd= IngredientWidget(ingredient: wurst,
-onTap:(){});
+dd= null;
 
 setState(() {
   d=true;

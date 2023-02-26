@@ -41,7 +41,11 @@ class IngredientWidget  extends StatelessWidget{
   Ingredient ingredient;
 
   //final  ValueSetter<Ingredient> onTap;
-  final VoidCallback onTap;
+  final Function(Ingredient) onTap;
+
+  proxy(){ // joa onTap: ontap(ingredient) warf fehler...
+    onTap(ingredient);
+  }
 
 
 
@@ -52,15 +56,15 @@ class IngredientWidget  extends StatelessWidget{
     else img =  ImgBox(label: ingredient.name, onTap:(){onTap(ingredient);},icon: Icons.kitchen,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
   */
 
-    if (ingredient.image!=null) img = ImgBox(label: ingredient.name, onTap: onTap, image: ingredient.image,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
-    else img =  ImgBox(label: ingredient.name, onTap:onTap,icon: Icons.kitchen,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
+    if (ingredient.image!=null) img = ImgBox(label: ingredient.name, onTap:proxy, image: ingredient.image,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
+    else img =  ImgBox(label: ingredient.name, onTap:proxy,icon: Icons.kitchen,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
 
     String cropedName=ingredient.name;
     if(ingredient.name.length>30) cropedName=ingredient.name.substring(0,30);
     return(
         InkWell(
             onTap: () {
-onTap;
+proxy();
             }
             ,
             child:  SingleChildScrollView(
