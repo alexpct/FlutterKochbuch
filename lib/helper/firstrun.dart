@@ -21,7 +21,7 @@ import 'package:sqflite/sqflite.dart';
          final database = openDatabase('db.db');
          final db = await database;
 
-        if(true){ try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
+        if(!true){ try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
         await db.execute("CREATE TABLE Category (`Name` varchar(100) PRIMARY KEY,     `Pic` blob NOT NULL)");
         }
         

@@ -1,5 +1,6 @@
 //Alex was here
 import 'package:flutter/material.dart';
+import 'package:kochbuch/helper/tinyHelpers.dart';
 
 import '../helper/navi.dart';
 import '../widgets/botnav.dart';
@@ -27,18 +28,16 @@ class _ManageState extends State<Manage> {
         title: Text(widget.title),
       ),
       bottomNavigationBar:  BotNav(Index:2),
-      body: Column( mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.center, children:[Wrap(
-
-    alignment: WrapAlignment.spaceBetween,
-    direction: Axis.horizontal,
+      body: Center(
+        child: Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
 
     children: <Widget>[
 
-      ImgBox(label: "Kategorie\n verwalten", icon: Icons.menu_book, onTap: () => navi(context,21) ),
-      ImgBox(label: "Zutaten\n verwalten", icon: Icons.kebab_dining,onTap: () =>null),
-      ImgBox(label: "Rezepte\nverwalten", icon: Icons.ramen_dining,onTap: () =>null),
-       ]),])
+      ImgBox(label: "Kategorie\n", icon: Icons.menu_book, onTap: () => navi(context,23),size: myProps.itemSize(context, "normal"), ),
+      ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,24),size: myProps.itemSize(context, "normal"),),
+      ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,25),size: myProps.itemSize(context, "normal"),),
+       ]),
       // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    ));
   }
 }

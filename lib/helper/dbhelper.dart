@@ -37,4 +37,17 @@ class dbHelper {
     try{_db.close();} catch(e){};
   }
 
+
+  getsomething(String typ) async{
+    resultType ="Cat";
+    await open();
+    result = await _db.rawQuery("select Name from "+typ);
+    print(result);
+  }
+
+  deleteentry(String name, String typ) async{
+    await open();
+    await _db.rawQuery("delete from "+ name +" where name = '"+typ+"'");
+  }
+
 }

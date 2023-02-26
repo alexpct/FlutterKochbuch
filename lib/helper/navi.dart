@@ -26,21 +26,37 @@ void navi(context, int page){
     case 2: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  IngredientPage(), //
+          pageBuilder: (_, __, ___) =>  const Manage(), //
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
-    case 21: Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const mIRC(type:"categories"),
-          transitionDuration: const Duration(seconds: 0),
-        )) ; break;
+   
     case 22: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  IngredientPage(),
+          pageBuilder: (_, __, ___) =>  addCat(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
+
+    case 23: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) =>  mIRC(type:"category"),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break;
+
+    case 24: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => mIRC(type:"ingredients"),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break;
+
+    case 25: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) =>  mIRC(type:"recipe"),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break;
     default:
   }
 }
