@@ -62,7 +62,7 @@ class _TestState extends State<Testpage> {
  }
 bool d = false;
   var dd;
-  test() async {
+  testB() async {
     print("Ingredient Test start");
     final response = await http.get(
         Uri.parse(
@@ -76,6 +76,13 @@ dd= null;
 setState(() {
   d=true;
 });
+
+  }
+
+  test() async {
+
+
+
 
   }
 

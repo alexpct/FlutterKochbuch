@@ -20,7 +20,7 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
     double Protein=1337;
     double Carbohydrates=1337;
     Uint8List?  bytes;
-    double calFactor;
+    double weight= ing['serving_weight_grams']/1;
 
     String name=ing['food_name'];
     String url =ing['photo']['thumb'];
@@ -28,7 +28,7 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
     final get = await http.get(Uri.parse(url));
     bytes = get.bodyBytes;
     print("-------------------------------");
-    print("++++++++++++"+ing['serving_qty'].toString());
+    print("++++++++++++"+ing['serving_weight_grams'].toString()) ;
     List  run =  ing['full_nutrients']; //jaja hier kommt ein klassischer for loop, ich weiß wir nutzen heute alle 'ne map
     for (var i=0; i <run.length;i++){
       switch (run[i]['attr_id']){
@@ -39,11 +39,11 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
       }
 
     }
-    return Future<Ingredient>.value(Ingredient(name: name, Calories: Calories, Fat: Fat, Protein: Protein, Carbohydrates: Carbohydrates, bytes: bytes, pieceGood: true));
+    return Future<Ingredient>.value(Ingredient(name: name, Calories: Calories, Fat: Fat, Protein: Protein, Carbohydrates: Carbohydrates,weight: weight, bytes: bytes, pieceGood: true));
 
   }
   Future<List<Ingredient>>  search(String query ) async {
-    int thisRun =_runNum.toInt();
+    int thisRun =_runNum.toInt(); // damit immer nur der neuste request angezeigt wird.
     thisRun++;
     String URI = "https://trackapi.nutritionix.com/v2/search/instant?query=$query&locale=de_DE&branded=false&detailed=true";
 
@@ -57,12 +57,10 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
     var decode = jsonDecode(response.body);
     List<Ingredient> ret=[];
     print(decode['common'].length);
-    for(var i=0;i<decode['common'].length && i<5; i++){
+    for(var i=0;i<decode['common'].length && i<5; i++){ //i<5 für den Emulator sonst rödelt der sich zu Tode
       Ingredient a =await _buildIngredient(decode['common'][i]);
       ret.add(a);
-
     }
-print(thisRun);print(_runNum);
     if(thisRun>=_runNum)lastRet=ret;
     _runNum=thisRun;
     return  Future<List<Ingredient>>.value(lastRet);

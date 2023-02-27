@@ -21,8 +21,12 @@ import 'package:sqflite/sqflite.dart';
          final database = openDatabase('db.db');
          final db = await database;
 
-        if(!true){ try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
+        if(true){ try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
         await db.execute("CREATE TABLE Category (`Name` varchar(100) PRIMARY KEY,     `Pic` blob NOT NULL)");
+        }
+        if (true){
+          await db.execute("DROP TABLE 'Ingredients' ");
+          await db.execute("CREATE TABLE Ingredients (`Name` varchar(100) PRIMARY KEY,     `bytes` blob NOT NULL, 'Calories' REAL, 'Fat' REAL, 'Protein' REAL, 'Carbohydrates' REAL, 'pieceGood' BOOLEAN, 'weight' REAL)");
         }
         
         prefs.setBool('initialized', true );

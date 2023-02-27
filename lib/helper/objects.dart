@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -48,11 +49,24 @@ Uint8List?  bytes;
 Image? image;
 String name;
 bool pieceGood;
+double weight;
 
-Ingredient({required this.name,required this.Calories,this.bytes, this.Carbohydrates=-1, this.Fat=-1, this.Protein=-1, required this.pieceGood}){
+Ingredient({required this.name,required this.Calories,this.bytes, this.Carbohydrates=-1, this.Fat=-1, this.Protein=-1, required this.pieceGood, this.weight=-1}){
 if (bytes!=null)  image = Image.memory(bytes!); // auch mit einem nullcheck davor will der compiler den nullcheck -.-
 }
+save() async {
+  final database = openDatabase('db.db');
+  var db = await database;
+  var val = {'Name': name,
+    'bytes': bytes,
+  'Fat' : Fat ,
+   'Protein': Protein,
+  'Carbohydrates': Carbohydrates,
+    'pieceGood': pieceGood,
+  'weight':weight};
+  try { await db.insert("Ingredients", val );} catch(e){ try { await db.delete("Ingredients", where: "name=${val['name']}" ); db.insert("Ingredients", val );} catch(ee){print(ee);}}
 
+}
 
 
 }

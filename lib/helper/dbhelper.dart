@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:kochbuch/helper/objects.dart';
 import 'package:sqflite/sqflite.dart';
 
 class dbHelper {
@@ -29,6 +30,21 @@ class dbHelper {
     resultType ="Cat";
     await open();
     result = await _db.rawQuery("select * from Category");
+  }
+
+  getIng([String? name]){
+    List<Ingredient> list=[];
+    String query = "Select * from 'ingredients' ";
+    if(name!=null) query +=" where name='$name'";
+    result = _db.rawQuery(query);
+
+
+  }
+
+  getAll(String tablename) async {
+    resultType =tablename;
+    await open();
+    result = await _db.rawQuery("select * from $tablename");
   }
 
 
