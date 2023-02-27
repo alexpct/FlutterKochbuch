@@ -64,6 +64,30 @@ deleteListItem(int index, String name, String typ)  async {
 
 }
 
+   AlertAnfrage(int index, String name, String typ){
+        
+        return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Wollen sie wirklich löschen?'),
+          //content: const Text('AlertDialog description'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Abbrechen'),
+            ),
+            TextButton(
+              onPressed:() {
+                deleteListItem(index, name,typ);
+                Navigator.pop(context, 'Cancel');      
+              },
+              child: const Text('OK'),
+              )
+         
+          ],
+        ),);  
+  }
+
 
 
   @override
@@ -90,7 +114,15 @@ deleteListItem(int index, String name, String typ)  async {
       itemBuilder: (BuildContext context, int index) {
         final item = listforthings[index]['Name'];
 
-        return ListTile(title: Text(item), trailing: IconButton(onPressed: ()=> deleteListItem(index,item,widget.type), icon: Icon(Icons.delete)));
+        return ListTile(title: Text(item), trailing: Wrap(
+        spacing: 1,  // space between two icons
+        children: <Widget>[
+           IconButton(onPressed: () => navi(context,22), icon: Icon(Icons.edit)),
+           IconButton(onPressed: ()=> AlertAnfrage(index,item,widget.type)/*()=> deleteListItem(index,item,widget.type)*/, icon: Icon(Icons.delete))
+   
+    ]
+        )
+  ); 
 
     }
           
