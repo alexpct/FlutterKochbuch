@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kochbuch/pages/NewIngredient.dart';
+import 'package:kochbuch/pages/addCat.dart';
 import 'package:kochbuch/pages/testpage.dart';
 
-import '../pages/addCat.dart';
+import '../pages/editIn.dart';
 import '../pages/mIRC.dart';
 import '../pages/manage.dart';
 import '../pages/recipe.dart';
@@ -50,13 +51,13 @@ void navi(context, int page, [String name=""]){
         case 3: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => addCat("editZ", name),
+          pageBuilder: (_, __, ___) => editIn("editZ", name),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
         case 4: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => addCat("addC", name),
+          pageBuilder: (_, __, ___) => addCat(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     default:

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/objects.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -80,11 +81,11 @@ class dbHelper {
     await _db.rawQuery("delete from "+ name +" where name = '"+tabel+"'");
   }
 
-  insertDBZ(String Name , Uint8List bytes, double Calories , double Fat , double Protein, double Carbohydrates, bool pieceGood, double weight, String table ) async{
+  insertDBZ(String Name , Uint8List? bytes, double Calories , double Fat , double Protein, double Carbohydrates, bool pieceGood, double weight, String table ) async{
 
     await open();
-    await _db.rawQuery("INSERT INTO "+table+" (Name, bytes, Calories, Fat, Protein, Carbohydrates,piecegood,weight)VALUES ("+Name+" , "+bytes.toString()+" , "+Calories.toString()+" , "+Fat.toString()+" , "+Protein.toString()+" , "+Carbohydrates.toString()+ " , "+pieceGood.toString()+" , "+weight.toString()+")");
-
+    result= await _db.rawQuery("INSERT INTO $table ( Name , bytes , Calories , Fat , Protein , Carbohydrates , piecegood , weight ) VALUES ( '$Name', '$bytes' , '$Calories' , '$Fat' , '$Protein' , '$Carbohydrates' , '$pieceGood' , '$weight' )");
+    print(result);
   }
 
 }

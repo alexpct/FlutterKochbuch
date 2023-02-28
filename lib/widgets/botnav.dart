@@ -7,7 +7,7 @@ import 'package:kochbuch/pages/recipe.dart';
 import 'package:kochbuch/pages/snake.dart';
 
 import '../helper/navi.dart';
-import '../pages/addCat.dart';
+import '../pages/editIn.dart';
 import '../pages/mIRC.dart';
 
 
