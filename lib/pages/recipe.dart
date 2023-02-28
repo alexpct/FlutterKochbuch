@@ -39,6 +39,18 @@ class _recipeState extends State<recipe> {
   List<File> imagesreally=[];
 
 
+resize(){
+  if(MediaQuery.of(context).viewInsets.bottom==1){
+ return EdgeInsets.only(top: myProps.percent(context, 20));
+  }
+  else{
+    return EdgeInsets.all(myProps.percent(context, 2));
+
+  };
+
+}
+
+
 
  test2() async {
   db = await dbHelper();
@@ -73,16 +85,34 @@ class _recipeState extends State<recipe> {
   
 
     return Scaffold(
+     // resizeToAvoidBottomInset: false,
       appBar: AppBar(
        
         title: Text(widget.title),
       ),
 
       bottomNavigationBar: BotNav(Index:1),
-      body: Padding(
+      body:  SingleChildScrollView(      
+        //reverse: true,
+      child: Column(
+        
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+
+               
+    Container(
+      
+      height: myProps.percent(context, 150),
+      
+       //padding: EdgeInsets.only(top: myProps.percent(context, 20)),
         padding: EdgeInsets.all(myProps.percent(context, 2)),
 
+
         child: GridView.builder(
+          
+          //physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
           gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: myProps.percent(context, 2),
@@ -98,7 +128,23 @@ class _recipeState extends State<recipe> {
 
            }),
       ),
+      Center(
+      child:Container(
+        height: myProps.percent(context, 12), 
+        width: myProps.percent(context, 95),
+                
+        child:TextField(
+        onChanged: (text) {
+            onChange(text);},
+        decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Search',
+        
+  )),
+),)
+      
+      ])
       // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    ));
   }
 }

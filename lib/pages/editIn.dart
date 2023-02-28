@@ -202,7 +202,7 @@ void initState() {
                   label: ingredient.name,
                   onTap: () => {getImg(false)},
                   size: myProps.itemSize(context, "huge"),
-                  image: Image.memory(ingredient.bytes!),
+                  image: Image.memory(ingredient.bytes),
                   fontSize: myProps.fontSize(context, "big"),
                 ),
           
