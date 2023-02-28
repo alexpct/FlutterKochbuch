@@ -26,17 +26,17 @@ class editIn extends StatefulWidget {
 }
 
 class _editInState extends State<editIn> {
-  late final Future myFuture;
+  Future myFuture;
   var _image;
-  final db = dbHelper();
+   dbHelper db = dbHelper();
   String name = "Name";
   String fail = "OK";
-  Image? pictureedit;
+  Image pictureedit;
   bool isChecked=false;
   List<Map<String, dynamic>>DbEntries=[];
   Ingredient ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
 
-  Uint8List?  bytesSave;
+  Uint8List  bytesSave;
 
 
    getImg(bool useCamera) {
@@ -73,7 +73,7 @@ return "ready";
 
       ingredient.name=DbEntries[0]['Name'];
       ingredient.bytes=DbEntries[0]['bytes'];
-      pictureedit=Image.memory(ingredient.bytes!);
+      pictureedit=Image.memory(ingredient.bytes);
       ingredient.Calories=DbEntries[0]['Calories'];
       ingredient.Fat=DbEntries[0]['Fat'];
       ingredient.Carbohydrates=DbEntries[0]['Carbohydrates'];
@@ -138,7 +138,7 @@ return "ready";
                     
                    }
   
-  Future<String?> warten() async{
+  Future<String> warten() async{
     return await edit("Ingredients",widget.edible);;
   }
 
@@ -237,10 +237,10 @@ void initState() {
               Text("Stückware?") ,Checkbox(
                  checkColor: Colors.white,
                  value: ingredient.pieceGood,
-                 onChanged: (bool? value) {
+                 onChanged: (bool value) {
                   
                    setState(() {
-                    ingredient.pieceGood = value!;
+                    ingredient.pieceGood = value;
                     print("check");
                     print(value);
                     

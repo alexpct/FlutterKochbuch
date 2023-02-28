@@ -35,6 +35,7 @@ class _recipeState extends State<recipe> {
   }
   var db ;
   List<Cat> imagefill=[];
+  List<Cat> imageOrig=[];
   List<File> imagesreally=[];
 
 
@@ -46,6 +47,7 @@ class _recipeState extends State<recipe> {
    for(int i=0;i<db.result.length;i++){
   
     imagefill.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
+    imageOrig.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
    }
    setState(() {
 
@@ -54,7 +56,16 @@ class _recipeState extends State<recipe> {
    });
  }
  
-  
+  onChange(String text){
+    List<Cat> filtered=[];
+    for(var i=0; i<imageOrig.length;++i){
+      if (imageOrig[i].name.toLowerCase().startsWith(text.toLowerCase())) filtered.add(imageOrig[i]);
+    }
+    setState(() {
+      imagefill=filtered;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,28 +77,26 @@ class _recipeState extends State<recipe> {
        
         title: Text(widget.title),
       ),
-      bottomNavigationBar:  BotNav(Index:1),
-      body: Center(
-        // 
-        child:Padding(
-          padding: EdgeInsets.all(myProps.percent(context, 2)),
-          
-          child: GridView.builder(
-            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: myProps.percent(context, 2),
-            mainAxisSpacing: myProps.percent(context, 2),
-                  
-            ),
-            itemCount: imagefill.length,
-            itemBuilder: (BuildContext context, int index) {
-              
-              
-              final item = imagefill[index];
-              return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
-              
-             }),
-        )
+
+      bottomNavigationBar: BotNav(Index:1),
+      body: Padding(
+        padding: EdgeInsets.all(myProps.percent(context, 2)),
+
+        child: GridView.builder(
+          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: myProps.percent(context, 2),
+          mainAxisSpacing: myProps.percent(context, 2),
+
+          ),
+          itemCount: imagefill.length,
+          itemBuilder: (BuildContext context, int index) {
+
+
+            final item = imagefill[index];
+            return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
+
+           }),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

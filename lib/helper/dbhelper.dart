@@ -28,10 +28,15 @@ class dbHelper {
   }
 
 
-  getCat() async {
+  getCat([String startsWith]) async {
     resultType ="Cat";
     await open();
+    String q = "select * from Category";
+    if(startsWith!=null) print(startsWith);
+    if(startsWith!=null)q+="where name LIKE '$startsWith%'";
     result = await _db.rawQuery("select * from Category");
+    print(result.runtimeType);
+    return result;
   }
 
   getIng([String name]) async {
@@ -81,7 +86,7 @@ class dbHelper {
     await _db.rawQuery("delete from "+ name +" where name = '"+tabel+"'");
   }
 
-  insertDBZ(String Name , Uint8List? bytes, double Calories , double Fat , double Protein, double Carbohydrates, bool pieceGood, double weight, String table ) async{
+  insertDBZ(String Name , Uint8List bytes, double Calories , double Fat , double Protein, double Carbohydrates, bool pieceGood, double weight, String table ) async{
 
     await open();
     result= await _db.rawQuery("INSERT INTO $table ( Name , bytes , Calories , Fat , Protein , Carbohydrates , piecegood , weight ) VALUES ( '$Name', '$bytes' , '$Calories' , '$Fat' , '$Protein' , '$Carbohydrates' , '$pieceGood' , '$weight' )");

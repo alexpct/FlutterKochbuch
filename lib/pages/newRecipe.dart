@@ -1,5 +1,7 @@
 //Alex was here
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/helper/objects.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 
@@ -16,6 +18,9 @@ class newRecipe extends StatefulWidget {
   @override
   State<newRecipe> createState() => _newRecipeState();
 }
+dbHelper db=dbHelper();
+
+
 class growBox{
   static double size=0;
   static int _max=40;
@@ -31,7 +36,9 @@ class growBox{
 class _newRecipeState extends State<newRecipe> {
 
 
+
   List<Ingredient> ingredientList=[];
+
 
 
   addIngredient(){
@@ -42,10 +49,24 @@ class _newRecipeState extends State<newRecipe> {
    });
 
   }
-
+List<Widget> widList=[];
   @override
   Widget build(BuildContext context) {
 Color primaryColor= Theme.of(context).colorScheme.primary;
+String currentText="wolf";
+
+Widget catText =  SimpleAutoCompleteTextField(
+  decoration: InputDecoration(helperText:"Kategorie"),
+  controller: TextEditingController(text: ""),
+  suggestions: ['wurst','käse','wurm'],
+  textChanged: (text) =>  text,
+  clearOnSubmit: true,
+  textSubmitted: (text) => setState(() {
+    if (text != "") {
+
+    }
+  }),
+);
     return Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -57,6 +78,20 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
         SingleChildScrollView(
          child: Column(
             children: [
+
+              Padding(
+                padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Kategorie:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                      Container(width:myProps.percent(context, 30), child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [Container(width: 50,height: 50, color: Colors.red,),Text("Käse")])),
+
+
+                    ]
+                ),
+
+              ),
              Padding(
                padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
                child: Row(
@@ -106,7 +141,11 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
     ),
 
 
-  TextField(minLines: 20,),
+  Padding(
+    padding:  EdgeInsets.all(myProps.percent(context, 2)),
+    child: TextField(minLines: 20,maxLines: 20,decoration: InputDecoration(border: OutlineInputBorder(),labelText: 'Beschreibung',
+      floatingLabelBehavior: FloatingLabelBehavior.always,contentPadding: EdgeInsets.all(myProps.percent(context, 5)),  )  ,),
+  ),
               Divider(
                 thickness:1,
                 indent: 5,
@@ -127,4 +166,6 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
 
     );
   }
+
+
 }

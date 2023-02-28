@@ -1,5 +1,6 @@
 //Alex was here
 import 'package:flutter/material.dart';
+import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -36,6 +37,7 @@ createdb() async {
 
   }
 }
+dbHelper db = dbHelper();
   @override
   Widget build(BuildContext context) {
 
@@ -53,7 +55,7 @@ createdb() async {
 
                 ElevatedButton(onPressed:()=>{ navi(context, 1)}, child: Text("Navi1")),
                 ElevatedButton(onPressed:()=>{ navi(context, 2)}, child: Text("Navi2")),
-                ElevatedButton(onPressed:()=>{ navi(context, 3)}, child: Text("Navi3")),
+                ElevatedButton(onPressed:()=>{ navi(context, 3,"ei")}, child: Text("Navi3")),
                 ElevatedButton(onPressed:()=>{ navi(context, 4)}, child: Text("Navi4")),
                 ElevatedButton(onPressed:()=>{ navi(context, 5)}, child: Text("Navi5")),
                 Container(height: 100,),

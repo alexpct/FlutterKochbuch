@@ -18,8 +18,8 @@ import '../helper/objects.dart';
 
 
 class addCat extends StatefulWidget {
-    addCat(  [this.edible]);
-   final String? edible;
+    addCat( [this.edible]);
+   final String edible;
    String title = "Kategorie hinzufügen";
    @override
    _addCatState createState() => _addCatState();
@@ -30,7 +30,7 @@ class addCat extends StatefulWidget {
    final db = dbHelper();
    String name = "Name";
    String fail = "OK";
-   Image? pictureedit;
+   Image pictureedit;
    List<Map<String, dynamic>>DbEntries=[];
  
 

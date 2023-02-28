@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kochbuch/pages/NewIngredient.dart';
 import 'package:kochbuch/pages/addCat.dart';
+import 'package:kochbuch/pages/newRecipe.dart';
 import 'package:kochbuch/pages/testpage.dart';
 
+import '../pages/devstart.dart';
 import '../pages/editIn.dart';
 import '../pages/mIRC.dart';
 import '../pages/manage.dart';
@@ -15,7 +17,7 @@ void navi(context, int page, [String name=""]){
     case 0:Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => SnakeGame(),
+          pageBuilder: (_, __, ___) => devStart(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 1:Navigator.push(
@@ -54,10 +56,16 @@ void navi(context, int page, [String name=""]){
           pageBuilder: (_, __, ___) => editIn("editZ", name),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-        case 4: Navigator.push(
+    case 4: Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => addCat(),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break;
+    case 5: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => recipe(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     default:
