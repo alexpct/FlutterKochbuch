@@ -41,9 +41,11 @@ class _editInState extends State<editIn> {
 
    getImg(bool useCamera) {
     Future<File> ip = imgPicker(useCamera);
-    ip.then((value) => setState(() {
-          _image = value;
-        }));
+    ip.then((value) => 
+            value.readAsBytes().then((value) => ingredient.bytes=value).then((value) => setState(() {
+              
+            },))
+        );
   }
 
 
@@ -65,7 +67,8 @@ return "ready";
     for(int i=0;i<db.result.length;i++){
   
           DbEntries.add(db.result[i]);
-          print(DbEntries[i]['piecegood']);  
+          print(DbEntries[i]['pieceGood']);  
+          //log(DbEntries[i].toString());
             
         }
       //pictureedit=Image.memory(DbEntries[0]['bytes']);
@@ -78,7 +81,7 @@ return "ready";
       ingredient.Fat=DbEntries[0]['Fat'];
       ingredient.Carbohydrates=DbEntries[0]['Carbohydrates'];
        ingredient.Protein=DbEntries[0]['Protein'];
-      ingredient.pieceGood=DbEntries[0]['piecegood']== 0? false : true;
+      ingredient.pieceGood=DbEntries[0]['pieceGood']== 0? false : true;
       ingredient.weight=DbEntries[0]['weight'];
 
       //bytesSave=DbEntries[0]['bytes'];
@@ -199,7 +202,7 @@ void initState() {
                   label: ingredient.name,
                   onTap: () => {getImg(false)},
                   size: myProps.itemSize(context, "huge"),
-                  image: pictureedit,
+                  image: Image.memory(ingredient.bytes!),
                   fontSize: myProps.fontSize(context, "big"),
                 ),
           
