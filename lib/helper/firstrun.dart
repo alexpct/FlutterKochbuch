@@ -24,10 +24,17 @@ import 'package:sqflite/sqflite.dart';
         if(true){ try{await db.execute("DROP TABLE 'Category' ");     } catch(e){};
         await db.execute("CREATE TABLE Category (`Name` varchar(100) PRIMARY KEY,     `Pic` blob NOT NULL)");
         }
-        if (true){
-          await db.execute("DROP TABLE 'Ingredients' ");
-          await db.execute("CREATE TABLE Ingredients (`Name` varchar(100) PRIMARY KEY,     `bytes` blob NOT NULL, 'Calories' REAL, 'Fat' REAL, 'Protein' REAL, 'Carbohydrates' REAL, 'pieceGood' BOOLEAN, 'weight' REAL)");
+        if (!true){
+          try{await db.execute("DROP TABLE 'Ingredients' ");}catch(e){print (e);}
+          await db.execute("CREATE TABLE 'Ingredients' (`Name` varchar(100) PRIMARY KEY, 'Calories' REAL, 'Fat' REAL, 'Protein' REAL, 'Carbohydrates' REAL, 'pieceGood' BOOLEAN, 'weight' REAL, `bytes` blob NOT NULL)");
         }
+        if(true){
+          try{await db.execute("CREATE TABLE recipe (`Name` varchar(100) PRIMARY KEY,    'text' text, 'time' integer )");}catch(e){};
+          try{await db.execute("CREATE TABLE recipeIngredients ('recipe' text,    'ingredient' text, 'quantity' integer )");}catch(e){};
+          try{await db.execute("CREATE TABLE recipePics ('recipe' text,    `bytes` blob NOT NULL  )");}catch(e){};
+
+        }
+
         
         prefs.setBool('initialized', true );
         return Future<bool>.value(true);

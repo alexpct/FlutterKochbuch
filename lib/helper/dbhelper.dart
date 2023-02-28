@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:kochbuch/helper/objects.dart';
@@ -32,11 +32,18 @@ class dbHelper {
     result = await _db.rawQuery("select * from Category");
   }
 
-  getIng([String? name]){
+  getIng([String? name]) async {
     List<Ingredient> list=[];
     String query = "Select * from 'ingredients' ";
     if(name!=null) query +=" where name='$name'";
-    result = _db.rawQuery(query);
+    result = await _db.rawQuery(query);
+
+    for (var i=0; i<result.length ; i++ ){
+      var e = result[i];
+      bool whyTheFuckIsntThatWorkingInline = e['pieceGood']==0? false : true;
+      log(result);
+      list.add(Ingredient(name: e['name'], Calories: e['calories'], pieceGood:whyTheFuckIsntThatWorkingInline,Fat: e['fat'],Carbohydrates: e['carbohydrates'], Protein:e['protein'], bytes: e['bytes'], weight: e['weight']  ));
+    }
 
 
   }
@@ -58,7 +65,7 @@ class dbHelper {
     resultType ="Cat";
     await open();
     result = await _db.rawQuery("select Name from "+typ);
-    print(result);
+    log(result);
   }
 
   deleteentry(String name, String typ) async{

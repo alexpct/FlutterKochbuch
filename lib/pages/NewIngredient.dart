@@ -15,11 +15,11 @@ import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 
 class NewIngredient extends StatefulWidget {
-  NewIngredient({super.key,});
+  NewIngredient({super.key, this.ingredient});
 
   final String title = "Zutat hinzufügen";
   final db = dbHelper();
-  Ingredient ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
+  Ingredient? ingredient;
 
   @override
   State<NewIngredient> createState() => _NewIngredientState();
@@ -28,7 +28,7 @@ class NewIngredient extends StatefulWidget {
 class _NewIngredientState extends State<NewIngredient> {
   NutriAPI nutriAPI= NutriAPI();
   List<Ingredient> IList=[];
-  Ingredient? ingredient;
+  Ingredient? ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
   bool? isChecked=false;
   _NewIngredientState(){
 
@@ -59,7 +59,7 @@ setState(() {
 
   _nameUpdate(String a){ingredient?.name=a; enterEdit();print("dingdong");}
 enterEdit(){
-   ingredient ??= widget.ingredient;
+ if (widget.ingredient!=null) ingredient=widget.ingredient;
    wid=Expanded(
      child:  SingleChildScrollView(
        child: Column(
@@ -74,16 +74,17 @@ enterEdit(){
                    Row(
                      children: [Text("Stückware?") ,Checkbox(
                  checkColor: Colors.white,
-                 value: isChecked,
+                 value: ingredient?.pieceGood,
                  onChanged: (bool? value) {
                    setState(() {
-                     isChecked = value!;
+                     ingredient?.pieceGood  = value!;
                      enterEdit();}
                    );})]),
                    Padding(
                      padding:  EdgeInsets.all(myProps.percent(context, 5)),
-                     child: Row(
-  children: [Text("Nährwerte pro 100g/Stück"), ImgBox(
+                     child: Row(             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                         children: [Text("Nährwerte pro 100g/Stück"), ImgBox(
     label: ingredient!.name,
     onTap: () => {getImg(false)},
     size: myProps.itemSize(context, "small"),

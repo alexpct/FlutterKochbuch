@@ -1,6 +1,7 @@
 //Alrex was here
 
 import 'package:flutter/material.dart';
+import 'package:kochbuch/pages/devstart.dart';
 import 'package:kochbuch/pages/splashscreen.dart';
 
 import 'pages/recipe.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
-        home: splash(),
+        home: devStart(),
     );
   }
 }
