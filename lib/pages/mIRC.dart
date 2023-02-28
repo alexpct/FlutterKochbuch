@@ -22,12 +22,11 @@ class _mIRCState extends State<mIRC> {
   }
 
 List<Map<String, dynamic>>listforthings=[];
-List<String?> StupidList=[];
 var  db ;
 
 cate(String typ) async {
          db = await dbHelper();
-        await db.getsomething(typ);
+        await db.getName(typ);
         //print( db.result);
         for(int i=0;i<db.result.length;i++){
   
@@ -45,6 +44,13 @@ cate(String typ) async {
  listing( String typ) async{
   switch(typ){
     case "category": 
+          await cate(typ);
+      break;
+      case "Ingredients": 
+      print("ingredients");
+          await cate(typ);
+      break;
+      case "recipe": 
           await cate(typ);
       break;
   default: print("nichts gefunden");
@@ -112,12 +118,12 @@ deleteListItem(int index, String name, String typ)  async {
       padding: const EdgeInsets.all(8),
       itemCount: listforthings.length,
       itemBuilder: (BuildContext context, int index) {
-        final item = listforthings[index]['Name'];
+        final String item = listforthings[index]['Name'];
 
         return ListTile(title: Text(item), trailing: Wrap(
         spacing: 1,  // space between two icons
         children: <Widget>[
-           IconButton(onPressed: () => navi(context,22), icon: Icon(Icons.edit)),
+           IconButton(onPressed: () => navi(context,3,item), icon: Icon(Icons.edit)),
            IconButton(onPressed: ()=> AlertAnfrage(index,item,widget.type)/*()=> deleteListItem(index,item,widget.type)*/, icon: Icon(Icons.delete))
    
     ]
