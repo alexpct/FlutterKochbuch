@@ -17,14 +17,14 @@ class Cat
 {
   String name;
   Uint8List  bytes;
-  Image? image; //jup das verdoppelt den ramverbrauch, ist  mir bewusst, aber wer solche frameworks benutzt dem ist ram egal
+  Image image; //jup das verdoppelt den ramverbrauch, ist  mir bewusst, aber wer solche frameworks benutzt dem ist ram egal
 
-  Cat({required this.name, required this.bytes}) {
+  Cat({this.name, this.bytes}) {
 
     image = Image.memory(bytes);
   }
 
-  Future<String> save([bool? update]) async {
+  Future<String> save([bool update]) async {
     final database = openDatabase('db.db');
     var db = await database;
     var val = {'Name': name,
@@ -45,14 +45,14 @@ double Calories;
 double Fat;
 double Protein;
 double Carbohydrates;
-Uint8List?  bytes;
-Image? image;
+Uint8List  bytes;
+Image image;
 String name;
 bool pieceGood;
 double weight;
 
-Ingredient({required this.name,required this.Calories,this.bytes, this.Carbohydrates=-1, this.Fat=-1, this.Protein=-1, required this.pieceGood, this.weight=-1}){
-if (bytes!=null)  image = Image.memory(bytes!); // auch mit einem nullcheck davor will der compiler den nullcheck -.-
+Ingredient({ this.name, this.Calories,this.bytes, this.Carbohydrates=-1, this.Fat=-1, this.Protein=-1, this.pieceGood, this.weight=-1}){
+if (bytes!=null)  image = Image.memory(bytes); // auch mit einem nullcheck davor will der compiler den nullcheck -.-
 }
 
 save() async {

@@ -10,13 +10,14 @@ class dbHelper {
   var result;
 
   dbHelper(){open();}
+
   open() async {
       final database = openDatabase('db.db');
       _db = await database;
   }
 
    Future<String>newRecipe(String name, File image) async {
-    final Uint8List bytes;
+     Uint8List bytes;
     try{bytes = await image.readAsBytes();} catch(e){return Future<String>.value("Dieser Fehler sollte nicht vorkommen");}
     var val = {'Name': name,
       'Pic': bytes};
@@ -32,7 +33,7 @@ class dbHelper {
     result = await _db.rawQuery("select * from Category");
   }
 
-  getIng([String? name]) async {
+  getIng([String name]) async {
     List<Ingredient> list=[];
     String query = "Select * from 'ingredients' ";
     if(name!=null) query +=" where name='$name'";

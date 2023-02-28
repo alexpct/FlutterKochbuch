@@ -18,7 +18,6 @@ import '../widgets/iconbox.dart';
 
 
 class NewIngredient extends StatefulWidget {
-  NewIngredient({super.key,});
 
   final String title = "Zutat hinzufügen";
   final db = dbHelper();
@@ -31,8 +30,8 @@ class NewIngredient extends StatefulWidget {
 class _NewIngredientState extends State<NewIngredient> {
   NutriAPI nutriAPI= NutriAPI();
   List<Ingredient> IList=[];
-  Ingredient? ingredient;
-  bool? isChecked=false;
+  Ingredient ingredient;
+  bool isChecked=false;
   _NewIngredientState(){
 
   }
@@ -78,21 +77,21 @@ enterEdit(){
                      children: [Text("Stückware?") ,Checkbox(
                  checkColor: Colors.white,
                  value: isChecked,
-                 onChanged: (bool? value) {
+                 onChanged: (bool value) {
                    setState(() {
 
-                     isChecked = value!;
-                     ingredient?.pieceGood= isChecked!;
+                     isChecked = value;
+                     ingredient?.pieceGood= isChecked;
                      enterEdit();}
                    );})]),
                    Padding(
                      padding:  EdgeInsets.all(myProps.percent(context, 5)),
                      child: Row(
   children: [Text("Nährwerte pro 100g/Stück"), ImgBox(
-    label: ingredient!.name,
+    label: ingredient.name,
     onTap: () => {getImg(false)},
     size: myProps.itemSize(context, "small"),
-    image: ingredient!.image,
+    image: ingredient.image,
     //file: _image,
     fontSize: myProps.fontSize(context, "big"),
   ),]
@@ -107,33 +106,33 @@ enterEdit(){
                        },
                        children:<TableRow>[
                          TableRow(
-                             children: <Widget>[Text("Name",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.name,
+                             children: <Widget>[Text("Name",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.name,
                              onFieldSubmitted:(a)=>{_nameUpdate(a)},onTap: enterEdit,) , Text(""),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Calories=double.parse(value)}},keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Calories=double.parse(value)}},keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]) , Text("kcal"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Carbohydrates.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Carbohydrates=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Carbohydrates.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Carbohydrates=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Fat.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Fat=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Fat.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Fat=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]),  Text("g"),
                              ]
                          ),
 
                          TableRow(
-                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Protein.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Protein=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Protein.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Protein=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.weight.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.weight=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.weight.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.weight=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
@@ -214,7 +213,7 @@ setState(() {
     });
 
   }
-  Widget? wid;
+  Widget wid;
 
   @override
   Widget build(BuildContext context) {

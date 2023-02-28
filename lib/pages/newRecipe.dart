@@ -8,7 +8,7 @@ import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 
 class newRecipe extends StatefulWidget {
-  const newRecipe({super.key});
+  const newRecipe();
 
 
   final String title="Neues Rezept";
@@ -105,11 +105,13 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
     ),
     ),
 
+
+  TextField(minLines: 20,),
               Divider(
                 thickness:1,
                 indent: 5,
                 endIndent: 5,
-                color: primaryColor,
+                  color: primaryColor,
               ),
 
 

@@ -34,7 +34,7 @@ List<IngredientWidget> children=[];
 
 class IngredientWidget  extends StatelessWidget{
 
-  IngredientWidget({required this.ingredient,required this.onTap }){
+  IngredientWidget({ this.ingredient, this.onTap }){
 
   }
 

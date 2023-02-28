@@ -7,7 +7,7 @@ import '../helper/dbhelper.dart';
 import '../helper/objects.dart';
 
 class mIRC  extends StatefulWidget {
-    const mIRC({super.key,  required this.type});
+    const mIRC({this.type});
 
    final String type;
   

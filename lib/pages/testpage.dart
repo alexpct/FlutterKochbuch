@@ -16,7 +16,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class Testpage extends StatefulWidget {
-  const Testpage({super.key});
 
 
   final String title="Verwaltung";
@@ -37,7 +36,7 @@ class _TestState extends State<Testpage> {
   }
 
   bool c = false;
-  late Uint8List cc;
+   Uint8List cc;
 
   test56() async {
     print("network image test start");

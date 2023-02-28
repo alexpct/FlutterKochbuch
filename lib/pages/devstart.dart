@@ -8,7 +8,6 @@ import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 
 class devStart extends StatefulWidget {
-  const devStart({super.key});
 
 
   final String title="Verwaltung";

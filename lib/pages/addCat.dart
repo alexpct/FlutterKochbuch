@@ -30,7 +30,7 @@ class _addCatState extends State<addCat> {
   final db = dbHelper();
   String name = "Name";
   String fail = "OK";
-  Image? pictureedit;
+  Image pictureedit;
   List<Map<String, dynamic>>DbEntries=[];
 
 
@@ -181,7 +181,7 @@ return "ready";
 
 
   }
-  Future<String?> warten() async{
+  Future<String> warten() async{
     return await EditType();
   }
 
@@ -203,9 +203,9 @@ return "ready";
    AppBar  appBar= AppBar(
       title: Text("hinzufügen"),
     ); 
-     return FutureBuilder<String?>(
+     return FutureBuilder<String>(
   future: warten(), // a Future<String> or null
-  builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (!snapshot.hasData){
           return CircularProgressIndicator();}
         else{      

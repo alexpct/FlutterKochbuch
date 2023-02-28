@@ -8,7 +8,7 @@ import '../pages/manage.dart';
 import '../pages/recipe.dart';
 import '../pages/snake.dart';
 
-void navi(context, int page, String name){
+void navi(context, int page, [String name=""]){
 
   switch (page){
     case 0:Navigator.push(
@@ -26,7 +26,7 @@ void navi(context, int page, String name){
     case 2: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => Manage(),
+          pageBuilder: (_, __, ___) =>  Manage(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 21: Navigator.push(

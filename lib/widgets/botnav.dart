@@ -12,14 +12,14 @@ import '../pages/mIRC.dart';
 
 
 class BotNav extends StatefulWidget {
-  const BotNav ({ Key? key, required this.Index }): super(key: key);
+  const BotNav ({  this.Index });
   final int Index;
   @override
   State<BotNav> createState() => _BotNav(cIndex: Index);
 }
   class _BotNav extends State<BotNav> {
 
-   _BotNav ({ Key? key, required this.cIndex });
+   _BotNav ({ this.cIndex });
   final int cIndex;
   Widget build(BuildContext context){
     void onTabTapped(int index) {

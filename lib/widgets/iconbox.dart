@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 
 class ImgBox extends StatelessWidget{
-  ImgBox({super.key, required this.label, this.icon,this.image, required this.onTap,this.file,this.size=-1,this.fontSize=25
+  ImgBox({ this.label, this.icon,this.image,  this.onTap,this.file,this.size=-1,this.fontSize=25
   , this.noMargin=false, this.noBorder=false}){
 if (label.length > _maxChar) _labelSplit();
 
 }
   final int _maxChar =11;
   String label;
-  final IconData? icon;
+  final IconData icon;
   final VoidCallback onTap;
-  File? file;
-  Image? image;
-  double? size;
+  File file;
+  Image image;
+  double size;
   double fontSize;
   bool noMargin;
   bool noBorder;
@@ -37,10 +37,10 @@ if (label.length > _maxChar) _labelSplit();
 
   @override
   Widget build(BuildContext context) {
-    if(size!<0)size=myProps.itemSize(context, "small");
+    if(size<0)size=myProps.itemSize(context, "small");
        var wid;
        if(file!=null){
-         wid = Image.file(file!,width: size, height: size);
+         wid = Image.file(file,width: size, height: size);
        }
        else if (image!=null) wid = Container(child: image, width: size, height: size);
        else  wid = Icon(
@@ -48,7 +48,7 @@ if (label.length > _maxChar) _labelSplit();
          color:Theme.of(context).colorScheme.primary,
          size: size,
        );
-Border? b=  Border.all(color: Theme.of(context).colorScheme.primary, width:  size!/30);
+Border b=  Border.all(color: Theme.of(context).colorScheme.primary, width:  size/30);
 if(noBorder) b=null;
     return(
         InkWell(
@@ -59,8 +59,8 @@ if(noBorder) b=null;
           child:  Container(
             margin:  EdgeInsets.all(noMargin? 0:   myProps.itemSize(context, "tiny")),
             padding: const EdgeInsets.all(5),
-            width: size!+size!/4 ,
-            height: size!+size!/4 ,
+            width: size+size/4 ,
+            height: size+size/4 ,
             decoration: BoxDecoration(
                 border: b
             ),

@@ -19,7 +19,7 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
     double Fat=1337;
     double Protein=1337;
     double Carbohydrates=1337;
-    Uint8List?  bytes;
+    Uint8List  bytes;
     double weight= ing['serving_weight_grams']/1;
 
     String name=ing['food_name'];

@@ -11,7 +11,7 @@ import '../helper/objects.dart';
 import '../pages/testpage.dart';
 
 class recipe extends StatefulWidget {
-  recipe({super.key, this.category=""});
+  recipe({ this.category=""});
 
 // Es fehlt so viel, so viel das wichtig ist, es werden fast keine Fehler
 // abgefangen, es ist fast nichts typsicher, die datenbank kaskadiert nicht
@@ -25,17 +25,17 @@ class recipe extends StatefulWidget {
 
 
   @override
-  State<recipe> createState() => _recipeState();
+  State<recipe> createState() => _recipeState(dbHelper);
 }
 
 class _recipeState extends State<recipe> {
-  _recipeState(){
+  _recipeState(this.db){
 
     test2();
   }
- late final  db ;
+  var db ;
   List<Cat> imagefill=[];
-  List<File?> imagesreally=[];
+  List<File> imagesreally=[];
 
 
 
