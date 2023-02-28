@@ -2,24 +2,27 @@
 import 'dart:async';
 import 'dart:io';
 
+
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/NutriAPI.dart';
 import 'package:kochbuch/helper/objects.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 import 'package:kochbuch/main.dart';
 import 'package:kochbuch/widgets/ingredientWidget.dart';
+import 'package:flutter/services.dart';
 
 import '../helper/dbhelper.dart';
 import '../helper/imagepicker.dart';
 import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 
+
 class NewIngredient extends StatefulWidget {
-  NewIngredient({super.key, this.ingredient});
+  NewIngredient({super.key,});
 
   final String title = "Zutat hinzufügen";
   final db = dbHelper();
-  Ingredient? ingredient;
+  Ingredient ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
 
   @override
   State<NewIngredient> createState() => _NewIngredientState();
@@ -28,7 +31,7 @@ class NewIngredient extends StatefulWidget {
 class _NewIngredientState extends State<NewIngredient> {
   NutriAPI nutriAPI= NutriAPI();
   List<Ingredient> IList=[];
-  Ingredient? ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
+  Ingredient? ingredient;
   bool? isChecked=false;
   _NewIngredientState(){
 
@@ -59,7 +62,7 @@ setState(() {
 
   _nameUpdate(String a){ingredient?.name=a; enterEdit();print("dingdong");}
 enterEdit(){
- if (widget.ingredient!=null) ingredient=widget.ingredient;
+   ingredient ??= widget.ingredient;
    wid=Expanded(
      child:  SingleChildScrollView(
        child: Column(
@@ -74,17 +77,18 @@ enterEdit(){
                    Row(
                      children: [Text("Stückware?") ,Checkbox(
                  checkColor: Colors.white,
-                 value: ingredient?.pieceGood,
+                 value: isChecked,
                  onChanged: (bool? value) {
                    setState(() {
-                     ingredient?.pieceGood  = value!;
+
+                     isChecked = value!;
+                     ingredient?.pieceGood= isChecked!;
                      enterEdit();}
                    );})]),
                    Padding(
                      padding:  EdgeInsets.all(myProps.percent(context, 5)),
-                     child: Row(             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                         children: [Text("Nährwerte pro 100g/Stück"), ImgBox(
+                     child: Row(
+  children: [Text("Nährwerte pro 100g/Stück"), ImgBox(
     label: ingredient!.name,
     onTap: () => {getImg(false)},
     size: myProps.itemSize(context, "small"),
@@ -108,24 +112,29 @@ enterEdit(){
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Calories.toString()) , Text("kcal"),
+                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Calories=double.parse(value)}},keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]) , Text("kcal"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Carbohydrates.toString()) , Text("g"),
+                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Carbohydrates.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Carbohydrates=double.parse(value)}} ,keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Fat.toString()) , Text("g"),
+                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Fat.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Fat=double.parse(value)}} ,keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]),  Text("g"),
                              ]
                          ),
 
                          TableRow(
-                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Protein.toString()) , Text("g"),
+                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.Protein.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.Protein=double.parse(value)}} ,keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.weight.toString()) , Text("g"),
+                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient!.weight.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient!.weight=double.parse(value)}} ,keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
 

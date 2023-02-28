@@ -24,9 +24,9 @@ class BotNav extends StatefulWidget {
   Widget build(BuildContext context){
     void onTabTapped(int index) {
       switch (index){
-        case 0:navi(context,22); break ;
-        case 1: navi(context,1) ; break ;
-        case 2:  navi(context,2) ; break ;
+        case 0:navi(context,22,""); break ;
+        case 1: navi(context,1,"") ; break ;
+        case 2:  navi(context,2,"") ; break ;
 
 
       }

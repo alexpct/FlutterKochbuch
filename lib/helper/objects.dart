@@ -60,12 +60,13 @@ save() async {
   var db = await database;
   var val = {'Name': name,
     'bytes': bytes,
+    'calories': Calories,
   'Fat' : Fat ,
    'Protein': Protein,
   'Carbohydrates': Carbohydrates,
     'pieceGood': pieceGood,
   'weight':weight};
-  try { await db.insert("Ingredients", val );} catch(e){ try { await db.delete("Ingredients", where: "name=${val['name']}" ); db.insert("Ingredients", val );} catch(ee){print(ee);}}
+   await db.insert("Ingredients", val );//} catch(e){ try { await db.delete("Ingredients", where: "name=${val['name']}" ); db.insert("Ingredients", val );} catch(ee){print(ee);}}
 
 }
 

@@ -61,16 +61,29 @@ class dbHelper {
   }
 
 
-  getsomething(String typ) async{
+  getName(String typ) async{
     resultType ="Cat";
     await open();
     result = await _db.rawQuery("select Name from "+typ);
     log(result);
   }
 
-  deleteentry(String name, String typ) async{
+  getEntry(String table, String name) async{
     await open();
-    await _db.rawQuery("delete from "+ name +" where name = '"+typ+"'");
+    result = await _db.rawQuery("select * from "+table+" where name = '"+name+"'");
+    print(result);
+  }
+
+  deleteentry(String name, String tabel) async{
+    await open();
+    await _db.rawQuery("delete from "+ name +" where name = '"+tabel+"'");
+  }
+
+  insertDBZ(String Name , Uint8List bytes, double Calories , double Fat , double Protein, double Carbohydrates, bool pieceGood, double weight, String table ) async{
+
+    await open();
+    await _db.rawQuery("INSERT INTO "+table+" (Name, bytes, Calories, Fat, Protein, Carbohydrates,piecegood,weight)VALUES ("+Name+" , "+bytes.toString()+" , "+Calories.toString()+" , "+Fat.toString()+" , "+Protein.toString()+" , "+Carbohydrates.toString()+ " , "+pieceGood.toString()+" , "+weight.toString()+")");
+
   }
 
 }

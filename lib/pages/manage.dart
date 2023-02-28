@@ -33,9 +33,9 @@ class _ManageState extends State<Manage> {
 
     children: <Widget>[
 
-      ImgBox(label: "Kategorie\n", icon: Icons.menu_book, onTap: () => navi(context,23),size: myProps.itemSize(context, "normal"), ),
-      ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,24),size: myProps.itemSize(context, "normal"),),
-      ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,25),size: myProps.itemSize(context, "normal"),),
+      ImgBox(label: "Kategorie\n", icon: Icons.menu_book, onTap: () => navi(context,21,""),size: myProps.itemSize(context, "normal"), ),
+      ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,23,""),size: myProps.itemSize(context, "normal"),),
+      ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,4,""),size: myProps.itemSize(context, "normal"),),
        ]),
       // This trailing comma makes auto-formatting nicer for build methods.
     ));
