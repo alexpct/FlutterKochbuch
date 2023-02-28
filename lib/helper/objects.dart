@@ -63,7 +63,7 @@ save() async {
   'Fat' : Fat ,
    'Protein': Protein,
   'Carbohydrates': Carbohydrates,
-    'pieceGood': pieceGood,
+    'PieceGood': pieceGood,
   'weight':weight};
    await db.insert("Ingredients", val );//} catch(e){ try { await db.delete("Ingredients", where: "name=${val['name']}" ); db.insert("Ingredients", val );} catch(ee){print(ee);}}
 
