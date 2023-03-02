@@ -51,7 +51,7 @@ class dbHelper {
 
       var e = result[i];
       bool whyTheFuckIsntThatWorkingInline = e['pieceGood']==0? false : true;
-      list.add(Ingredient(name: e['Name'], Calories: e['Calories'], pieceGood:whyTheFuckIsntThatWorkingInline,Fat: e['Fat'],Carbohydrates: e['Carbohydrates'], Protein:e['Protein'], bytes: e['bytes'], weight: e['weight']  ));
+      list.add(Ingredient(name: e['Name'], calories: e['Calories'], pieceGood:whyTheFuckIsntThatWorkingInline,fat: e['Fat'],carbohydrates: e['Carbohydrates'], protein:e['Protein'], bytes: e['bytes'], weight: e['weight']  ));
 
     }
     return  Future<List<Ingredient>>.value(list);
@@ -76,7 +76,6 @@ class dbHelper {
     await open();
     result = await _db.rawQuery("select Name from "+typ);
     List<String> list=[];
-//    print(result.toString());
     for (var i=0;i<result.length;i++){
      list.add(result[i]['Name']);
     }
@@ -101,6 +100,7 @@ class dbHelper {
     //print(result);
   }
 Future<Recipe> getRecipe(String Name) async {
+  
   var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '"+Name+"'");
 print(recipe);
   String Text =  recipe[0]['text'];
@@ -124,7 +124,7 @@ print(recipe);
   var recipePics =  await  _db.rawQuery("select * from 'recipePics' where recipe = '"+Name+"'");
   recipePics.forEach((e)=>images.add(e['bytes']));
 
-Recipe ret=Recipe(Name: Name, Text: Text,ingredients: ingredients, Time: Time, cats: cats, images: images);
+Recipe ret=Recipe(name: Name, text: Text,ingredients: ingredients, time: Time, cats: cats, images: images);
 return Future.value(ret);
 
 }
