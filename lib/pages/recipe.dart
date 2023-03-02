@@ -1,5 +1,4 @@
-//Alex was here
-import 'dart:io';
+//Alex was here  ///
 
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
@@ -8,148 +7,105 @@ import '../helper/dbhelper.dart';
 import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 import '../helper/objects.dart';
-import '../pages/testpage.dart';
 
-class recipe extends StatefulWidget {
-  recipe({ this.category=""});
+class ShowCat extends StatefulWidget {
+  const ShowCat({Key key,  this.category=""}) : super(key: key);
 
-// Es fehlt so viel, so viel das wichtig ist, es werden fast keine Fehler
-// abgefangen, es ist wenig typsicher, die datenbank kaskadiert nicht
-// anständig und und und, aber das kommt davon wenn man zuviel in zu wenig Zeit
-// will(nicht das sie zu wenig Zeit gegeben haben, aber wann man anfängt )
-  final String title = "Rezepte";
+  final String title = "Kategorien";
   final String category;
 
 
-
-
-
   @override
-  State<recipe> createState() => _recipeState(dbHelper);
+  State<ShowCat> createState() => _ShowCatState(dbHelper);
 }
 
-class _recipeState extends State<recipe> {
-  _recipeState(this.db){
+class _ShowCatState extends State<ShowCat> {
+  _ShowCatState(this.db){
 
-    test2();
+    getDb();
   }
   var db ;
-  List<Cat> imagefill=[];
-  List<Cat> imageOrig=[];
-  List<File> imagesreally=[];
+  List<Cat> imagefill=[]; // Liste für die geholten Einträge aus der DB
+  List<Cat> imageorig=[]; // Liste für die Filter funktion
 
 
-resize(){
-  if(MediaQuery.of(context).viewInsets.bottom==1){
- return EdgeInsets.only(top: myProps.percent(context, 20));
-  }
-  else{
-    return EdgeInsets.all(myProps.percent(context, 2));
-
-  };
-
-}
-
-
-
- test2() async {
-  db = await dbHelper();
+ getDb() async { //Holt die Einträge aus der DB und steck sie in 2 Listen
+   db = dbHelper();
    await db.getCat();
-   print( db.result);
    for(int i=0;i<db.result.length;i++){
   
-    imagefill.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
-    imageOrig.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
+      imagefill.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
+      imageorig.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
    }
    setState(() {
-
-   //imagesreally=imagefill[0].image as List<File?>;
 
    });
  }
  
-  onChange(String text){
-    List<Cat> filtered=[];
-    for(var i=0; i<imageOrig.length;++i){
-      if (imageOrig[i].name.toLowerCase().startsWith(text.toLowerCase())) filtered.add(imageOrig[i]);
+  filter(String text){ // Filter funktion für das Textfeld
+    List<Cat> filtered=[]; //Liste mit gewünschter Filterung
+    for(var i=0; i<imageorig.length;++i){
+        if (imageorig[i].name.toLowerCase().startsWith(text.toLowerCase())) filtered.add(imageorig[i]); // übergibt filterung an neue Liste filtered
     }
     setState(() {
-      imagefill=filtered;
+      imagefill=filtered; //updatet die angezeigte Liste
     });
 
   }
 
   @override
   Widget build(BuildContext context) {
-   //if(!true)print(images[0]);
-  
-
     return Scaffold(
-     // resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-       
+
+      appBar: AppBar(      
         title: Text(widget.title),
       ),
 
-      bottomNavigationBar: BotNav(Index:1),
+      bottomNavigationBar: const BotNav(Index:1),
       body:  SingleChildScrollView(
-        //reverse: true,
-      child: Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
 
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
+            Center(
+              child:Container(
+                padding: EdgeInsets.fromLTRB(0, MyProps.percent(context, 3), 0, 0),
+                height: MyProps.percent(context, 12),
+                width: MyProps.percent(context, 95),
+                child:TextFormField( //Textfield der Suche
+                    onChanged: (text) {
+                      filter(text);},
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Suche',
+                    )),
+              ),),
 
-          Center(
-            child:Container(
-              padding: EdgeInsets.fromLTRB(0, myProps.percent(context, 3), 0, 0),
-              height: myProps.percent(context, 12),
-              width: myProps.percent(context, 95),
+            Container(
+              padding: EdgeInsets.all(MyProps.percent(context, 2)),
+                child: Container(
+                  child: GridView.builder( //Builder für das Kategorien Layout
+                  physics: const ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: MyProps.percent(context, 2),
+                      mainAxisSpacing: MyProps.percent(context, 2),
 
-              child:TextFormField(
-                  onChanged: (text) {
-                    onChange(text);},
-                  decoration: InputDecoration(
+                    ),
+                    itemCount: imagefill.length,
+                    itemBuilder: (BuildContext context, int index) {
 
-                    border: OutlineInputBorder(),
-                    labelText: 'Suche',
-
-                  )),
-            ),),
-
-    Container(
-
-
-
-
-      //padding: EdgeInsets.only(top: myProps.percent(context, 20)),
-      padding: EdgeInsets.all(myProps.percent(context, 2)),
-
-        child: Container(
-          child: GridView.builder(
-
-            //physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: myProps.percent(context, 2),
-            mainAxisSpacing: myProps.percent(context, 2),
-
+                      final item = imagefill[index];
+                      return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
+                    }
+                  ),
+               ),
             ),
-            itemCount: imagefill.length,
-            itemBuilder: (BuildContext context, int index) {
-
-
-              final item = imagefill[index];
-              return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
-
-             }),
-        ),
-      ),
-
-
-      ])
-      // This trailing comma makes auto-formatting nicer for build methods.
-    ));
+         ] 
+        )
+     )
+    );
   }
 }

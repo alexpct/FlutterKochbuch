@@ -23,7 +23,7 @@ void navi(context, int page, [String name=""]){
     case 1:Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  recipe(),
+          pageBuilder: (_, __, ___) =>  ShowCat(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 2: Navigator.push(
@@ -35,7 +35,7 @@ void navi(context, int page, [String name=""]){
     case 21: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const mIRC(type:"category"),
+          pageBuilder: (_, __, ___) => const ManageIRC(type:"Category"),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     case 22: Navigator.push(
@@ -47,13 +47,19 @@ void navi(context, int page, [String name=""]){
         case 23: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const mIRC(type:"Ingredients"),
+          pageBuilder: (_, __, ___) => const ManageIRC(type:"Ingredients"),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break;
+         case 24: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const ManageIRC(type:"Recipe"),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
         case 3: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => editIn("editZ", name),
+          pageBuilder: (_, __, ___) => EditIn(name),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     case 4: Navigator.push(
@@ -66,6 +72,12 @@ void navi(context, int page, [String name=""]){
         context,
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => newRecipe(),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break;
+         case 6: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => addCat(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     default:

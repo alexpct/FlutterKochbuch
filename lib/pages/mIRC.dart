@@ -1,142 +1,159 @@
-//Alex was here - aaaaand now its not the best IRC client on earth, its "manage ingredients recipes categories"  :P wow echt lustig /o\ - susi
+//Susann   ///
 
 import 'package:flutter/material.dart';
+import 'package:kochbuch/pages/editIn.dart';
+import 'package:kochbuch/pages/newRecipe.dart';
 import '../helper/navi.dart';
+import '../helper/objects.dart';
 import '../widgets/botnav.dart';
 import '../helper/dbhelper.dart';
-import '../helper/objects.dart';
 
-class mIRC  extends StatefulWidget {
-    const mIRC({this.type});
+
+class ManageIRC  extends StatefulWidget {
+    const ManageIRC({Key key, this.type}) : super(key: key);
 
    final String type;
   
   @override
-  State<mIRC> createState() => _mIRCState();
+  State<ManageIRC> createState() => _ManageIRCState();
 }
 
-class _mIRCState extends State<mIRC> {
+class _ManageIRCState extends State<ManageIRC> {
 
-  _mIRCState() {
-   //listing("category");
-  }
+  _ManageIRCState();
 
-List<Map<String, dynamic>>listforthings=[];
-var  db ;
+List<Map<String, dynamic>>entrylist=[]; //Liste mit geholten DB einträgen
+var  db ; //helper
+String titel=""; //Appbar Titel
+int editnav;
 
-cate(String typ) async {
-         db = await dbHelper();
-        await db.getName(typ);
-        //print( db.result);
-        for(int i=0;i<db.result.length;i++){
-  
-          listforthings.add(db.result[i]);
-          print(listforthings[i]['Name']);             
-        }
-         print("bin hier richtig");
+getNamefromDb(String typ) async { //holen aller Namen aus typ (Kategorie/Zuatetn/Rezept) DB
+  db = dbHelper();
+  await db.getName(typ);
+  for(int i=0;i<db.result.length;i++){
+     entrylist.add(db.result[i]);      
+   }
+  setState(() {
+   });       
+}
 
-         setState(() {
-
-   });
-         
-      }
-
- listing( String typ) async{
+ listing( String typ) async{  //Welche Liste geladen werden soll
   switch(typ){
-    case "category": 
-          await cate(typ);
+    case "Category": 
+          await getNamefromDb(typ);
+          titel="Kategorien";
+          editnav=0;
       break;
       case "Ingredients": 
-      print("ingredients");
-          await cate(typ);
+          await getNamefromDb(typ);
+          titel="Zutaten";
+          editnav=3;
       break;
-      case "recipe": 
-          await cate(typ);
+      case "Recipe": 
+          await getNamefromDb(typ);
+          titel="Rezepte";
+          editnav=0;
       break;
-  default: print("nichts gefunden");
+   default: print("nichts gefunden");
+  }
 }
- }
 
-warten() async{
+nav( String typ) async{ 
+  switch(widget.type){
+    case "Category": 
+          editnav=0;
+      break;
+      case "Ingredients": 
+          Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => EditIn(typ),
+          transitionDuration: const Duration(seconds: 0),
+        )) ;
+          
+      break;
+      case "Recipe": 
+      db = dbHelper();
+
+      Recipe rez =await db.getRecipe(typ);
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => newRecipe(recipe: rez),
+          transitionDuration: const Duration(seconds: 0),
+        )) ;
+          
+      break;
+   default: print("nichts gefunden");
+  }
+}
+
+
+
+
+warten() async{   //warten auf listing 
   await listing(widget.type);
 }
 
-deleteListItem(int index, String name, String typ)  async {
-   //listforthings.removeAt(index);
+deleteListItem(int index, String name, String typ)  async { //funktion des löschen Buttons
     await db.deleteentry(typ,name);
-    listforthings=[];
+    entrylist=[];
     await warten();
-   
-
 }
 
-   AlertAnfrage(int index, String name, String typ){
-        
-        return showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Wollen sie wirklich löschen?'),
-          //content: const Text('AlertDialog description'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Abbrechen'),
-            ),
-            TextButton(
-              onPressed:() {
-                deleteListItem(index, name,typ);
-                Navigator.pop(context, 'Cancel');      
-              },
-              child: const Text('OK'),
-              )
-         
-          ],
-        ),);  
+deletealert(int index, String name, String typ){    // Alertdialog des Löschen Buttons
+  return showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+    title: const Text('Wollen sie wirklich löschen?'),
+     actions: <Widget>[
+       TextButton(
+        onPressed: () => Navigator.pop(context, 'Cancel'),
+        child: const Text('Abbrechen'),
+        ),
+       TextButton(
+        onPressed:() {
+          deleteListItem(index, name,typ);
+          Navigator.pop(context, 'Cancel');      
+          },
+        child: const Text('OK'),
+      )
+     ],
+    ),
+   );  
   }
-
 
 
   @override
   Widget build(BuildContext context) {
-
-  if(listforthings.isEmpty){
-    warten();
-  }
-  else print("voll");
-
+    if(entrylist.isEmpty){
+      warten();
+    }
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.type),
+        title: Text(titel),
       ),
       bottomNavigationBar:  const BotNav(Index:2),
-     
       body: Center(
-      child:
-      ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: listforthings.length,
-          itemBuilder: (BuildContext context, int index) {
-            final String item = listforthings[index]['Name'];
+        child:
+        ListView.builder( //auflistung der entrylist
+            padding: const EdgeInsets.all(8),
+            itemCount: entrylist.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String item = entrylist[index]['Name'];
+              return ListTile(title: Text(item), 
+                trailing: Wrap(
+                  spacing: 1,
+                  children: <Widget>[
+                    IconButton(onPressed: () => nav(item), icon: const Icon(Icons.edit)), //edit button leitet weiter zu edit page 
+                    IconButton(onPressed: ()=> deletealert(index,item,widget.type), icon: const Icon(Icons.delete)) //löschen button
 
-            return ListTile(title: Text(item), trailing: Wrap(
-                spacing: 1,  // space between two icons
-                children: <Widget>[
-                  IconButton(onPressed: () => navi(context,3,item), icon: Icon(Icons.edit)),
-                  IconButton(onPressed: ()=> AlertAnfrage(index,item,widget.type)/*()=> deleteListItem(index,item,widget.type)*/, icon: Icon(Icons.delete))
-
-                ]
-            )
-            );
-
-          }
-
-
+                  ]
+                )
+              );
+            }
+        ),
       )
-      ,
-      // This trailing comma makes auto-formatting nicer for build methods.
-    ));
+    );
   }
 }
-//IconBox(label: "Rezepte Verwalten", icon: Icons.ramen_dining,didTap: () =>null)

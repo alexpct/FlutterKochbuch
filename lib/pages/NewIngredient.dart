@@ -21,7 +21,7 @@ class NewIngredient extends StatefulWidget {
 
   final String title = "Zutat hinzufügen";
   final db = dbHelper();
-  Ingredient ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
+  Ingredient ingredient=Ingredient(name: "Name", calories: 0, pieceGood: true,);
 
   @override
   State<NewIngredient> createState() => _NewIngredientState();
@@ -63,7 +63,7 @@ enterEdit(){
        child: Column(
          children: [
            Padding(
-             padding:  EdgeInsets.all(myProps.percent(context, 3)),
+             padding:  EdgeInsets.all(MyProps.percent(context, 3)),
              child: SingleChildScrollView(
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.start,
@@ -81,54 +81,54 @@ enterEdit(){
                      enterEdit();}
                    );})]),
                    Padding(
-                     padding:  EdgeInsets.all(myProps.percent(context, 5)),
+                     padding:  EdgeInsets.all(MyProps.percent(context, 5)),
                      child: Row(
   children: [Text("Nährwerte pro 100g/Stück"), ImgBox(
     label: ingredient.name,
     onTap: () => {getImg(false)},
-    size: myProps.itemSize(context, "small"),
+    size: MyProps.itemSize(context, "small"),
     image: ingredient.image,
     //file: _image,
-    fontSize: myProps.fontSize(context, "big"),
+    fontSize: MyProps.fontSize(context, "big"),
   ),]
                      )
                    ),
 
                    Table(
                        columnWidths:   <int, TableColumnWidth>{ // susi: hier dann auf 4 spalten gehen bzw 5 mit einer leeren Spalte dazwischen
-                         2: FixedColumnWidth(myProps.percent(context, 10)),
-                         1: FixedColumnWidth(myProps.percent(context, 30)),
+                         2: FixedColumnWidth(MyProps.percent(context, 10)),
+                         1: FixedColumnWidth(MyProps.percent(context, 30)),
                          0: FlexColumnWidth()
                        },
                        children:<TableRow>[
                          TableRow(
-                             children: <Widget>[Text("Name",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.name,
+                             children: <Widget>[Text("Name",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.name,
                              onFieldSubmitted:(a)=>{_nameUpdate(a)},onTap: enterEdit,) , Text(""),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Calories=double.parse(value)}},keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: MyProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.calories=double.parse(value)}},keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]) , Text("kcal"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Carbohydrates.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Carbohydrates=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.carbohydrates.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.carbohydrates=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Fat.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Fat=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.fat.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.fat=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]),  Text("g"),
                              ]
                          ),
 
                          TableRow(
-                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Protein.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Protein=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.protein.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.protein=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
                          TableRow(
-                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.weight.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.weight=double.parse(value)}} ,keyboardType: TextInputType.number,
+                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.weight.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.weight=double.parse(value)}} ,keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
                              ]
                          ),
@@ -137,7 +137,7 @@ enterEdit(){
                        ]
                    ),
                    Padding(
-                     padding:  EdgeInsets.all(myProps.percent(context, 5)),
+                     padding:  EdgeInsets.all(MyProps.percent(context, 5)),
                      child: Row(
                        mainAxisAlignment: MainAxisAlignment.center,
                        children: [
@@ -150,7 +150,7 @@ enterEdit(){
                                      RoundedRectangleBorder(
                                          borderRadius:
                                          BorderRadius.circular(18.0))))),
-                         SizedBox(width: myProps.itemSize(context, "medium")),
+                         SizedBox(width: MyProps.itemSize(context, "medium")),
                          Ink(
                            decoration: ShapeDecoration(
                              color: Theme.of(context).colorScheme.primary,
@@ -186,7 +186,7 @@ setState(() {
   textChange(String text, int delay) async {
 
    setState(() {
-     wid=Container(margin: EdgeInsets.only(top: myProps.percent(context, 20)),width:myProps.itemSize(context, "huge"),height:myProps.itemSize(context, "big") ,child: CircularProgressIndicator());
+     wid=Container(margin: EdgeInsets.only(top: MyProps.percent(context, 20)),width:MyProps.itemSize(context, "huge"),height:MyProps.itemSize(context, "big") ,child: CircularProgressIndicator());
    });
     if (text.length<2) {enterEdit();return null;}
     await new Future.delayed( Duration(microseconds: delay));
@@ -226,7 +226,7 @@ setState(() {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-        Padding(padding: EdgeInsets.fromLTRB(myProps.percent(context, 1), myProps.percent(context, 3), myProps.percent(context, 1), myProps.percent(context, 1)),
+        Padding(padding: EdgeInsets.fromLTRB(MyProps.percent(context, 1), MyProps.percent(context, 3), MyProps.percent(context, 1), MyProps.percent(context, 1)),
         child: TextField(
           onChanged: (text){textChange(text,500);},
           onSubmitted:  (text){textChange(text,1);},
@@ -237,7 +237,7 @@ setState(() {
 
           ),
         )),
-        wid?? Padding(padding:EdgeInsets.fromLTRB(0, myProps.percent(context, 40), 0, 0),  child: ElevatedButton(onPressed: enterEdit, child: Text("Manuell hinzufügen!"))),
+        wid?? Padding(padding:EdgeInsets.fromLTRB(0, MyProps.percent(context, 40), 0, 0),  child: ElevatedButton(onPressed: enterEdit, child: Text("Manuell hinzufügen!"))),
       ],
       ),
       // This trailing comma makes auto-formatting nicer for build methods.

@@ -42,18 +42,8 @@ class addCat extends StatefulWidget {
         }));
   }
 
-  add() async { /*
-    print(_image);
-    if (name == "Name") {setState(() {
-      fail = "Bitte Namen eingeben";
-    });return false;}
-    if (_image != null) db.newRecipe(name, _image).then((value) =>setState(() { fail = value;}));
-    else {setState(() {
-      fail= "Bild hinzufügen";
-    });}
-    print(fail);
-   if(fail=="OK") Alert(message: 'Kategorie hinzugefügt').show(); */
-
+  add() async { 
+   
     if (name == "Name") {setState(() {
       fail = "Bitte Namen eingeben";
     });return false;}
@@ -64,7 +54,7 @@ class addCat extends StatefulWidget {
     await catFromFile(name, _image).then((value) => cat=value);
     cat.save().then((value) => fail=value);
 
-Navigator.pop(null);
+    navi(context, 1);
 
   }
 
@@ -93,7 +83,7 @@ AppBar  appBar= AppBar(
                 padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Text(
                   "Bild:",
-                  style: TextStyle(fontSize: myProps.fontSize(context, "huge")),
+                  style: TextStyle(fontSize: MyProps.fontSize(context, "huge")),
                 ),
               )
             ]),
@@ -103,9 +93,9 @@ AppBar  appBar= AppBar(
                 ImgBox(
                   label: name,
                   onTap: () => {getImg(false)},
-                  size: myProps.itemSize(context, "huge"),
+                  size: MyProps.itemSize(context, "huge"),
                   file: _image,
-                  fontSize: myProps.fontSize(context, "big"),
+                  fontSize: MyProps.fontSize(context, "big"),
                 ),
               ],
             ),
@@ -121,7 +111,7 @@ AppBar  appBar= AppBar(
                                 RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.circular(18.0))))),
-                SizedBox(width: myProps.itemSize(context, "medium")),
+                SizedBox(width: MyProps.itemSize(context, "medium")),
                 Ink(
                   decoration: ShapeDecoration(
                     color: Theme.of(context).colorScheme.primary,
@@ -143,14 +133,14 @@ AppBar  appBar= AppBar(
                   child: Text(
                     "Name:",
                     style:
-                        TextStyle(fontSize: myProps.fontSize(context, "big")),
+                        TextStyle(fontSize: MyProps.fontSize(context, "big")),
                   ),
                 ),
                 SizedBox(width: 10),
                 Flexible(
                     child: TextField(
                   style: TextStyle(
-                    fontSize: myProps.fontSize(context, "big"),
+                    fontSize: MyProps.fontSize(context, "big"),
                   ),
                   onChanged: (text) {
                     setState(() {

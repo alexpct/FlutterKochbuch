@@ -36,8 +36,8 @@ int input;
     else img =  ImgBox(label: ingredient.name, onTap:(){onTap(ingredient);},icon: Icons.kitchen,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
   */
 
-    if (ingredient.image!=null) img = ImgBox(label: ingredient.name, onTap:proxy, image: ingredient.image,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
-    else img =  ImgBox(label: ingredient.name, onTap:proxy,icon: Icons.kitchen,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
+    if (ingredient.image!=null) img = ImgBox(label: ingredient.name, onTap:proxy, image: ingredient.image,size: MyProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
+    else img =  ImgBox(label: ingredient.name, onTap:proxy,icon: Icons.kitchen,size: MyProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
 
     String cropedName=ingredient.name;
     if(ingredient.name.length>30) cropedName=ingredient.name.substring(0,30);
@@ -50,7 +50,7 @@ proxy();
             child:  SingleChildScrollView(
               child: Container(
                 margin: EdgeInsets.all(5),
-                height: myProps.itemSize(context, "normal"),
+                height: MyProps.itemSize(context, "normal"),
                 decoration: BoxDecoration(
                 border: Border.all(color: Theme.of(context).colorScheme.primary, width:  1),),
                 child: Row(
@@ -71,28 +71,28 @@ proxy();
                             mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start,
                             children: [//Text overflow clip geht nicht, susi hilf  mir ^^
                              Text("Name: $cropedName", style:  TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.clip, ),
-                           Container(height: myProps.percent(context, 1),),
+                           Container(height: MyProps.percent(context, 1),),
                             Table(
                                   columnWidths:   <int, TableColumnWidth>{ // susi: hier dann auf 4 spalten gehen bzw 5 mit einer leeren Spalte dazwischen
                                     0: IntrinsicColumnWidth(),
-                                    1: FixedColumnWidth(myProps.percent(context, 030))},
+                                    1: FixedColumnWidth(MyProps.percent(context, 030))},
     children:<TableRow>[
       TableRow(
-          children: <Widget>[Text("Kalorien: "), Text("${ingredient.Calories} ")
+          children: <Widget>[Text("Kalorien: "), Text("${ingredient.calories} ")
           ]
       ),
 
       TableRow(
-          children: <Widget>[Text("Kohlenhydrate: "), Text(ingredient.Carbohydrates.toString()),
+          children: <Widget>[Text("Kohlenhydrate: "), Text(ingredient.carbohydrates.toString()),
 
           ]
       ),      TableRow(
-          children: <Widget>[Text("Fett:: "), Text(ingredient.Fat.toString()),
+          children: <Widget>[Text("Fett:: "), Text(ingredient.fat.toString()),
 
           ]
       ),
       TableRow(
-          children: <Widget>[Text("Eiweiß: "), Text(ingredient.Protein.toString()),
+          children: <Widget>[Text("Eiweiß: "), Text(ingredient.protein.toString()),
 
           ]
       ),
@@ -105,11 +105,11 @@ proxy();
                           ),
                           Column(
                             children: [ if(input>=0 || quantity!=0) Text("Menge:"),
-                          if(input>=0) Container(width: myProps.percent(context, 15), height: myProps.percent(context, 10), child: TextFormField(initialValue:input.toString() , textAlign: TextAlign.center, onChanged: (value) =>onChange(int.parse(value)),keyboardType: TextInputType.number,
+                          if(input>=0) Container(width: MyProps.percent(context, 15), height: MyProps.percent(context, 10), child: TextFormField(initialValue:input.toString() , textAlign: TextAlign.center, onChanged: (value) =>onChange(int.parse(value)),keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],),),
-                          if(input<0 && quantity!=0) Container(width: myProps.percent(context, 15), height: myProps.percent(context, 10), child:Text(quantity.toString()),),
+                          if(input<0 && quantity!=0) Container(width: MyProps.percent(context, 15), height: MyProps.percent(context, 10), child:Text(quantity.toString()),),
    ], ), ],
                       )
                     )

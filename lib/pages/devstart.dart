@@ -52,28 +52,25 @@ dbHelper db = dbHelper();
 
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        bottomNavigationBar:  BotNav(Index:2),
+        bottomNavigationBar:  const BotNav(Index:2),
         body: Center(
           child: Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center,
 
               children: <Widget>[
 
-                ElevatedButton(onPressed:()=>{ navi(context, 1)}, child: Text("Navi1")),
-                ElevatedButton(onPressed:()=>{ navi(context, 2)}, child: Text("Navi2")),
-                ElevatedButton(onPressed:()=>{ navi(context, 3,"ei")}, child: Text("Navi3")),
-                ElevatedButton(onPressed:()=>{ navi(context, 4)}, child: Text("Navi4")),
-                ElevatedButton(onPressed:()=>{ navi(context, 5)}, child: Text("Navi5")),
+                ElevatedButton(onPressed:()=>{ navi(context, 1)}, child: const Text("Navi1")),
+                ElevatedButton(onPressed:()=>{ navi(context, 2)}, child: const Text("Navi2")),
+                ElevatedButton(onPressed:()=>{ navi(context, 3,"ei")}, child: const Text("Navi3")),
+                ElevatedButton(onPressed:()=>{ navi(context, 22)}, child: const Text("Navi4")),
+                ElevatedButton(onPressed:()=>{ navi(context, 5)}, child: const Text("Navi5")),
                 Container(height: 100,),
-                ElevatedButton(onPressed:deldb, child: Text("Delete database")),
-                ElevatedButton(onPressed:createdb, child: Text("Create DB")),
+                ElevatedButton(onPressed:deldb, child: const Text("Delete database")),
+                ElevatedButton(onPressed:createdb, child: const Text("Create DB")),
 
 
               ]),
-          // This trailing comma makes auto-formatting nicer for build methods.
         ));
   }
 }

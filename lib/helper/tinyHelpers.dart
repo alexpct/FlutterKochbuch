@@ -1,13 +1,9 @@
-import 'dart:async';
 
-import 'package:alert/alert.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
 
 failbar(BuildContext context, String fail){
-
-//  Alert(message:fail).show(); ... wäre nice gewesen aber aus einem mir wirklich absolut nicht nachvollziehbaren grund zeigt es mir bei jeden erdenklichen  setstate  alle möglichen fehler der reihe nach an
     return (AppBar(
       title: Text(fail),
       backgroundColor: Colors.red
@@ -18,12 +14,11 @@ failbar(BuildContext context, String fail){
 bool isBetween(num number, num min, num max) {
   return ((min <= number  &&  max >= number));
 }
-//kann man mit Theme machen, hier kann ich aber mehr machen, ja ein observerpattern wäre hier auch angebracht, aber .... erst wenns unvermeidbar ist.
-class myProps {
-  static Map NutriAPI={
+
+class MyProps {
+  static Map nutriAPI={
     'URL':'https://trackapi.nutritionix.com/v2/search/instant',
     'Headers': {
-
   }
 
   };
@@ -61,3 +56,4 @@ class myProps {
     }
   }
 }
+

@@ -70,8 +70,8 @@ bool d = false;
     final response = await http.get(
         Uri.parse(
             'https://m.media-amazon.com/images/I/718Rv7lY0HL._AC_SL1500_.jpg'));
-Ingredient wurst = Ingredient(name: "Wurst", Calories: 1337,pieceGood: true);
-Ingredient kaese = Ingredient(name: "Apfelhuchen mit marmelade und was weiß ich nnicht", Calories: 1337,Fat: 12, Carbohydrates: 15, Protein: 55, bytes:response.bodyBytes, pieceGood: true );
+Ingredient wurst = Ingredient(name: "Wurst", calories: 1337,pieceGood: true);
+Ingredient kaese = Ingredient(name: "Apfelhuchen mit marmelade und was weiß ich nnicht", calories: 1337,fat: 12, carbohydrates: 15, protein: 55, bytes:response.bodyBytes, pieceGood: true );
 
 
 dd= null;

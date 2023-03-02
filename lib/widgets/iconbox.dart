@@ -37,7 +37,7 @@ if (label.length > _maxChar) _labelSplit();
 
   @override
   Widget build(BuildContext context) {
-    if(size<0)size=myProps.itemSize(context, "small");
+    if(size<0)size=MyProps.itemSize(context, "small");
        var wid;
        if(file!=null){
          wid = Image.file(file,width: size, height: size);
@@ -57,7 +57,7 @@ if(noBorder) b=null;
           }
           ,
           child:  Container(
-            margin:  EdgeInsets.all(noMargin? 0:   myProps.itemSize(context, "tiny")),
+            margin:  EdgeInsets.all(noMargin? 0:   MyProps.itemSize(context, "tiny")),
             padding: const EdgeInsets.all(5),
             width: size+size/4 ,
             height: size+size/4 ,
