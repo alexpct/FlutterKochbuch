@@ -41,7 +41,7 @@ class _ShowRecipeState extends State<ShowRecipe> {
     final db = await dbHelper();
 if(widget.recipe!=null) recipe=widget.recipe;
 if(widget.byName!=null) recipe =  await db.getRecipe(widget.byName);
-title=recipe.Name;
+title=recipe.name;
 
 tabLeft();
 
@@ -66,15 +66,15 @@ setState(() {
 
 
     setState(() {
-      leftB=myProps.percent(context, 1);
-      rightB=myProps.percent(context, 0.5);
+      leftB=MyProps.percent(context, 1);
+      rightB=MyProps.percent(context, 0.5);
 
     });
   }
   tabRight(){
 
     tabBody = ListView.builder(
-      padding:  EdgeInsets.all(myProps.percent(context, 3)),
+      padding:  EdgeInsets.all(MyProps.percent(context, 3)),
       itemCount: recipe.ingredients.length,
       itemBuilder: (BuildContext context, int index) {
         final item = recipe.ingredients[index];
@@ -90,8 +90,8 @@ setState(() {
     )
     ;
     setState(() {
-      leftB=myProps.percent(context, 0.5);
-      rightB=myProps.percent(context, 1);
+      leftB=MyProps.percent(context, 0.5);
+      rightB=MyProps.percent(context, 1);
 
     });
   }
@@ -115,7 +115,7 @@ Color primaryColor=Theme.of(context).primaryColor;
            PageRouteBuilder(
              pageBuilder: (_, __, ___) =>  SnakeGame(),
              transitionDuration: const Duration(seconds: 0),
-           ))}, child:  Text("Zeit: "+recipe.Time.toString()+" Minuten"))],
+           ))}, child:  Text("Zeit: "+recipe.time.toString()+" Minuten"))],
        ),
 
 
@@ -140,7 +140,7 @@ Color primaryColor=Theme.of(context).primaryColor;
                                   border: Border.all(color: primaryColor,width: leftB )
 
                               ),
-                              padding: EdgeInsets.all(myProps.percent(context, 3)+rightB),
+                              padding: EdgeInsets.all(MyProps.percent(context, 3)+rightB),
                               child: Center(child: Text("Bilder")),
 
 
@@ -154,7 +154,7 @@ Color primaryColor=Theme.of(context).primaryColor;
                                   border: Border.all(color: primaryColor,width: rightB )
 
                               ),
-                              padding: EdgeInsets.all(myProps.percent(context, 3)+leftB),
+                              padding: EdgeInsets.all(MyProps.percent(context, 3)+leftB),
                               child: Center(child: Text("Zutaten")),
 
 
@@ -187,14 +187,14 @@ Color primaryColor=Theme.of(context).primaryColor;
 
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.all(myProps.percent(context, 2)),
-padding: EdgeInsets.all(myProps.percent(context, 3)),
+                          margin: EdgeInsets.all(MyProps.percent(context, 2)),
+padding: EdgeInsets.all(MyProps.percent(context, 3)),
                           decoration: BoxDecoration(
-                              border: Border.all(color: primaryColor,width:myProps.percent(context, 0.6) )
+                              border: Border.all(color: primaryColor,width:MyProps.percent(context, 0.6) )
 
 
                           ),
-                          child: SingleChildScrollView(child: Text(recipe.Text)),
+                          child: SingleChildScrollView(child: Text(recipe.text)),
 
 
                         ),

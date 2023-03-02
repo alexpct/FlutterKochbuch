@@ -22,7 +22,7 @@ String title;
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(child: CircularProgressIndicator(strokeWidth: 5),width: myProps.itemSize(context, "fill"), height:  myProps.itemSize(context, "huge") ) , Text("Wenn du das lesen kannnst warst du schnell oder es lief was schief"),
+            Container(child: CircularProgressIndicator(strokeWidth: 5),width: MyProps.itemSize(context, "fill"), height:  MyProps.itemSize(context, "huge") ) , Text("Wenn du das lesen kannnst warst du schnell oder es lief was schief"),
           ],
         ),
       ),

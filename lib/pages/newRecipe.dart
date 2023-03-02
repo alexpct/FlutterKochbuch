@@ -143,20 +143,20 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
+                padding:  EdgeInsets.fromLTRB(MyProps.percent(context, 3), MyProps.percent(context, 5), MyProps.percent(context, 3), 0),
                 child:
 
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Kategorie(en):", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                      Text("Kategorie(en):", style: TextStyle(color: primaryColor,fontSize: MyProps.fontSize(context, "")),),
                       catAutoInput,
 
 
                       InkWell(
 
 
-                        child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: myProps.itemSize(context, "tiny"),),
+                        child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: MyProps.itemSize(context, "tiny"),),
                         onTap:(){
                           setState(() {
                             Navigator.push(
