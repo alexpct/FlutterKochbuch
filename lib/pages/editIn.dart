@@ -1,9 +1,5 @@
-//Alex was here
-import 'dart:convert';
-import 'dart:developer';
+//Susann was here  ///
 
-import 'package:alert/alert.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/navi.dart';
 
@@ -17,140 +13,128 @@ import 'package:flutter/services.dart';
 import '../helper/imagepicker.dart';
 import '../helper/objects.dart';
 
-class editIn extends StatefulWidget {
-   editIn( this.typ, this.edible);
-  final String typ;
+class EditIn extends StatefulWidget {
+   const EditIn( this.edible, {Key key}) : super(key: key);
+
   final String edible;
   @override
-  _editInState createState() => _editInState();
+  _EditInState createState() => _EditInState();
 }
 
-class _editInState extends State<editIn> {
-  Future myFuture;
-  var _image;
-   dbHelper db = dbHelper();
-  String name = "Name";
+class _EditInState extends State<EditIn> {
+  Future myFuture;  
+  dbHelper db = dbHelper();
+  String name = "Name"; 
   String fail = "OK";
-  Image pictureedit;
-  bool isChecked=false;
-  List<Map<String, dynamic>>DbEntries=[];
-  Ingredient ingredient=Ingredient(name: "Name", Calories: 0, pieceGood: true,);
-
-  Uint8List  bytesSave;
+  Image pictureEdit; // Bild für Anzeige in ImgeBox
+  bool isChecked=false; //Checkbox value
+  List<Map<String, dynamic>>dbEntries=[]; //Liste für DB entry
+  Ingredient ingredient=Ingredient(name: "Name", calories: 0, pieceGood: true,); //Zutaten Klasse
 
 
-   getImg(bool useCamera) {
-    Future<File> ip = imgPicker(useCamera);
-    ip.then((value) => 
-            value.readAsBytes().then((value) => ingredient.bytes=value).then((value) => setState(() {
-              
-            },))
-        );
+  getImg(bool useCamera) {
+   Future<File> ip = imgPicker(useCamera);
+   ip.then((value) => value.readAsBytes().then((value) => ingredient.bytes=value).then((value) => setState(() {  
+          },))
+    );
   }
 
 
-  /*EditType() async{
-  switch(widget.typ){
-      case "editZ": 
-          await edit("Ingredients",widget.edible);
-      break;
-  default: print("nichts gefunden");
-}
-return "ready";
- }*/
+ nameUpdate(String a){ingredient.name=a;} //Namen der Tabelle Updatet
 
- nameUpdate(String a){ingredient.name=a; ;print(ingredient.name);}
-
-  edit(String table, String name) async{
-  
+ getEditEntry(String table, String name) async{ //holt den Entry aus DB und übergibt ihn der Zutaten Klasse
     await db.getEntry(table , name);
     for(int i=0;i<db.result.length;i++){
-  
-          DbEntries.add(db.result[i]);
-          print(DbEntries[i]['pieceGood']);  
-          //log(DbEntries[i].toString());
-            
+          dbEntries.add(db.result[i]);   
         }
-      //pictureedit=Image.memory(DbEntries[0]['bytes']);
-      isChecked=(DbEntries[0]['pieceGood'])== 0? false : true;
-
-      ingredient.name=DbEntries[0]['Name'];
-      ingredient.bytes=DbEntries[0]['bytes'];
-      pictureedit=Image.memory(ingredient.bytes);
-      ingredient.Calories=DbEntries[0]['Calories'];
-      ingredient.Fat=DbEntries[0]['Fat'];
-      ingredient.Carbohydrates=DbEntries[0]['Carbohydrates'];
-       ingredient.Protein=DbEntries[0]['Protein'];
-      ingredient.pieceGood=DbEntries[0]['pieceGood']== 0? false : true;
-      ingredient.weight=DbEntries[0]['weight'];
-
-      //bytesSave=DbEntries[0]['bytes'];
-      //pictureedit=Image.memory(DbEntries[0]['bytes']);
-
-
-
+    ingredient.name=dbEntries[0]['Name'];  
+    ingredient.bytes=dbEntries[0]['bytes'];
+    pictureEdit=Image.memory(ingredient.bytes);
+    ingredient.calories=dbEntries[0]['Calories'];
+    ingredient.fat=dbEntries[0]['Fat'];
+    ingredient.carbohydrates=dbEntries[0]['Carbohydrates'];
+    ingredient.protein=dbEntries[0]['Protein'];
+    ingredient.pieceGood=dbEntries[0]['pieceGood']== 0? false : true;
+    isChecked=(dbEntries[0]['pieceGood'])== 0? false : true;
+    ingredient.weight=dbEntries[0]['weight'];
+    
       return "ready";
   }
 
+nutritiontable(){   //Auflisten der Inhaltsstoffe und updaten dieser
+  return Table(   
+    columnWidths:   <int, TableColumnWidth>{ 
+        2: FixedColumnWidth(MyProps.percent(context, 10)),
+        1: FixedColumnWidth(MyProps.percent(context, 30)),
+        0: const FlexColumnWidth()
+          },
+    children:<TableRow>[
+      TableRow(
+        children: <Widget>[
+          Text("Name",style: TextStyle(fontSize: MyProps.fontSize(context, ""))),
+          TextFormField(initialValue: ingredient.name,onChanged: ((value) =>  {nameUpdate(value)})) , 
+          const Text(""),
+          ]
+      ),
+     TableRow(
+       children: <Widget>[
+        Text("Kalorien",style:   TextStyle(fontSize: MyProps.fontSize(context, "")) ),
+        TextFormField(
+          initialValue: ingredient.calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.calories=double.parse(value)}},
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]) , 
+        const Text("kcal"),
+        ]
+      ),
+      TableRow(
+        children: <Widget>[
+          Text("Kohlenhydrate",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),
+          TextFormField(
+           initialValue: ingredient.carbohydrates.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.carbohydrates=double.parse(value)}} ,
+           keyboardType: TextInputType.number,
+           inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), 
+          const Text("g"),
+            ]
+       ),
+        TableRow(
+          children: <Widget>[Text("Fett",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),
+          TextFormField(
+           initialValue: ingredient.fat.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.fat=double.parse(value)}} ,
+           keyboardType: TextInputType.number,
+           inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]),  
+          const Text("g"),
+           ]
+        ),
+         TableRow(
+           children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),
+           TextFormField(
+            initialValue: ingredient.protein.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.protein=double.parse(value)}} ,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), 
+          const Text("g"),
+          ]
+         ),
+        TableRow(
+          children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: MyProps.fontSize(context, "")) ),
+          TextFormField(
+            initialValue: ingredient.weight.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.weight=double.parse(value)}} ,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), 
+          const Text("g"),
+          ]
+       ),
+    ]
+   );                
+ }
 
-
-  ingredientsTable(){  
-
-    return Table(   
-                       columnWidths:   <int, TableColumnWidth>{ // susi: hier dann auf 4 spalten gehen bzw 5 mit einer leeren Spalte dazwischen
-                         2: FixedColumnWidth(myProps.percent(context, 10)),
-                         1: FixedColumnWidth(myProps.percent(context, 30)),
-                         0: FlexColumnWidth()
-                       },
-                       children:<TableRow>[
-                         TableRow(
-                             children: <Widget>[Text("Name",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.name,onChanged: ((value) =>  {nameUpdate(value)})
-                             ) , Text(""),
-                             ]
-                         ),
-                         TableRow(
-                             children: <Widget>[Text("Kalorien",style:   TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Calories.toString(),onChanged: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Calories=double.parse(value)}},keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]) , Text("kcal"),
-                             ]
-                         ),
-                         TableRow(
-                             children: <Widget>[Text("Kohlenhydrate",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Carbohydrates.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Carbohydrates=double.parse(value)}} ,keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
-                             ]
-                         ),
-                         TableRow(
-                             children: <Widget>[Text("Fett",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Fat.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Fat=double.parse(value)}} ,keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]),  Text("g"),
-                             ]
-                         ),
-
-                         TableRow(
-                             children: <Widget>[Text("Eiweiß",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.Protein.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.Protein=double.parse(value)}} ,keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
-                             ]
-                         ),
-                         TableRow(
-                             children: <Widget>[Text("Gewicht:",style: TextStyle(fontSize: myProps.fontSize(context, "")) ),TextFormField(initialValue: ingredient.weight.toString(),onFieldSubmitted: (value) => {if(value!=null&& value.isNotEmpty){ingredient.weight=double.parse(value)}} ,keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]), Text("g"),
-                             ]
-                         ),
-                           
-
-                       ]
-                   );
-                    
-                   }
-  
-  Future<String> warten() async{
-    return await edit("Ingredients",widget.edible);
+  Future<String> warten() async{ //warten auf getEditEntry
+    return await getEditEntry("Ingredients",widget.edible);
   }
 
 
-    EditSend() async{
-    await db.deleteentry( "Ingredients",DbEntries[0]['Name']);
-    print(ingredient.pieceGood);
+    editSend() async{ // updatet die DB mit den neuen Werten
+    await db.deleteentry( "Ingredients",dbEntries[0]['Name']);
     ingredient.save();
-    //await db.insertDBZ(ingredient.name, ingredient.bytes, DbEntries[0]['Calories'], DbEntries[0]['Fat'], DbEntries[0]['Protein'], DbEntries[0]['Carbohydrates'], isChecked, DbEntries[0]['weight'], "Ingredients");
     navi(context, 23, "");
   }
 
@@ -159,116 +143,106 @@ return "ready";
 @override
 void initState() {
   super.initState();
-
-  // Assign that variable your Future.
   myFuture = warten();
 }
   @override
   
-  Widget build(BuildContext context) {
+Widget build(BuildContext context) {
  
   
    AppBar  appBar= AppBar(
-      title: Text("hinzufügen"),
+      title: const Text("Editiere Zutat"),
     ); 
-     return FutureBuilder(
-  future: myFuture, // a Future<String> or null
-  builder: (context,snapshot) {
-        if (!snapshot.hasData){
-          return CircularProgressIndicator();}
-        else{      
-           print(DbEntries[0]['Calories']);
-    if(fail!="OK") appBar= failbar(context, fail);
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+  return FutureBuilder(
+   future: myFuture, 
+   builder: (context,snapshot) {
+    if (!snapshot.hasData){
+      return const CircularProgressIndicator();}
+   else{              
+      if(fail!="OK") appBar= failbar(context, fail);
+      return Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  child: Text(
+                    "Bild:",
+                    style: TextStyle(fontSize: MyProps.fontSize(context, "huge")),
+                  ),
+                )
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    ImgBox(  //Zeigt Bild an
+                    label: ingredient.name,
+                    onTap: () => {getImg(false)},
+                    size: MyProps.itemSize(context, "huge"),
+                    image: Image.memory(ingredient.bytes),
+                    fontSize: MyProps.fontSize(context, "big"),
+                  ),
+            
+                ],),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton( //Bild Hochladen Button
+                      onPressed: () => {getImg(false)},
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(18.0)))),
+                      child: const Text("Bild hochladen")),
+                  SizedBox(width: MyProps.itemSize(context, "medium")),
+                  Ink(
+                    decoration: ShapeDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: const CircleBorder(),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.add_a_photo),
+                      onPressed: () => {getImg(true)},
+                    ),
+                  ),
+                ],
+              ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: Text(
-                  "Bild:",
-                  style: TextStyle(fontSize: myProps.fontSize(context, "huge")),
-                ),
-              )
-            ]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  ImgBox(
-                  label: ingredient.name,
-                  onTap: () => {getImg(false)},
-                  size: myProps.itemSize(context, "huge"),
-                  image: Image.memory(ingredient.bytes),
-                  fontSize: myProps.fontSize(context, "big"),
-                ),
-          
-              ],),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    onPressed: () => {getImg(false)},
-                    child: Text("Bild hochladen"),
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(18.0))))),
-                SizedBox(width: myProps.itemSize(context, "medium")),
-                Ink(
-                  decoration: ShapeDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: CircleBorder(),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.add_a_photo),
-                    onPressed: () => {getImg(true)},
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child:Column(
-                children: [ingredientsTable(),
-                
-              Text("Stückware?") ,Checkbox(
-                 checkColor: Colors.white,
-                 value: ingredient.pieceGood,
-                 onChanged: (bool value) {
+               padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+               child:Column(
+                children: [nutritiontable(), //Tabelle der Inhaltsstoffe
                   
-                   setState(() {
-                    ingredient.pieceGood = value;
-                    print("check");
-                    print(value);
-                    
-                     }
-                   );
-                   }
-                   )
-                   ]
-                   )
-                   )]     
-        )),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: ()  {
-          EditSend();
-          },
-        label: Text("Edit"),
-      ),
-    );
-    }
-    }
-    );
-    
-
-    }
-  }
+                const Text("Stückware?") ,Checkbox( //Checkbox für Stückware
+                  checkColor: Colors.white,
+                  value: ingredient.pieceGood,
+                  onChanged: (bool value) {
+                    setState(() {
+                      ingredient.pieceGood = value;                   
+                      });
+                  }
+                )
+              ]
+            )
+          )
+         ]     
+        )
+       ),
+     ),
+     floatingActionButton: FloatingActionButton.extended( // edit button der den den Edit ausführt
+      onPressed: ()  {
+       editSend();
+     },
+     label: const Text("Edit"),
+    ),
+   );
+  }}
+ );
+}}
 
 

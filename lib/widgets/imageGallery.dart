@@ -52,7 +52,7 @@ File file;
   }
   @override
   Widget build(BuildContext context) {
-    double size=myProps.minScreen(context)*0.9;
+    double size=MyProps.minScreen(context)*0.9;
     Color primaryColor= Theme.of(context).colorScheme.primary;
 
     Widget boxChild;
@@ -86,7 +86,7 @@ File file;
                 RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.circular(18.0))))),
-      SizedBox(width: myProps.itemSize(context, "medium")),
+      SizedBox(width: MyProps.itemSize(context, "medium")),
       Ink(
         decoration: ShapeDecoration(
           color: Theme.of(context).colorScheme.primary,

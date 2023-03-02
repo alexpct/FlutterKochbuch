@@ -1,19 +1,13 @@
-import 'package:flutter/material.dart';
+    ///
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
-
-
-// jup haben wir sicher anders gelernt ... sorry
-
 
   Future<bool> firstrun()  async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
    await  Future.delayed(const Duration(seconds: 2));
-    prefs.setBool('initialized', false ); // entfern mich du depp
+    prefs.setBool('initialized', false );
     if(prefs.getBool('initialized')??false) {
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => recipe(),));
-
       return Future<bool>.value(true);
     }  else {
        try{
@@ -34,8 +28,7 @@ import 'package:sqflite/sqflite.dart';
           try{await db.execute("CREATE TABLE recipePics ('recipe' text,    `bytes` blob NOT NULL  )");}catch(e){};
 
         }
-
-        
+  
         prefs.setBool('initialized', true );
         return Future<bool>.value(true);
       } catch(e) {return Future<bool>.value(false);}

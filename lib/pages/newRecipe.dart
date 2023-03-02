@@ -17,7 +17,7 @@ import '../widgets/imageGallery.dart';
 import 'NewIngredient.dart';
 
 class newRecipe extends StatefulWidget {
-   newRecipe({this.recipe});
+   newRecipe( {this.recipe});
 
 
   final String title="Neues Rezept";
@@ -33,7 +33,7 @@ class _newRecipeState extends State<newRecipe> {
 
     super.initState();
 
- if(widget.recipe!=null)  {recipe= widget.recipe;update=true;initTime=widget.recipe.Time.toString();oldName=widget.recipe.Name;}
+ if(widget.recipe!=null)  {recipe= widget.recipe;update=true;initTime=widget.recipe.time.toString();oldName=widget.recipe.name;}
 
 init();
   }
@@ -92,7 +92,7 @@ await db.getIng(name).then((value) =>    setState(() { recipe.ingredients.add(va
   }
   add() async {
     String fail;
-    if(!update)oldName=recipe.Name;
+    if(!update)oldName=recipe.name;
     fail = await recipe.save(update,oldName);
     if(fail!=null)setState(() {
       appBar=failbar(context, fail);
@@ -108,7 +108,7 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
     if (boot) return ShortLoadingScreen(title: widget.title,index: 0,);
     return Scaffold(
         appBar: appBar,
-        bottomNavigationBar:  BotNav(Index:0),
+        bottomNavigationBar:  BotNav(Index:2),
         floatingActionButton:  FloatingActionButton.extended(
       onPressed: () {
         add();
@@ -120,19 +120,19 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
          child: Column(
             children: [
               Padding(
-                padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
+                padding:  EdgeInsets.fromLTRB(MyProps.percent(context, 3), MyProps.percent(context, 5), MyProps.percent(context, 3), 0),
                 child:
 
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Name:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
-                      Expanded(child: TextFormField(initialValue: widget.recipe?.Name  , onChanged:(value)=> setState(()=>{recipe.Name=value}) ,)),
+                      Text("Name:", style: TextStyle(color: primaryColor,fontSize: MyProps.fontSize(context, "")),),
+                      Expanded(child: TextFormField(initialValue: widget.recipe?.name  , onChanged:(value)=> setState(()=>{recipe.name=value}) ,)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Zeit:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
-                          SizedBox(width: myProps.percent(context, 10), child: TextFormField( initialValue: initTime ,onChanged: (value) =>{setState(()=>recipe.Time=int.parse(value))},keyboardType: TextInputType.number,
+                          Text("Zeit:", style: TextStyle(color: primaryColor,fontSize: MyProps.fontSize(context, "")),),
+                          SizedBox(width: MyProps.percent(context, 10), child: TextFormField( initialValue: initTime ,onChanged: (value) =>{setState(()=>recipe.time=int.parse(value))},keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],),)
@@ -181,10 +181,10 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxHeight: myProps.percent(context, 80), minHeight: 0
+                    maxHeight: MyProps.percent(context, 80), minHeight: 0
                 ),
                 child: ListView.builder(
-                  padding:  EdgeInsets.all(myProps.percent(context, 3)),
+                  padding:  EdgeInsets.all(MyProps.percent(context, 3)),
                   itemCount:recipe.cats.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item =recipe.cats[index];
@@ -205,17 +205,17 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
                 ),
               ),
              Padding(
-               padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
+               padding:  EdgeInsets.fromLTRB(MyProps.percent(context, 3), MyProps.percent(context, 5), MyProps.percent(context, 3), 0),
                child: Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
-                Text("Zutaten:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                Text("Zutaten:", style: TextStyle(color: primaryColor,fontSize: MyProps.fontSize(context, "")),),
                  ingAutoInput,
 
                  InkWell(
 
 
-                   child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: myProps.itemSize(context, "tiny"),),
+                   child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: MyProps.itemSize(context, "tiny"),),
                    onTap:(){
                      setState(() {
                        Navigator.push(
@@ -240,10 +240,10 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
               ),
     ConstrainedBox(
     constraints: BoxConstraints(
-        maxHeight: myProps.percent(context, 80), minHeight: 0
+        maxHeight: MyProps.percent(context, 80), minHeight: 0
     ),
     child: ListView.builder(
-        padding:  EdgeInsets.all(myProps.percent(context, 3)),
+        padding:  EdgeInsets.all(MyProps.percent(context, 3)),
         itemCount: recipe.ingredients.length,
         itemBuilder: (BuildContext context, int index) {
           final item = recipe.ingredients[index];
@@ -261,9 +261,9 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
 
 
   Padding(
-    padding:  EdgeInsets.all(myProps.percent(context, 2)),
-    child: TextFormField(initialValue: recipe.Text??="" , onChanged:(value)=>recipe.Text=value,minLines: 5,maxLines: 20,decoration: InputDecoration(border: OutlineInputBorder(),labelText: 'Beschreibung',
-      floatingLabelBehavior: FloatingLabelBehavior.always,contentPadding: EdgeInsets.all(myProps.percent(context, 5)),  )  ,),
+    padding:  EdgeInsets.all(MyProps.percent(context, 2)),
+    child: TextFormField(initialValue: recipe.text??="" , onChanged:(value)=>recipe.text=value,minLines: 5,maxLines: 20,decoration: InputDecoration(border: OutlineInputBorder(),labelText: 'Beschreibung',
+      floatingLabelBehavior: FloatingLabelBehavior.always,contentPadding: EdgeInsets.all(MyProps.percent(context, 5)),  )  ,),
   ),
               Divider(
                 thickness:1,
@@ -285,7 +285,7 @@ Expanded(child: ImageGallery(images: recipe.images, editable: true,onChange: (va
 
 
 
-              , Container(height: myProps.percent(context, 30),)
+              , Container(height: MyProps.percent(context, 30),)
             ],
 
           )

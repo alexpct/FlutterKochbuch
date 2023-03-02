@@ -1,4 +1,4 @@
-//Alex was here
+//Alex was here   ///
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 
@@ -11,6 +11,8 @@ class Manage extends StatefulWidget {
 
   final String title="Verwaltung";
 
+  const Manage({Key key}) : super(key: key);
+
   @override
   State<Manage> createState() => _ManageState();
 }
@@ -19,24 +21,23 @@ class _ManageState extends State<Manage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      bottomNavigationBar:  BotNav(Index:2),
-      body: Center(
-        child: Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
+      bottomNavigationBar:  const BotNav(Index:2),
+        body: Center(
+          child: Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
 
-    children: <Widget>[
+            children: <Widget>[  //Imageboxen die onTap zu der auflistung von Kategorie, Zutaten und Rezepten führen
 
-      ImgBox(label: "Kategorie\n", icon: Icons.menu_book, onTap: () => navi(context,4,""),size: myProps.itemSize(context, "normal"), ),
-      ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,23,""),size: myProps.itemSize(context, "normal"),),
-      ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,23,""),size: myProps.itemSize(context, "normal"),),
-       ]),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    ));
+              ImgBox(label: "Kategorie\n", icon: Icons.menu_book, onTap: () => navi(context,21,""),size: MyProps.itemSize(context, "normal"),),
+              ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,23,""),size: MyProps.itemSize(context, "normal"),),
+              ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,24,""),size: MyProps.itemSize(context, "normal"),),
+
+           ]
+          ),
+        )
+    );
   }
 }
