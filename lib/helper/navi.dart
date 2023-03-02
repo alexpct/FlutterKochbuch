@@ -10,6 +10,7 @@ import '../pages/editIn.dart';
 import '../pages/mIRC.dart';
 import '../pages/manage.dart';
 import '../pages/recipe.dart';
+import '../pages/recipeList.dart';
 import '../pages/snake.dart';
 
 void navi(context, int page, [String name=""]){
@@ -30,7 +31,7 @@ void navi(context, int page, [String name=""]){
     case 2: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  ShowRecipe(byName: "Test"),
+          pageBuilder: (_, __, ___) =>  RecipeList(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 21: Navigator.push(
@@ -54,7 +55,7 @@ void navi(context, int page, [String name=""]){
         case 3: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => editIn("editZ", name),
+          pageBuilder: (_, __, ___) => addCat(          ),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     case 4: Navigator.push(

@@ -130,6 +130,7 @@ class _recipeState extends State<recipe> {
 
                         //physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
+                          physics: ScrollPhysics(),
                           gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: myProps.percent(context, 2),
