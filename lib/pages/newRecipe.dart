@@ -1,107 +1,243 @@
 //Alex was here
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/helper/objects.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
+import 'package:kochbuch/pages/addCat.dart';
+import 'package:kochbuch/widgets/ingredientWidget.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
 import '../helper/navi.dart';
 import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
+import '../widgets/imageGallery.dart';
+import 'NewIngredient.dart';
 
 class newRecipe extends StatefulWidget {
-  const newRecipe();
+   newRecipe({this.recipe});
 
 
   final String title="Neues Rezept";
-
+  Recipe recipe;
   @override
   State<newRecipe> createState() => _newRecipeState();
 }
-dbHelper db=dbHelper();
 
 
-class growBox{
-  static double size=0;
-  static int _max=40;
-  static bool _toBig(BuildContext context){
-    if(size>=myProps.percent(context, 50)) return false;
-    return true;
-  }
-
-
-  static grow(BuildContext context){if(_toBig(context))size+=myProps.percent(context, 15);print(size);}
-  static shrink(BuildContext context){size-=myProps.percent(context, 15);}
-}
+bool update=false;
 class _newRecipeState extends State<newRecipe> {
-
-
-
-  List<Ingredient> ingredientList=[];
-
-
-
-  addIngredient(){
-    print("wurst");
-    ingredientList.add(Ingredient(name: "wurst", Calories: 1337, pieceGood: true));
-   setState(() {
-     growBox.grow(context);
-   });
-
+@override
+  void initState()  {
+    super.initState();
+ if(widget.recipe!=null)  {recipe= widget.recipe;update=true;}
+init();
   }
-List<Widget> widList=[];
+Widget ingAutoInput;
+Widget catAutoInput ;
+bool boot=true;
+dbHelper db = dbHelper();
+Recipe recipe = new Recipe();
+List<Ingredient> ingList =[];
+List<String> ingNames=[];
+List<String> catNames=[];
+AppBar  appBar;
+String initTime="";
+init() async {
+    boot=true;
+
+    appBar= AppBar(
+      title: Text("hinzufügen"),
+      actions: [ElevatedButton(onPressed: add, child: const Text("+"))],
+    );
+
+    await db.getName("Ingredients").then((value) => ingNames=value).then((value) =>
+    {      ingAutoInput =Expanded(
+        child: SimpleAutoCompleteTextField(
+          controller: TextEditingController(text: ""),
+          suggestions: ingNames,
+          textChanged: (text) =>  text,
+          clearOnSubmit: true,
+          textSubmitted: (name) => addIngredient(name),
+        ),
+      )
+    });
+    await db.getName("Category").then((value) => catNames=value).then((value) =>
+    {      catAutoInput =Expanded(
+      child: SimpleAutoCompleteTextField(
+        controller: TextEditingController(text: ""),
+        suggestions: catNames,
+        textChanged: (text) =>  text,
+        clearOnSubmit: true,
+        textSubmitted: (name) => setState((){recipe.cats.add(name);}),
+      ),
+    )
+    });
+   recipe.Time
+
+
+    setState(() {
+boot=false;
+    });
+  }
+
+
+  addIngredient(String name) async {
+await db.getIng(name).then((value) =>    setState(() { recipe.ingredients.add(value.first);}));
+  }
+  add() async {
+    String fail;
+    fail = await recipe.save(update);
+    if(fail!=null)setState(() {
+      appBar=failbar(context, fail);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
 Color primaryColor= Theme.of(context).colorScheme.primary;
-String currentText="wolf";
 
-Widget catText =  SimpleAutoCompleteTextField(
-  decoration: InputDecoration(helperText:"Kategorie"),
-  controller: TextEditingController(text: ""),
-  suggestions: ['wurst','käse','wurm'],
-  textChanged: (text) =>  text,
-  clearOnSubmit: true,
-  textSubmitted: (text) => setState(() {
-    if (text != "") {
 
-    }
-  }),
+     if(boot) return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      bottomNavigationBar:  BotNav(Index:2),
+
+  body: Center(
+
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(child: CircularProgressIndicator(strokeWidth: 5),width: myProps.itemSize(context, "fill"), height:  myProps.itemSize(context, "huge") ) , Text("Wenn du das lesen kannnst warst du schnell oder es lief was schief"),
+      ],
+    ),
+  ),
 );
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-        ),
+        appBar: appBar,
         bottomNavigationBar:  BotNav(Index:2),
+        floatingActionButton:  FloatingActionButton.extended(
+      onPressed: () {
+        add();
+      },
+      label: Text("Kategorie hinzufügen"),
+    ),
         body:
         SingleChildScrollView(
          child: Column(
             children: [
-
               Padding(
                 padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
-                child: Row(
+                child:
+
+                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Kategorie:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
-                      Container(width:myProps.percent(context, 30), child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [Container(width: 50,height: 50, color: Colors.red,),Text("Käse")])),
-
+                      Text("Name:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                      Expanded(child: TextField(onChanged:(value)=> setState(()=>{recipe.Name=value}) ,)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Zeit:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                          SizedBox(width: myProps.percent(context, 10), child: TextFormField( initialValue: timeField ,onChanged: (value) =>{setState(()=>recipe.Time=int.parse(value))},keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],),)
+                        ],
+                      )
 
                     ]
                 ),
+              ),
+              Padding(
+                padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
+                child:
 
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Kategorie(en):", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                      catAutoInput,
+
+
+                      InkWell(
+
+
+                        child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: myProps.itemSize(context, "tiny"),),
+                        onTap:(){
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (_, __, ___) => addCat(),
+                                  transitionDuration: const Duration(seconds: 0),
+                                )).then((value) => init()) ;
+
+                          });
+                        },
+                      )
+
+                    ]
+                ),
+              ),
+              Divider(
+                thickness:1,
+                indent: 5,
+                endIndent: 5,
+                color: primaryColor,
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxHeight: myProps.percent(context, 80), minHeight: 0
+                ),
+                child: ListView.builder(
+                  padding:  EdgeInsets.all(myProps.percent(context, 3)),
+                  itemCount:recipe.cats.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final item =recipe.cats[index];
+
+                    return  ListTile(title: Text(item), trailing: Wrap(
+                        spacing: 1,  // space between two icons
+                        children: <Widget>[
+                          IconButton(onPressed: ()=> setState((){recipe.cats.removeAt(index);}) , icon: Icon(Icons.delete))
+
+                        ]
+                    )
+                    );
+
+                  },
+                  shrinkWrap: true,
+
+
+                ),
               ),
              Padding(
                padding:  EdgeInsets.fromLTRB(myProps.percent(context, 3), myProps.percent(context, 5), myProps.percent(context, 3), 0),
                child: Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
-                 Text("Zutaten", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                Text("Zutaten:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
+                 ingAutoInput,
+
                  InkWell(
 
-                   child: Icon(Icons.add, color:primaryColor ,size: myProps.itemSize(context, "tiny"),),
-                   onTap: addIngredient,
+
+                   child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: myProps.itemSize(context, "tiny"),),
+                   onTap:(){
+                     setState(() {
+                       Navigator.push(
+                           context,
+                           PageRouteBuilder(
+                             pageBuilder: (_, __, ___) => NewIngredient(),
+                             transitionDuration: const Duration(seconds: 0),
+                           )).then((value) => init()) ;
+
+                     });
+                   },
                  )
 
                ]
@@ -115,26 +251,20 @@ Widget catText =  SimpleAutoCompleteTextField(
               ),
     ConstrainedBox(
     constraints: BoxConstraints(
-    maxHeight: growBox.size,// eigentlich reicht hier ein conteiner, aber die constraintbox ist jetzt da
+        maxHeight: myProps.percent(context, 80), minHeight: 0
     ),
     child: ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: ingredientList.length,
+        padding:  EdgeInsets.all(myProps.percent(context, 3)),
+        itemCount: recipe.ingredients.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = ingredientList[index];
+          final item = recipe.ingredients[index];
 
-          return ListTile(title: Text(item.name), trailing: Wrap(
-              spacing: 1,  // space between two icons
-              children: <Widget>[
-                IconButton(onPressed:()=>setState(() {
-                  ingredientList.removeAt(index);growBox.shrink(context);
-                }), icon: Icon(Icons.remove)),
+          return  FittedBox(fit: BoxFit.contain ,
+              child: IngredientWidget(ingredient:item, input: item.quantity ,onTap:(value)=>setState((){ recipe.ingredients.removeAt(index);}),
+              onChange: (value) => {setState((){item.quantity = value;})} ));
 
-              ]
-          )
-          );
-
-        }
+        },
+      shrinkWrap: true,
 
 
     ),
@@ -143,7 +273,7 @@ Widget catText =  SimpleAutoCompleteTextField(
 
   Padding(
     padding:  EdgeInsets.all(myProps.percent(context, 2)),
-    child: TextField(minLines: 20,maxLines: 20,decoration: InputDecoration(border: OutlineInputBorder(),labelText: 'Beschreibung',
+    child: TextFormField(initialValue: recipe.Text??="" , onChanged:(value)=>recipe.Text=value,minLines: 5,maxLines: 20,decoration: InputDecoration(border: OutlineInputBorder(),labelText: 'Beschreibung',
       floatingLabelBehavior: FloatingLabelBehavior.always,contentPadding: EdgeInsets.all(myProps.percent(context, 5)),  )  ,),
   ),
               Divider(
@@ -153,8 +283,20 @@ Widget catText =  SimpleAutoCompleteTextField(
                   color: primaryColor,
               ),
 
+              Row(
+                children: [
+Expanded(child: ImageGallery(images: recipe.images, editable: true,onChange: (value) => setState(()=>{recipe.images=value}),))
+                ],
+              )
 
 
+
+
+
+
+
+
+              , Container(height: myProps.percent(context, 30),)
             ],
 
           )

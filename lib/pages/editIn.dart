@@ -142,7 +142,7 @@ return "ready";
                    }
   
   Future<String> warten() async{
-    return await edit("Ingredients",widget.edible);;
+    return await edit("Ingredients",widget.edible);
   }
 
 
@@ -202,7 +202,7 @@ void initState() {
                   label: ingredient.name,
                   onTap: () => {getImg(false)},
                   size: myProps.itemSize(context, "huge"),
-                  image: Image.memory(ingredient.bytes!),
+                  image: Image.memory(ingredient.bytes),
                   fontSize: myProps.fontSize(context, "big"),
                 ),
           

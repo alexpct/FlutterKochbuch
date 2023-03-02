@@ -32,13 +32,9 @@ class _NewIngredientState extends State<NewIngredient> {
   List<Ingredient> IList=[];
   Ingredient ingredient;
   bool isChecked=false;
-  _NewIngredientState(){
-
-  }
 
  onTap(value){
   ingredient=value;
-  print(value);
 setState(() {
   enterEdit();
 });
@@ -50,16 +46,16 @@ setState(() {
     Future<File> ip = imgPicker(useCamera);
     ip.then((value) => setState(() {
       _image  = value;
-    })).then((a) => ingredient?.image=Image.file(_image))
-        .then((value) async => ingredient?.bytes= await _image.readAsBytes())
+    })).then((a) => ingredient.image=Image.file(_image))
+        .then((value) async => ingredient.bytes= await _image.readAsBytes())
         .then((value) => enterEdit());
 
 
 
   }
-  save(){ingredient?.save();}
+  save(){ingredient.save();Navigator.pop(context);}
 
-  _nameUpdate(String a){ingredient?.name=a; enterEdit();print("dingdong");}
+  _nameUpdate(String a){ingredient.name=a; enterEdit();print("dingdong");}
 enterEdit(){
    ingredient ??= widget.ingredient;
    wid=Expanded(
@@ -81,7 +77,7 @@ enterEdit(){
                    setState(() {
 
                      isChecked = value;
-                     ingredient?.pieceGood= isChecked;
+                     ingredient.pieceGood= isChecked;
                      enterEdit();}
                    );})]),
                    Padding(

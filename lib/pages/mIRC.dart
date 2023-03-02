@@ -113,25 +113,25 @@ deleteListItem(int index, String name, String typ)  async {
       bottomNavigationBar:  const BotNav(Index:2),
      
       body: Center(
-      child: 
+      child:
       ListView.builder(
-      padding: const EdgeInsets.all(8),
-      itemCount: listforthings.length,
-      itemBuilder: (BuildContext context, int index) {
-        final String item = listforthings[index]['Name'];
+          padding: const EdgeInsets.all(8),
+          itemCount: listforthings.length,
+          itemBuilder: (BuildContext context, int index) {
+            final String item = listforthings[index]['Name'];
 
-        return ListTile(title: Text(item), trailing: Wrap(
-        spacing: 1,  // space between two icons
-        children: <Widget>[
-           IconButton(onPressed: () => navi(context,3,item), icon: Icon(Icons.edit)),
-           IconButton(onPressed: ()=> AlertAnfrage(index,item,widget.type)/*()=> deleteListItem(index,item,widget.type)*/, icon: Icon(Icons.delete))
-   
-    ]
-        )
-  ); 
+            return ListTile(title: Text(item), trailing: Wrap(
+                spacing: 1,  // space between two icons
+                children: <Widget>[
+                  IconButton(onPressed: () => navi(context,3,item), icon: Icon(Icons.edit)),
+                  IconButton(onPressed: ()=> AlertAnfrage(index,item,widget.type)/*()=> deleteListItem(index,item,widget.type)*/, icon: Icon(Icons.delete))
 
-    }
-          
+                ]
+            )
+            );
+
+          }
+
 
       )
       ,

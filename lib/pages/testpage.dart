@@ -3,8 +3,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kochbuch/helper/NutriAPI.dart';
+import 'package:kochbuch/pages/newRecipe.dart';
+import 'package:kochbuch/widgets/imageGallery.dart';
 import 'package:kochbuch/widgets/ingredientWidget.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
 import '../helper/dbhelper.dart';
 import '../helper/imagepicker.dart';
@@ -77,15 +81,47 @@ setState(() {
 });
 
   }
-
+Widget ee;
+  bool e=false;
   test() async {
-db.getIng();
+    List<Uint8List> images =[];
+    var response = await http.get(
+        Uri.parse(
+            'https://m.media-amazon.com/images/I/718Rv7lY0HL._AC_SL1500_.jpg'));
+    images.add(response.bodyBytes);
+    response = await http.get(
+        Uri.parse(
+            'https://images-na.ssl-images-amazon.com/images/I/61g1L1TTViL._AC_SL1002_.jpg'));
+    images.add(response.bodyBytes);
+    response = await http.get(
+        Uri.parse(
+            'https://www.shabbyweiss.de/media/image/56/b7/5c/Elch-1_600x600@2x.jpg'));
+    images.add(response.bodyBytes);
+    response = await http.get(
+        Uri.parse(
+            'https://www.schirner.com/katalog/images/produkte/2001896.gif'));
+    images.add(response.bodyBytes);
+    response = await http.get(
+        Uri.parse(
+            'https://www.eurovilag.eu/images/product_images/popup_images/weihnachten-deko-elch-rentier-pl%C3%BCsch-echt-niedlich-g%C3%BCnstig-kaufen-eurovilag-1_0.jpg'));
+    images.add(response.bodyBytes);
 
+
+    ee= ImageGallery(editable: true,);
+    setState(() {
+      e=true;
+    });
 
 
   }
 
-
+test2() async {
+    Recipe test = await db.getRecipe("Test");
+    Navigator.push(context,  PageRouteBuilder(
+    pageBuilder: (_, __, ___) => newRecipe(recipe: test),
+  transitionDuration: const Duration(seconds: 0),
+  ));
+}
   @override
   Widget build(BuildContext context) {
     Widget wid;
@@ -130,6 +166,10 @@ db.getIng();
 
                     children: <Widget>[Row(
                       children: [
+                        if(e) Expanded(
+
+                          child: Expanded(child: ee),
+                        )
                       ],
 
                     ),
@@ -147,6 +187,8 @@ db.getIng();
                         child: const Text('Third'),
                       ),
                       wid,
+
+
                     ]),
                 ])
           // This trailing comma makes auto-formatting nicer for build methods.
@@ -173,7 +215,7 @@ db.getIng();
     });
   }
 
-  test2() async {
+  test2A() async {
     await db.getCat();
     print(db.result);
 

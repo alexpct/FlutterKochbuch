@@ -2,39 +2,16 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kochbuch/helper/objects.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 import 'package:kochbuch/widgets/iconbox.dart';
 
-/*class IngredientList extends StatelessWidget{
 
-  final  ValueSetter<Ingredient> onTap;
-   IngredientList({super.key,required this.list, required this.onTap} );
-wurst(Ingredient ret){onTap(ret);} // aus einem Grund den ich jetzt nicht rausbekommen wollte ging das mal wieder nicht mit Lambdas
-List<Ingredient> list;
-List<IngredientWidget> children=[];
-  @override
-  Widget build(BuildContext context) {
-    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<halt geklapp>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>t");
-   // list.forEach((element) {children.add(IngredientWidget(ingredient: element, onTap: wurst(element)));});
-    for(var i=0; i<list.length;i++){
-      IngredientWidget a = IngredientWidget(ingredient: list[i], onTap:(){});
-
-      children.add(a);
-    }
-    return(
-        ListView(
-          children: children
-        )
-    );
-
-  }
-
-}*/
 
 class IngredientWidget  extends StatelessWidget{
 
-  IngredientWidget({ this.ingredient, this.onTap }){
+  IngredientWidget({ this.ingredient, this.onTap, this.input=-1, this.onChange, this.quantity=0}){
 
   }
 
@@ -42,6 +19,9 @@ class IngredientWidget  extends StatelessWidget{
 
   //final  ValueSetter<Ingredient> onTap;
   final Function(Ingredient) onTap;
+  final Function(int)  onChange;
+int input;
+  double quantity;
 
   proxy(){ // joa onTap: ontap(ingredient) warf fehler...
     onTap(ingredient);
@@ -85,15 +65,17 @@ proxy();
                   color: Theme.of(context).colorScheme.primary,
                 ),FittedBox(
                       fit: BoxFit.fill,
-                      child:Column(
-                        mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [//Text overflow clip geht nicht, susi hilf  mir ^^
-                          Text("Name: $cropedName", style:  TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.clip, ),
-                       Container(height: myProps.percent(context, 1),),
-                        Table(
-                              columnWidths:   <int, TableColumnWidth>{ // susi: hier dann auf 4 spalten gehen bzw 5 mit einer leeren Spalte dazwischen
-                                0: IntrinsicColumnWidth(),
-                                1: FixedColumnWidth(myProps.percent(context, 030))},
+                      child:Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [//Text overflow clip geht nicht, susi hilf  mir ^^
+                             Text("Name: $cropedName", style:  TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.clip, ),
+                           Container(height: myProps.percent(context, 1),),
+                            Table(
+                                  columnWidths:   <int, TableColumnWidth>{ // susi: hier dann auf 4 spalten gehen bzw 5 mit einer leeren Spalte dazwischen
+                                    0: IntrinsicColumnWidth(),
+                                    1: FixedColumnWidth(myProps.percent(context, 030))},
     children:<TableRow>[
       TableRow(
           children: <Widget>[Text("Kalorien: "), Text("${ingredient.Calories} ")
@@ -118,9 +100,17 @@ proxy();
 
 
           ]
-    ),
+    )]
 
-                        ],
+                          ),
+                          Column(
+                            children: [ if(input>=0 || quantity!=0) Text("Menge:"),
+                          if(input>=0) Container(width: myProps.percent(context, 15), height: myProps.percent(context, 10), child: TextFormField(initialValue:input.toString() , textAlign: TextAlign.center, onChanged: (value) =>onChange(int.parse(value)),keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],),),
+                          if(input<0 && quantity!=0) Container(width: myProps.percent(context, 15), height: myProps.percent(context, 10), child:Text(quantity.toString()),),
+   ], ), ],
                       )
                     )
 

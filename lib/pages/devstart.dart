@@ -26,14 +26,23 @@ createdb() async {
   final db = await database;
 
 
-  await db.execute("CREATE TABLE Category (`Name` varchar(100) PRIMARY KEY,     `Pic` blob NOT NULL)");
+  try {
+    await db.execute("CREATE TABLE Category (`Name` varchar(100) PRIMARY KEY,     `Pic` blob NOT NULL)");
+  } on Exception catch (e) {
+    // TODO
+  }
   if (true){
-    await db.execute("CREATE TABLE 'Ingredients' (`Name` varchar(100) PRIMARY KEY, 'Calories' REAL, 'Fat' REAL, 'Protein' REAL, 'Carbohydrates' REAL, 'pieceGood' BOOLEAN, 'weight' REAL, `bytes` blob NOT NULL)");
+    try {
+      await db.execute("CREATE TABLE 'Ingredients' (`Name` varchar(100) PRIMARY KEY, 'Calories' REAL, 'Fat' REAL, 'Protein' REAL, 'Carbohydrates' REAL, 'pieceGood' BOOLEAN, 'weight' REAL, `bytes` blob NOT NULL)");
+    } on Exception catch (e) {
+      // TODO
+    }
   }
   if(true){
     try{await db.execute("CREATE TABLE recipe (`Name` varchar(100) PRIMARY KEY,    'text' text, 'time' integer , 'category' text)");}catch(e){print(e);};
     try{await db.execute("CREATE TABLE recipeIngredients ('recipe' text,    'ingredient' text, 'quantity' integer )");}catch(e){print(e);};
     try{await db.execute("CREATE TABLE recipePics ('recipe' text,    `bytes` blob NOT NULL  )");}catch(e){print(e);};
+    try{await db.execute("CREATE TABLE recipeCats ('recipe' text,   'cats' text  )");}catch(e){print(e);};
 
   }
 }

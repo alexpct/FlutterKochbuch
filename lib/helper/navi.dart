@@ -59,13 +59,13 @@ void navi(context, int page, [String name=""]){
     case 4: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => addCat(),
+          pageBuilder: (_, __, ___) => Testpage(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     case 5: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => recipe(),
+          pageBuilder: (_, __, ___) => newRecipe(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
     default:
