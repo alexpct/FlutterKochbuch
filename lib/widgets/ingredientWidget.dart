@@ -109,7 +109,7 @@ proxy();
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],),),
-                          if(input<0 && quantity!=0) Container(width: myProps.percent(context, 15), height: myProps.percent(context, 10), child:Text(quantity.toString()),),
+                          if(input<0 && quantity!=0) Container(width: myProps.percent(context, 15), height: myProps.percent(context, 10), child:Center(child: Text(quantity.floor().toString())),),
    ], ), ],
                       )
                     )

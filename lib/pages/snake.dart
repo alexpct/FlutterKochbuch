@@ -189,7 +189,7 @@ class SnakeState extends State<SnakeGame>{
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               FilledButton(
-                  style: TextButton.styleFrom(backgroundColor: playing ? Colors.white : Colors.blue,),
+                  style: TextButton.styleFrom(backgroundColor: playing ? Colors.white : Theme.of(context).primaryColor,),
                   child: Text(
                     playing ? "End" : "Start",
                     style: TextStyle(fontWeight: FontWeight.bold),

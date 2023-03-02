@@ -10,6 +10,7 @@ import 'package:kochbuch/widgets/ingredientWidget.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 import '../helper/navi.dart';
+import '../widgets/ShortLoadingScreen.dart';
 import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 import '../widgets/imageGallery.dart';
@@ -104,26 +105,10 @@ await db.getIng(name).then((value) =>    setState(() { recipe.ingredients.add(va
 Color primaryColor= Theme.of(context).colorScheme.primary;
 
 
-     if(boot) return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      bottomNavigationBar:  BotNav(Index:2),
-
-  body: Center(
-
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(child: CircularProgressIndicator(strokeWidth: 5),width: myProps.itemSize(context, "fill"), height:  myProps.itemSize(context, "huge") ) , Text("Wenn du das lesen kannnst warst du schnell oder es lief was schief"),
-      ],
-    ),
-  ),
-);
+    if (boot) return ShortLoadingScreen(title: widget.title,index: 0,);
     return Scaffold(
         appBar: appBar,
-        bottomNavigationBar:  BotNav(Index:2),
+        bottomNavigationBar:  BotNav(Index:0),
         floatingActionButton:  FloatingActionButton.extended(
       onPressed: () {
         add();

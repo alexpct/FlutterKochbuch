@@ -101,6 +101,7 @@ class dbHelper {
     //print(result);
   }
 Future<Recipe> getRecipe(String Name) async {
+    await open();
   var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '"+Name+"'");
 print(recipe);
   String Text =  recipe[0]['text'];

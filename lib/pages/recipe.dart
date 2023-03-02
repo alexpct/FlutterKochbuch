@@ -31,7 +31,7 @@ class recipe extends StatefulWidget {
 class _recipeState extends State<recipe> {
   _recipeState(this.db){
 
-    test2();
+    getCat();
   }
   var db ;
   List<Cat> imagefill=[];
@@ -39,35 +39,35 @@ class _recipeState extends State<recipe> {
   List<File> imagesreally=[];
 
 
-resize(){
-  if(MediaQuery.of(context).viewInsets.bottom==1){
- return EdgeInsets.only(top: myProps.percent(context, 20));
+  resize(){
+    if(MediaQuery.of(context).viewInsets.bottom==1){
+      return EdgeInsets.only(top: myProps.percent(context, 20));
+    }
+    else{
+      return EdgeInsets.all(myProps.percent(context, 2));
+
+    };
+
   }
-  else{
-    return EdgeInsets.all(myProps.percent(context, 2));
-
-  };
-
-}
 
 
 
- test2() async {
-  db = await dbHelper();
-   await db.getCat();
-   print( db.result);
-   for(int i=0;i<db.result.length;i++){
-  
-    imagefill.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
-    imageOrig.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
-   }
-   setState(() {
+  getCat() async {
+    db = await dbHelper();
+    await db.getCat();
+    print( db.result);
+    for(int i=0;i<db.result.length;i++){
 
-   //imagesreally=imagefill[0].image as List<File?>;
+      imagefill.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
+      imageOrig.add( Cat(name: db.result[i]['Name'], bytes: db.result[i]['Pic']));
+    }
+    setState(() {
 
-   });
- }
- 
+      //imagesreally=imagefill[0].image as List<File?>;
+
+    });
+  }
+
   onChange(String text){
     List<Cat> filtered=[];
     for(var i=0; i<imageOrig.length;++i){
@@ -81,75 +81,75 @@ resize(){
 
   @override
   Widget build(BuildContext context) {
-   //if(!true)print(images[0]);
-  
+    //if(!true)print(images[0]);
+
 
     return Scaffold(
-     // resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-       
-        title: Text(widget.title),
-      ),
+      // resizeToAvoidBottomInset: false,
+        appBar: AppBar(
 
-      bottomNavigationBar: BotNav(Index:1),
-      body:  SingleChildScrollView(
-        //reverse: true,
-      child: Column(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-
-          Center(
-            child:Container(
-              padding: EdgeInsets.fromLTRB(0, myProps.percent(context, 3), 0, 0),
-              height: myProps.percent(context, 12),
-              width: myProps.percent(context, 95),
-
-              child:TextFormField(
-                  onChanged: (text) {
-                    onChange(text);},
-                  decoration: InputDecoration(
-
-                    border: OutlineInputBorder(),
-                    labelText: 'Suche',
-
-                  )),
-            ),),
-
-    Container(
-
-
-
-
-      //padding: EdgeInsets.only(top: myProps.percent(context, 20)),
-      padding: EdgeInsets.all(myProps.percent(context, 2)),
-
-        child: Container(
-          child: GridView.builder(
-
-            //physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: myProps.percent(context, 2),
-            mainAxisSpacing: myProps.percent(context, 2),
-
-            ),
-            itemCount: imagefill.length,
-            itemBuilder: (BuildContext context, int index) {
-
-
-              final item = imagefill[index];
-              return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
-
-             }),
+          title: Text(widget.title),
         ),
-      ),
+
+        bottomNavigationBar: BotNav(Index:1),
+        body:  SingleChildScrollView(
+          //reverse: true,
+            child: Column(
+
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+
+                  Center(
+                    child:Container(
+                      padding: EdgeInsets.fromLTRB(0, myProps.percent(context, 3), 0, 0),
+                      height: myProps.percent(context, 12),
+                      width: myProps.percent(context, 95),
+
+                      child:TextFormField(
+                          onChanged: (text) {
+                            onChange(text);},
+                          decoration: InputDecoration(
+
+                            border: OutlineInputBorder(),
+                            labelText: 'Suche',
+
+                          )),
+                    ),),
+
+                  Container(
 
 
-      ])
-      // This trailing comma makes auto-formatting nicer for build methods.
-    ));
+
+
+                    //padding: EdgeInsets.only(top: myProps.percent(context, 20)),
+                    padding: EdgeInsets.all(myProps.percent(context, 2)),
+
+                    child: Container(
+                      child: GridView.builder(
+
+                        //physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: myProps.percent(context, 2),
+                            mainAxisSpacing: myProps.percent(context, 2),
+
+                          ),
+                          itemCount: imagefill.length,
+                          itemBuilder: (BuildContext context, int index) {
+
+
+                            final item = imagefill[index];
+                            return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: myProps.itemSize(context, "normal"),noMargin: true,);
+
+                          }),
+                    ),
+                  ),
+
+
+                ])
+          // This trailing comma makes auto-formatting nicer for build methods.
+        ));
   }
 }
