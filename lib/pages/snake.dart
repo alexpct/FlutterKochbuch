@@ -120,6 +120,12 @@ class SnakeState extends State<SnakeGame>{
       backgroundColor: Colors.black,
       body: Column(
         children: <Widget> [
+          Row(
+            children: [
+              Text("Test"),
+
+            ],
+          ),
           Expanded(
             child: GestureDetector(
               onVerticalDragUpdate: (details){

@@ -29,7 +29,7 @@ void navi(context, int page, [String name=""]){
     case 2: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  Manage(),
+          pageBuilder: (_, __, ___) =>  SnakeGame(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 21: Navigator.push(
