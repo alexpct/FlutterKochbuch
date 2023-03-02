@@ -64,7 +64,7 @@ class addCat extends StatefulWidget {
     await catFromFile(name, _image).then((value) => cat=value);
     cat.save().then((value) => fail=value);
 
-   navi(context, 1,"");
+Navigator.pop(null);
 
   }
 

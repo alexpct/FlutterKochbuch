@@ -6,6 +6,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/pages/recipe.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -75,9 +76,6 @@ save() async {
 
 }
 
-recipeFromDB(String name){
-
-}
 class Recipe{
 
   String Name;
@@ -94,13 +92,15 @@ class Recipe{
     ingredients??=<Ingredient>[];
   }
 
-  Future<String> save(bool update) async {
+  Future<String> save(bool update,[String oldName]) async {
   final database = openDatabase('db.db');
   var db = await database;
+  dbHelper dbH = dbHelper(); //codesmell den du so weit riechen kannst das kein längenmaß  es abbilden kann.
+  oldName??= Name;
   if (Name=="Name"||Name=="") return Future<String>.value("Namen eingeben!");
   if (Text.length<3) return Future<String>.value( "Beschreibung hinzufügen!");
   if (cats.isEmpty)  return Future<String>.value( "Mindestens eine Kategorie angeben!");
-
+ if(update) await dbH.deleteRecipe(oldName); // dampfhammer methode, aber geht so schön schnell
 var val ={
   'Name': Name,
   'text': Text,

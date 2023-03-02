@@ -25,13 +25,15 @@ class newRecipe extends StatefulWidget {
   State<newRecipe> createState() => _newRecipeState();
 }
 
-
-bool update=false;
 class _newRecipeState extends State<newRecipe> {
+
 @override
   void initState()  {
+
     super.initState();
- if(widget.recipe!=null)  {recipe= widget.recipe;update=true;}
+
+ if(widget.recipe!=null)  {recipe= widget.recipe;update=true;initTime=widget.recipe.Time.toString();oldName=widget.recipe.Name;}
+
 init();
   }
 Widget ingAutoInput;
@@ -44,11 +46,13 @@ List<String> ingNames=[];
 List<String> catNames=[];
 AppBar  appBar;
 String initTime="";
+String oldName;
+bool update=false;
 init() async {
     boot=true;
 
     appBar= AppBar(
-      title: Text("hinzufügen"),
+      title: Text("Rezept hinzufügen"),
       actions: [ElevatedButton(onPressed: add, child: const Text("+"))],
     );
 
@@ -74,7 +78,6 @@ init() async {
       ),
     )
     });
-   recipe.Time
 
 
     setState(() {
@@ -88,7 +91,8 @@ await db.getIng(name).then((value) =>    setState(() { recipe.ingredients.add(va
   }
   add() async {
     String fail;
-    fail = await recipe.save(update);
+    if(!update)oldName=recipe.Name;
+    fail = await recipe.save(update,oldName);
     if(fail!=null)setState(() {
       appBar=failbar(context, fail);
     });
@@ -124,7 +128,7 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
       onPressed: () {
         add();
       },
-      label: Text("Kategorie hinzufügen"),
+      label: update ? Text("Kategorie bearbeiten") : Text("Kategorie hinzufügen"),
     ),
         body:
         SingleChildScrollView(
@@ -138,12 +142,12 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Name:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
-                      Expanded(child: TextField(onChanged:(value)=> setState(()=>{recipe.Name=value}) ,)),
+                      Expanded(child: TextFormField(initialValue: widget.recipe?.Name  , onChanged:(value)=> setState(()=>{recipe.Name=value}) ,)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text("Zeit:", style: TextStyle(color: primaryColor,fontSize: myProps.fontSize(context, "")),),
-                          SizedBox(width: myProps.percent(context, 10), child: TextFormField( initialValue: timeField ,onChanged: (value) =>{setState(()=>recipe.Time=int.parse(value))},keyboardType: TextInputType.number,
+                          SizedBox(width: myProps.percent(context, 10), child: TextFormField( initialValue: initTime ,onChanged: (value) =>{setState(()=>recipe.Time=int.parse(value))},keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],),)
