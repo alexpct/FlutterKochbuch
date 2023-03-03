@@ -28,12 +28,39 @@ class addCat extends StatefulWidget {
  class _addCatState extends State<addCat> {
    var _image;
    final db = dbHelper();
+    Future myFuture;  
    String name = "Name";
    String fail = "OK";
+   bool checkMode = false;
    Image pictureedit;
-   List<Map<String, dynamic>>DbEntries=[];
- 
+   String dbName="";
+   String titel;
+   String buttonTitel="hinzufügen";
+   Uint8List dbPic;
+   List<Map<String, dynamic>>dbEntries=[];
 
+     Future<String> check() async{
+      if(widget.edible==null){
+         titel="Kategorie hinzufügen";
+         return "ready";
+      }
+      else{
+        checkMode=true;
+        titel ="Kategorie Editieren";
+        buttonTitel="editieren";
+        await db.getEntry("Category", widget.edible);
+        for(int i=0;i<db.result.length;i++){
+          dbEntries.add(db.result[i]);  
+
+        }
+        dbName=dbEntries[0]['Name'];
+        dbPic=dbEntries[0]['Pic'];
+        pictureedit=Image.memory(dbPic);
+        return"ready";
+      }
+    
+      
+   }
 
   getImg(bool useCamera) {
     Future<File> ip = imgPicker(useCamera);
@@ -44,32 +71,49 @@ class addCat extends StatefulWidget {
 
   add() async { 
    
-    if (name == "Name") {setState(() {
+    if (dbName == "Name") {setState(() {
       fail = "Bitte Namen eingeben";
     });return false;}
     if(_image==null){setState(() {
       fail= "Bild hinzufügen";
     }); return false;}
-    var  cat;
-    await catFromFile(name, _image).then((value) => cat=value);
+    var cat;
+    await catFromFile(dbName, _image).then((value) => cat=value);
     cat.save().then((value) => fail=value);
 
     navi(context, 1);
 
   }
 
+  editSend() async{ 
+    await db.deleteentry("Category",dbEntries[0]['Name']);
+    var  cat= await Future<Cat>.value(Cat(name: dbName, bytes: dbPic));
+    cat.save().then((value) => fail=value);
+    navi(context, 1);
+  }
 
 
+  @override
+  void initState() {
+    super.initState();
+    myFuture = check();
+}
 
 
    @override
    Widget build(BuildContext context) {
 
 
-AppBar  appBar= AppBar(
-      title: Text("hinzufügen"),
-      actions: [ElevatedButton(onPressed: add, child: const Text("+"))],
-    );
+
+return FutureBuilder(
+   future: myFuture, 
+   builder: (context,snapshot) {
+    if (!snapshot.hasData){
+      return const CircularProgressIndicator();}
+   else{ 
+    AppBar  appBar= AppBar(
+      title: Text(titel),
+    );             
     if(fail!="OK") appBar= failbar(context, fail);
     return Scaffold(
       appBar: appBar,
@@ -80,7 +124,7 @@ AppBar  appBar= AppBar(
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Text(
                   "Bild:",
                   style: TextStyle(fontSize: MyProps.fontSize(context, "huge")),
@@ -91,9 +135,10 @@ AppBar  appBar= AppBar(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ImgBox(
-                  label: name,
+                  label: dbName,
                   onTap: () => {getImg(false)},
                   size: MyProps.itemSize(context, "huge"),
+                  image: pictureedit,
                   file: _image,
                   fontSize: MyProps.fontSize(context, "big"),
                 ),
@@ -104,18 +149,18 @@ AppBar  appBar= AppBar(
               children: [
                 ElevatedButton(
                     onPressed: () => {getImg(false)},
-                    child: Text("Bild hochladen"),
                     style: ButtonStyle(
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius:
-                                        BorderRadius.circular(18.0))))),
+                                        BorderRadius.circular(18.0)))),
+                    child: const Text("Bild hochladen")),
                 SizedBox(width: MyProps.itemSize(context, "medium")),
                 Ink(
                   decoration: ShapeDecoration(
                     color: Theme.of(context).colorScheme.primary,
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                   ),
                   child: IconButton(
                     icon: const Icon(Icons.add_a_photo),
@@ -125,30 +170,30 @@ AppBar  appBar= AppBar(
               ],
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                SizedBox(width: 20),
-                Padding(
+                const SizedBox(width: 50),
+                const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Text(
-                    "Name:",
-                    style:
-                        TextStyle(fontSize: MyProps.fontSize(context, "big")),
-                  ),
+                  
                 ),
-                SizedBox(width: 10),
+
                 Flexible(
-                    child: TextField(
+                    child: TextFormField(
+                      initialValue: dbName,                         
                   style: TextStyle(
                     fontSize: MyProps.fontSize(context, "big"),
                   ),
+                  decoration: const InputDecoration(               
+                    labelText: 'Name',
+                   ),
                   onChanged: (text) {
                     setState(() {
-                      name = text;
+                      dbName = text;
                     });
                   },
                 )),
-                SizedBox(width: 100),
+                const SizedBox(width: 50),
               ]),
             )
           ],
@@ -156,10 +201,15 @@ AppBar  appBar= AppBar(
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          if(widget.edible==null){
           add();
+          }else{
+             editSend();
+          }
         },
-        label: Text("Kategorie hinzufügen"),
+        label: Text(buttonTitel),
       ),
     );
-   }
-}
+   }});
+   
+   }}

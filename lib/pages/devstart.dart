@@ -60,11 +60,11 @@ dbHelper db = dbHelper();
 
               children: <Widget>[
 
-                ElevatedButton(onPressed:()=>{ navi(context, 1)}, child: const Text("Navi1")),
+                ElevatedButton(onPressed:()=>{ navi(context, 6)}, child: const Text("Navi1")),
                 ElevatedButton(onPressed:()=>{ navi(context, 2)}, child: const Text("Navi2")),
                 ElevatedButton(onPressed:()=>{ navi(context, 3,"ei")}, child: const Text("Navi3")),
                 ElevatedButton(onPressed:()=>{ navi(context, 22)}, child: const Text("Navi4")),
-                ElevatedButton(onPressed:()=>{ navi(context, 5)}, child: const Text("Navi5")),
+                ElevatedButton(onPressed:()=>{ navi(context, 8)}, child: const Text("Navi5")),
                 Container(height: 100,),
                 ElevatedButton(onPressed:deldb, child: const Text("Delete database")),
                 ElevatedButton(onPressed:createdb, child: const Text("Create DB")),

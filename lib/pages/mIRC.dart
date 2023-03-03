@@ -1,6 +1,7 @@
 //Susann   ///
 
 import 'package:flutter/material.dart';
+import 'package:kochbuch/pages/addCat.dart';
 import 'package:kochbuch/pages/editIn.dart';
 import 'package:kochbuch/pages/newRecipe.dart';
 import '../helper/navi.dart';
@@ -61,7 +62,12 @@ getNamefromDb(String typ) async { //holen aller Namen aus typ (Kategorie/Zuatetn
 nav( String typ) async{ 
   switch(widget.type){
     case "Category": 
-          editnav=0;
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => addCat(typ),
+          transitionDuration: const Duration(seconds: 0),
+        )) ;
       break;
       case "Ingredients": 
           Navigator.push(
@@ -74,7 +80,6 @@ nav( String typ) async{
       break;
       case "Recipe": 
       db = dbHelper();
-
       Recipe rez =await db.getRecipe(typ);
       Navigator.push(
         context,

@@ -88,19 +88,19 @@ class dbHelper {
     //print(result);
   }
 
-  deleteentry(String name, String tabel) async{
+  deleteentry( String table,String name,) async{
     await open();
-    await _db.rawQuery("delete from "+ name +" where name = '"+tabel+"'");
+    await _db.rawQuery("delete from "+ table +" where name = '"+name+"'");
   }
 
-  insertDBZ(String Name , Uint8List bytes, double Calories , double Fat , double Protein, double Carbohydrates, bool pieceGood, double weight, String table ) async{
+  insertCatDBZ(String Name , Uint8List bytes, String table ) async{
 
     await open();
-    result= await _db.rawQuery("INSERT INTO $table ( Name , bytes , Calories , Fat , Protein , Carbohydrates , piecegood , weight ) VALUES ( '$Name', '$bytes' , '$Calories' , '$Fat' , '$Protein' , '$Carbohydrates' , '$pieceGood' , '$weight' )");
-    //print(result);
+    result= await _db.rawQuery("INSERT INTO $table ( Name , Pic ) VALUES ( '$Name', '$bytes')");
+    print(result);
   }
 Future<Recipe> getRecipe(String Name) async {
-  
+  await open();
   var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '"+Name+"'");
 print(recipe);
   String Text =  recipe[0]['text'];
