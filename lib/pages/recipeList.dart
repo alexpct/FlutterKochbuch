@@ -29,7 +29,7 @@ class _RecipeListState extends State<RecipeList> {
   String title="Rezepte";
   List<Recipe> recipes=[];
   List<Recipe> unFiltered=[];
-  dbHelper db = dbHelper();
+  DbHelper db = DbHelper();
   @override
   void initState() {
     super.initState();
