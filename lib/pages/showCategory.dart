@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
+import 'package:kochbuch/pages/recipeList.dart';
 
 import '../helper/dbhelper.dart';
 import '../widgets/botnav.dart';
@@ -41,7 +42,15 @@ class _ShowCatState extends State<ShowCat> {
 
    });
  }
- 
+
+ gibsIhm(int index){
+   Navigator.push(
+   context,
+   PageRouteBuilder(
+   pageBuilder: (_, __, ___) =>  RecipeList(category: imagefill[index].name,),
+   transitionDuration: const Duration(seconds: 0),
+   )) ;
+ }
   filter(String text){ // Filter funktion für das Textfeld
     List<Cat> filtered=[]; //Liste mit gewünschter Filterung
     for(var i=0; i<imageorig.length;++i){

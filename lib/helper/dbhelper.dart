@@ -122,11 +122,32 @@ class DbHelper {
 
  }
 
- deleteRecipe(String name) async {
+deleteRecipe(String name) async {//weiß grad nicht ob sqlite inner joins kann bzw on delete cascade, denke ja, aber das lite lässt mich stutzen , also was du nicht im kopf hast, das hast du in bei... ähm fingern
+  await open();
   await _db.rawQuery("delete from recipe  where name = '$name'");
   await _db.rawQuery("delete from recipeIngredients  where recipe = '$name'");
   await _db.rawQuery("delete from recipePics  where recipe = '$name'");
   await _db.rawQuery("delete from recipeCats  where recipe = '$name'");
 
- }
+}
+Future<List<Recipe>>getCatsRecipe(String category) async {
+    await open();
+
+  var recipeCats =  await  _db.rawQuery("select * from 'recipeCats' where cats = '$category'");
+  List<String> recipe=[];
+  recipeCats.forEach((e)=>recipe.add(e['recipe']));
+  recipe=recipe.toSet().toList();
+  if(recipe.isEmpty) return Future<List<Recipe>>.value(<Recipe>[]);
+  List<Recipe> list=[];
+   await Future.wait([for(var i=0; i<recipe.length;i++)
+getRecipe(recipe[i]).then((value) => list.add(value))]);
+  return  Future<List<Recipe>>.value(list);
+  
+  
+
+
+
+
+}
+
 }

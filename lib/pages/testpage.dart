@@ -122,6 +122,9 @@ test2() async {
   transitionDuration: const Duration(seconds: 0),
   ));
 }
+test3(){
+    db.getCatsRecipe("Neu Cat");
+}
   @override
   Widget build(BuildContext context) {
     Widget wid;
@@ -183,7 +186,7 @@ test2() async {
                         child: const Text('Second'),
                       ), ElevatedButton(
                         style: null,
-                        onPressed: () => {test1337()},
+                        onPressed: () => {test3()},
                         child: const Text('Third'),
                       ),
                       wid,

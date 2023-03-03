@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
+import 'package:kochbuch/pages/testpage.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../helper/navi.dart';
@@ -46,6 +47,14 @@ createdb() async {
 
   }
 }
+asd(){
+  Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>  Testpage(),
+        transitionDuration: const Duration(seconds: 0),
+      ));
+}
 DbHelper db = DbHelper();
   @override
   Widget build(BuildContext context) {
@@ -66,6 +75,7 @@ DbHelper db = DbHelper();
                 ElevatedButton(onPressed:()=>{ navi(context, 22)}, child: const Text("Navi4")),
                 ElevatedButton(onPressed:()=>{ navi(context, 5)}, child: const Text("Navi5")),
                 Container(height: 100,),
+                ElevatedButton(onPressed:asd, child: const Text("Enter Testpage")),
                 ElevatedButton(onPressed:deldb, child: const Text("Delete database")),
                 ElevatedButton(onPressed:createdb, child: const Text("Create DB")),
 
