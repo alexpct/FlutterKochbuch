@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
-import 'package:kochbuch/pages/recipeList.dart';
+import 'package:kochbuch/pages/RecipeList.dart';
 
 import '../helper/dbhelper.dart';
 import '../widgets/botnav.dart';
@@ -44,17 +44,18 @@ class _ShowCatState extends State<ShowCat> {
  }
 
  gibsIhm(int index){
+   print(imagefill[index].name);
    Navigator.push(
    context,
    PageRouteBuilder(
-   pageBuilder: (_, __, ___) =>  RecipeList(category: imagefill[index].name,),
+   pageBuilder: (_, __, ___) =>  RecipeList(category: "Neue Cat",),
    transitionDuration: const Duration(seconds: 0),
    )) ;
  }
   filter(String text){ // Filter funktion für das Textfeld
     List<Cat> filtered=[]; //Liste mit gewünschter Filterung
     for(var i=0; i<imageorig.length;++i){
-        if (imageorig[i].name.toLowerCase().startsWith(text.toLowerCase())) filtered.add(imageorig[i]); // übergibt filterung an neue Liste filtered
+        if (imageorig[i].name.toLowerCase().contains(text.toLowerCase())) filtered.add(imageorig[i]); // übergibt filterung an neue Liste filtered
     }
     setState(() {
       imagefill=filtered; //updatet die angezeigte Liste
@@ -107,7 +108,7 @@ class _ShowCatState extends State<ShowCat> {
                     itemBuilder: (BuildContext context, int index) {
 
                       final item = imagefill[index];
-                      return ImgBox(label: item.name, onTap: () =>null, image: item.image,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
+                      return ImgBox(label: item.name, onTap: () =>gibsIhm(index), image: item.image,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
                     }
                   ),
                ),

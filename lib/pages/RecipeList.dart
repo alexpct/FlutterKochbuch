@@ -40,8 +40,12 @@ class _RecipeListState extends State<RecipeList> {
 
 
  db.getCatsRecipe(widget.category)
-     .then((value) =>(){recipes=value; unFiltered=List.from(value);})
+     .then((value) =>recipes=value)
+     .then((value) =>  unFiltered = List.from(recipes))
      .then((value) => setState(() {   boot=false; }));
+
+
+
 
 
 
@@ -49,7 +53,8 @@ class _RecipeListState extends State<RecipeList> {
   }
   filter(String text){
     setState(() {
-      recipes = unFiltered.where((element) => element.name.toLowerCase().startsWith(text.toLowerCase())).toList();
+      recipes = unFiltered.where((element) => element.name.toLowerCase().contains(text.toLowerCase())).toList();
+
     });
   }
 
@@ -71,7 +76,7 @@ class _RecipeListState extends State<RecipeList> {
     Color primaryColor=Theme.of(context).primaryColor;
 
 
-
+print(recipes);
     return Scaffold(
         appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -103,6 +108,7 @@ class _RecipeListState extends State<RecipeList> {
 
                 final item = recipes[index];
                 var img;
+                print("ölapalöma");
                 (item.images.isEmpty)? img=null : img=Image.memory(item.images.first);
                 return ImgBox(label: item.name, onTap: () =>open(index), image: img ,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
               }
@@ -110,13 +116,16 @@ class _RecipeListState extends State<RecipeList> {
         ),
 
 
-        TextFormField( //Textfield der Suche
-            onChanged: (text) {
-              filter(text);},
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Suche',
-            )),
+        Padding(
+          padding:  EdgeInsets.all(MyProps.percent(context, 2)),
+          child: TextFormField( //Textfield der Suche
+              onChanged: (text) {
+                filter(text);},
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Suche',
+              )),
+        ),
 
       ],
     ),);

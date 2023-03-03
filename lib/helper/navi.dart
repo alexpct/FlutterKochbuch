@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:kochbuch/pages/NewIngredient.dart';
 import 'package:kochbuch/pages/addCat.dart';
 import 'package:kochbuch/pages/newRecipe.dart';
-import 'package:kochbuch/pages/recipeList.dart';
+import 'package:kochbuch/pages/RecipeList.dart';
 import 'package:kochbuch/pages/testpage.dart';
 
 import '../pages/devstart.dart';
 import '../pages/editIn.dart';
 import '../pages/mIRC.dart';
 import '../pages/manage.dart';
-import '../pages/recipe.dart';
+import '../pages/ShowCat.dart';
 import '../pages/snake.dart';
 
 void navi(context, int page, [String name=""]){

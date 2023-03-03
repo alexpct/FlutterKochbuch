@@ -1,24 +1,27 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/objects.dart';
-import 'package:kochbuch/pages/recipe.dart';
 import 'package:sqflite/sqflite.dart';
 
+
+//Alex: Soll alle DatenbankFunktionen übernehmen, die nicht das Objekt selbst
+// betreffen(das kann sich selbst in die DB schreiben - inkohärent und mies zu warten, wird noch ausgebessert)
+//Wenn nicht anders angegeben von Alex
 class dbHelper {
   var _db;
   String resultType = "None";
   var result;
 
-  dbHelper(){open();}
+  dbHelper(){open();} //mag dart so nicht, ist auch gegen die Wand gefahren sobald kein "Nutzerdelay" dazwischen war, aber um nichts zu refactorn wurde es drin gelassen
 
   open() async {
       final database = openDatabase('db.db');
       _db = await database;
   }
 
-   Future<String>newRecipe(String name, File image) async {
+  // hier wurde noch nicht mit den objekten gearbeitet, aber never touch a running system  :D
+   Future<String>newCategory(String name, File image) async {
      Uint8List bytes;
     try{bytes = await image.readAsBytes();} catch(e){return Future<String>.value("Dieser Fehler sollte nicht vorkommen");}
     var val = {'Name': name,
@@ -30,13 +33,8 @@ class dbHelper {
 
 
   getCat([String startsWith]) async {
-    resultType ="Cat";
     await open();
-    String q = "select * from Category";
-    if(startsWith!=null) print(startsWith);
-    if(startsWith!=null)q+="where name LIKE '$startsWith%'";
     result = await _db.rawQuery("select * from Category");
-    print(result.runtimeType);
     return result;
   }
 
@@ -57,12 +55,14 @@ class dbHelper {
     return  Future<List<Ingredient>>.value(list);
 
   }
-
+ //Susi start
   getAll(String tablename) async {
     resultType =tablename;
     await open();
     result = await _db.rawQuery("select * from $tablename");
   }
+//Susi end
+
 
 
 
@@ -71,6 +71,10 @@ class dbHelper {
   }
 
 
+
+
+
+//Susi start
   Future<List<String>>getName(String typ) async{
     resultType ="Cat";
     await open();
@@ -99,6 +103,12 @@ class dbHelper {
     result= await _db.rawQuery("INSERT INTO $table ( Name , bytes , Calories , Fat , Protein , Carbohydrates , piecegood , weight ) VALUES ( '$Name', '$bytes' , '$Calories' , '$Fat' , '$Protein' , '$Carbohydrates' , '$pieceGood' , '$weight' )");
     //print(result);
   }
+
+  //susi end
+
+
+
+
 Future<Recipe> getRecipe(String Name) async {
   await open();
   var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '"+Name+"'");
@@ -148,6 +158,8 @@ Future<List<Recipe>>getCatsRecipe(String category) async {
   List<Recipe> list=[];
    await Future.wait([for(var i=0; i<recipe.length;i++)
 getRecipe(recipe[i]).then((value) => list.add(value))]);
+
+
   return  Future<List<Recipe>>.value(list);
   
   

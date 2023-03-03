@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kochbuch/pages/devstart.dart';
 import 'package:kochbuch/pages/splashscreen.dart';
 
-import 'pages/recipe.dart';
+import 'pages/ShowCat.dart';
 
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
-        home: devStart(),
+        home: Splash(),
     );
   }
 }

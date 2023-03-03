@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/firstrun.dart';
-import 'package:kochbuch/pages/recipe.dart';
+import 'package:kochbuch/pages/ShowCat.dart';
 
-class splash extends StatefulWidget {
+class Splash extends StatefulWidget {
+  const Splash({Key key}) : super(key: key);
+
 
 
   @override
-  State<splash> createState() => _splashState();
+  State<Splash> createState() => _SplashState();
 }
 
-class _splashState extends State<splash> {
+class _SplashState extends State<Splash> {
 Future<bool> fr = firstrun();
 String text = "Bitte warten";
 
@@ -17,7 +19,7 @@ String text = "Bitte warten";
   Widget build(BuildContext context) {
     fr.then((value) => {
       {
-        if(value) Navigator.push(
+        if(value) Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) =>  ShowCat(),))
         else
           text = "OhOh"
