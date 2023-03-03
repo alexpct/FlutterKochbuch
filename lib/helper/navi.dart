@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:kochbuch/pages/NewIngredient.dart';
 import 'package:kochbuch/pages/addCat.dart';
 import 'package:kochbuch/pages/newRecipe.dart';
+import 'package:kochbuch/pages/recipeList.dart';
 import 'package:kochbuch/pages/testpage.dart';
 
 import '../pages/devstart.dart';
@@ -23,7 +24,7 @@ void navi(context, int page, [String name=""]){
     case 1:Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  ShowCat(),
+          pageBuilder: (_, __, ___) =>  newRecipe(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 2: Navigator.push(
@@ -71,7 +72,7 @@ void navi(context, int page, [String name=""]){
     case 5: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => newRecipe(),
+          pageBuilder: (_, __, ___) => RecipeList(category: "Neu Cat",),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
          case 6: Navigator.push(
