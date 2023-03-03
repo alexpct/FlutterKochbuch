@@ -20,8 +20,8 @@ import '../widgets/iconbox.dart';
 class NewIngredient extends StatefulWidget {
 
   final String title = "Zutat hinzufügen";
-  final db = dbHelper();
-  Ingredient ingredient=Ingredient(name: "Name", calories: 0, pieceGood: true,);
+  final db = DbHelper();
+  Ingredient ingredient=Ingredient(name: "Name", calories: 0, pieceGood: true,); //dummy
 
   @override
   State<NewIngredient> createState() => _NewIngredientState();
@@ -53,10 +53,11 @@ setState(() {
 
 
   }
-  save(){ingredient.save();Navigator.pop(context);}
+  save() async {await ingredient.save();Navigator.pop(context, 1337);}
 
-  _nameUpdate(String a){ingredient.name=a; enterEdit();print("dingdong");}
-enterEdit(){
+  _nameUpdate(String a){ingredient.name=a; enterEdit();}
+//für einen natloseren übergang wird einfach das widget ausgetauscht, kann man machen, muss man aber nicht, vorallem seit keine Übergangsannimationen mehr da sind
+  enterEdit(){
    ingredient ??= widget.ingredient;
    wid=Expanded(
      child:  SingleChildScrollView(
@@ -182,7 +183,7 @@ enterEdit(){
 setState(() {
 });
 }
-
+//Zitat susi: du benutzt immer noch kein Builder, aber schonmal ein Vortschritt
   textChange(String text, int delay) async {
 
    setState(() {
@@ -217,8 +218,6 @@ setState(() {
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       bottomNavigationBar:  BotNav(Index:1),
@@ -240,7 +239,6 @@ setState(() {
         wid?? Padding(padding:EdgeInsets.fromLTRB(0, MyProps.percent(context, 40), 0, 0),  child: ElevatedButton(onPressed: enterEdit, child: Text("Manuell hinzufügen!"))),
       ],
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

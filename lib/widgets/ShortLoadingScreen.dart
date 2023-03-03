@@ -4,6 +4,8 @@ import 'botnav.dart';
 
 class ShortLoadingScreen extends StatelessWidget {
 
+  //Alex was here
+  // meine Krücke für meinen quasiFutureBuilder :D
   ShortLoadingScreen({this.title, this.index});
 int index;
 String title;

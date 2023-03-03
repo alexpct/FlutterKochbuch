@@ -1,8 +1,10 @@
 //Alex was here
+// ein Kasten um Bilder mit einem Label anzuzeigen
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
+
 
 class ImgBox extends StatelessWidget{
   ImgBox({ this.label, this.icon,this.image,  this.onTap,this.file,this.size=-1,this.fontSize=25
@@ -22,7 +24,7 @@ if (label.length > _maxChar) _labelSplit();
   bool noBorder;
 
 
-  _labelSplit(){
+  _labelSplit(){ // bei zu langen lables
     int idx  = label.indexOf(" ",5);
     String hyphen ="";
     if (!isBetween(idx,0,_maxChar)){ idx = _maxChar; hyphen="-";}

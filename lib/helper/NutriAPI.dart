@@ -4,11 +4,13 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:kochbuch/helper/objects.dart';
-
+//Alex was here - kann das sein das ich in jedem Komentar einfach schreibe was ich für einen mist gebaut habe?
+ //Jedenfalls  läuft hier etwas extrem inperformant, ganz ehrlich wenn sie mir sagen können warum hät ich gern ne email
+ //Auch ist eine klasse mit nur einer Methode reichlich doof, aber hier sollen noch einige Funktionen der API rein - später
 class NutriAPI{
 int _runNum=0;
 List<Ingredient> lastRet=[];
-Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
+Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async { //ausgelagert um Code übersichtlicher zu halten (gelingt hier allgemein selten)
     double calories=1337;
     double fat=1337;
     double protein=1337;
@@ -25,7 +27,7 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
     
     for (var i=0; i <run.length;i++){
       switch (run[i]['attr_id']){
-        case 208: calories=run[i]['value']/1; {}break;
+        case 208: calories=run[i]['value']/1; {}break; // durch 1 ist ein kurzer cast für double
         case 205: carbohydrates=run[i]['value']/1; {}break;
         case 204: fat=run[i]['value']/1; {}break;
         case 203: protein=run[i]['value']/1; {}break;
@@ -35,7 +37,7 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
 
   }
   Future<List<Ingredient>>  search(String query ) async {
-    int thisRun =_runNum.toInt();
+    int thisRun =_runNum.toInt(); //damit kein langsamer laufendes altes ergebnis ein neues überschreibt
     thisRun++;
     String URI = "https://trackapi.nutritionix.com/v2/search/instant?query=$query&locale=de_DE&branded=false&detailed=true";
     final response = await http.get(

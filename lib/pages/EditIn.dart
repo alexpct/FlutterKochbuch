@@ -1,4 +1,4 @@
-//Susann was here  ///
+
 
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/navi.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 
 import '../helper/imagepicker.dart';
 import '../helper/objects.dart';
-
+//Susi was here
 class EditIn extends StatefulWidget {
    const EditIn( this.edible, {Key key}) : super(key: key);
 
@@ -23,7 +23,7 @@ class EditIn extends StatefulWidget {
 
 class _EditInState extends State<EditIn> {
   Future myFuture;  
-  dbHelper db = dbHelper();
+  DbHelper db = DbHelper();
   String name = "Name"; 
   String fail = "OK";
   Image pictureEdit; // Bild für Anzeige in ImgeBox

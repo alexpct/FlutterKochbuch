@@ -7,6 +7,9 @@ import 'package:kochbuch/helper/tinyHelpers.dart';
 import '../helper/imagepicker.dart';
 import 'iconbox.dart';
 
+//Alex was here
+// ja klassiker bild mit indikator drin und pfeilen und option zum bearbeiten
+
 class ImageGallery extends StatefulWidget {
 ImageGallery({this.images,this.onChange,this.editable=false});
   List<Uint8List> images= <Uint8List>[];
@@ -148,7 +151,6 @@ fit: BoxFit.contain,
               ],
             ),
 
-            //////////////////////////////////////////////////////////////////////
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:

@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kochbuch/main.dart';
-import 'package:kochbuch/pages/manage.dart';
+import 'package:kochbuch/pages/Manage.dart';
 import 'package:kochbuch/pages/ShowCat.dart';
 import 'package:kochbuch/pages/snake.dart';
 
 import '../helper/navi.dart';
-import '../pages/editIn.dart';
+import '../pages/EditIn.dart';
 import '../pages/mIRC.dart';
 
 

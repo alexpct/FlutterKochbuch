@@ -1,4 +1,4 @@
-//Alex was here  ///
+//Susi was here  ///
 
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
@@ -17,7 +17,7 @@ class ShowCat extends StatefulWidget {
 
 
   @override
-  State<ShowCat> createState() => _ShowCatState(dbHelper);
+  State<ShowCat> createState() => _ShowCatState(DbHelper);
 }
 
 class _ShowCatState extends State<ShowCat> {
@@ -31,7 +31,7 @@ class _ShowCatState extends State<ShowCat> {
 
 
  getDb() async { //Holt die Einträge aus der DB und steck sie in 2 Listen
-   db = dbHelper();
+   db = DbHelper();
    await db.getCat();
    for(int i=0;i<db.result.length;i++){
   
@@ -43,12 +43,12 @@ class _ShowCatState extends State<ShowCat> {
    });
  }
 
- gibsIhm(int index){
-   print(imagefill[index].name);
+ gotoShowList(int index){
+
    Navigator.push(
    context,
    PageRouteBuilder(
-   pageBuilder: (_, __, ___) =>  RecipeList(category: "Neue Cat",),
+   pageBuilder: (_, __, ___) =>  RecipeList(category: imagefill[index].name,),
    transitionDuration: const Duration(seconds: 0),
    )) ;
  }
@@ -108,7 +108,7 @@ class _ShowCatState extends State<ShowCat> {
                     itemBuilder: (BuildContext context, int index) {
 
                       final item = imagefill[index];
-                      return ImgBox(label: item.name, onTap: () =>gibsIhm(index), image: item.image,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
+                      return ImgBox(label: item.name, onTap: () =>gotoShowList(index), image: item.image,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
                     }
                   ),
                ),

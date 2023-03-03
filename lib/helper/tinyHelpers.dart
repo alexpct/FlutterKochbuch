@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-
+//Alex was here
+// Als entwicklungsumgebung hat ein tablet hergehalten und darauf fiel auf wie schäbig vieles mit festen werten au tablets aussah ...
+//einmal zum start berechnen geht auch nicht, wenn ich mein Fold aufklappe hat das auch das gesamte layout zerrissen
 failbar(BuildContext context, String fail){
     return (AppBar(
       title: Text(fail),

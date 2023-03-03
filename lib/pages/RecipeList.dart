@@ -1,12 +1,8 @@
 
-import 'dart:ffi';
-import 'dart:typed_data';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kochbuch/helper/dbhelper.dart';
-import 'package:kochbuch/pages/showRecipe.dart';
+import 'package:kochbuch/pages/ShowRecipe.dart';
 
 import '../helper/objects.dart';
 import '../helper/tinyHelpers.dart';
@@ -14,7 +10,7 @@ import '../widgets/ShortLoadingScreen.dart';
 import '../widgets/botnav.dart';
 import '../widgets/iconbox.dart';
 
-//Alex was here - einfach ne Auflistung aller Rezepte in der Kategorie
+//Alex was here - einfach ne Auflistung aller Rezepte in der Kategorie und nen filter
 class RecipeList extends StatefulWidget {
   RecipeList({this.category});
 String category;
@@ -28,8 +24,8 @@ class _RecipeListState extends State<RecipeList> {
   bool boot = true;
   String title="Rezepte";
   List<Recipe> recipes=[];
-  List<Recipe> unFiltered=[];
-  dbHelper db = dbHelper();
+  List<Recipe> unFiltered=[];//um den filter zurück zu setzen
+  DbHelper db = DbHelper();
   @override
   void initState() {
     super.initState();
@@ -79,8 +75,7 @@ class _RecipeListState extends State<RecipeList> {
 print(recipes);
     return Scaffold(
         appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+
         title: Text(title),
 
     ),
@@ -108,7 +103,6 @@ print(recipes);
 
                 final item = recipes[index];
                 var img;
-                print("ölapalöma");
                 (item.images.isEmpty)? img=null : img=Image.memory(item.images.first);
                 return ImgBox(label: item.name, onTap: () =>open(index), image: img ,size: MyProps.itemSize(context, "normal"),noMargin: true,); //Bilder der Kategorien
               }

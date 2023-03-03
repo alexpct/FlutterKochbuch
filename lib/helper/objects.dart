@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:sqflite/sqflite.dart';
 
-
+//Alex was here
+//die saveFunktion hätte in die DB klasse gehört, wird noch gemacht
+//Ansosten eben Objekte um sie kompakter übergeben zu können
+//Category heißt immer Cat weil hier jemand Katzen mag xD
 
 class Cat
 {
@@ -90,7 +93,7 @@ class Recipe{
   Future<String> save(bool update,[String oldName]) async {
     final database = openDatabase('db.db');
     var db = await database;
-    dbHelper dbH = dbHelper(); 
+    DbHelper dbH = DbHelper();
     oldName??= name;
     if (name=="Name"||name=="") return Future<String>.value("Namen eingeben!");
     if (text.length<3) return Future<String>.value( "Beschreibung hinzufügen!");

@@ -8,12 +8,12 @@ import 'package:sqflite/sqflite.dart';
 //Alex: Soll alle DatenbankFunktionen übernehmen, die nicht das Objekt selbst
 // betreffen(das kann sich selbst in die DB schreiben - inkohärent und mies zu warten, wird noch ausgebessert)
 //Wenn nicht anders angegeben von Alex
-class dbHelper {
+class DbHelper {
   var _db;
   String resultType = "None";
   var result;
 
-  dbHelper(){open();} //mag dart so nicht, ist auch gegen die Wand gefahren sobald kein "Nutzerdelay" dazwischen war, aber um nichts zu refactorn wurde es drin gelassen
+  DbHelper(){open();} //mag dart so nicht, ist auch gegen die Wand gefahren sobald kein "Nutzerdelay" dazwischen war, aber um nichts zu refactorn wurde es drin gelassen
 
   open() async {
       final database = openDatabase('db.db');
@@ -89,7 +89,6 @@ class dbHelper {
   getEntry(String table, String name) async{
     await open();
     result = await _db.rawQuery("select * from "+table+" where name = '"+name+"'");
-    //print(result);
   }
 
   deleteentry(String name, String tabel) async{
@@ -101,7 +100,6 @@ class dbHelper {
 
     await open();
     result= await _db.rawQuery("INSERT INTO $table ( Name , bytes , Calories , Fat , Protein , Carbohydrates , piecegood , weight ) VALUES ( '$Name', '$bytes' , '$Calories' , '$Fat' , '$Protein' , '$Carbohydrates' , '$pieceGood' , '$weight' )");
-    //print(result);
   }
 
   //susi end
@@ -112,7 +110,6 @@ class dbHelper {
 Future<Recipe> getRecipe(String Name) async {
   await open();
   var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '"+Name+"'");
-print(recipe);
   String Text =  recipe[0]['text'];
   int Time =  recipe[0]['time'];
 

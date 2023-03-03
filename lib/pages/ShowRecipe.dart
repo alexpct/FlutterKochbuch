@@ -9,6 +9,9 @@ import '../widgets/ShortLoadingScreen.dart';
 import '../widgets/botnav.dart';
 import '../widgets/ingredientWidget.dart';
 
+//Alex was here
+// Hier hätte es bestimmt was tolles fertiges gegeben, aber hab mir was dreckig schnell 2 tabs gebaut, hätte wenigstens
+// ein eigenes widget werden  sollen, aber die liebe Zeit
 class ShowRecipe extends StatefulWidget {
    ShowRecipe({Key key, this.recipe, this.byName }) : super(key: key);
 
@@ -38,7 +41,7 @@ class _ShowRecipeState extends State<ShowRecipe> {
 
 
   init() async {
-    final db = await dbHelper();
+    final db = await DbHelper();
 if(widget.recipe!=null) recipe=widget.recipe;
 if(widget.byName!=null) recipe =  await db.getRecipe(widget.byName);
 title=recipe.name;

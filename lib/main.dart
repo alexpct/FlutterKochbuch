@@ -1,7 +1,6 @@
 //Alrex was here
 
 import 'package:flutter/material.dart';
-import 'package:kochbuch/pages/devstart.dart';
 import 'package:kochbuch/pages/splashscreen.dart';
 
 import 'pages/ShowCat.dart';

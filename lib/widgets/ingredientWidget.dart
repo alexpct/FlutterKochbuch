@@ -7,7 +7,8 @@ import 'package:kochbuch/helper/objects.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 import 'package:kochbuch/widgets/iconbox.dart';
 
-
+//Alex was here
+//Anzeige um kompaktZutaten zuzeigen, optional mit menge und diese optional zu bearbeiten
 
 class IngredientWidget  extends StatelessWidget{
 
@@ -31,10 +32,7 @@ int input;
 
   @override
   Widget build(BuildContext context) {
-    ImgBox img;/*
-    if (ingredient.image!=null) img = ImgBox(label: ingredient.name, onTap:(){onTap(ingredient);}, image: ingredient.image,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
-    else img =  ImgBox(label: ingredient.name, onTap:(){onTap(ingredient);},icon: Icons.kitchen,size: myProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
-  */
+    ImgBox img;
 
     if (ingredient.image!=null) img = ImgBox(label: ingredient.name, onTap:proxy, image: ingredient.image,size: MyProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
     else img =  ImgBox(label: ingredient.name, onTap:proxy,icon: Icons.kitchen,size: MyProps.itemSize(context, "normal"),noMargin: true,noBorder:true);
@@ -69,11 +67,11 @@ proxy();
                         children: [
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [//Text overflow clip geht nicht, susi hilf  mir ^^
+                            children: [//Text overflow clip geht nicht, susi hilf  mir ^^ -zeit vergeht - tag der Abgabe :(((((
                              Text("Name: $cropedName", style:  TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.clip, ),
                            Container(height: MyProps.percent(context, 1),),
                             Table(
-                                  columnWidths:   <int, TableColumnWidth>{ // susi: hier dann auf 4 spalten gehen bzw 5 mit einer leeren Spalte dazwischen
+                                  columnWidths:   <int, TableColumnWidth>{
                                     0: IntrinsicColumnWidth(),
                                     1: FixedColumnWidth(MyProps.percent(context, 030))},
     children:<TableRow>[

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:kochbuch/helper/dbhelper.dart';
 import 'package:kochbuch/helper/objects.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
-import 'package:kochbuch/pages/addCat.dart';
+import 'package:kochbuch/pages/AdEdCat.dart';
 import 'package:kochbuch/widgets/ingredientWidget.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
@@ -16,17 +16,17 @@ import '../widgets/iconbox.dart';
 import '../widgets/imageGallery.dart';
 import 'NewIngredient.dart';
 
-class newRecipe extends StatefulWidget {
-   newRecipe( {this.recipe});
+class NewRecipe extends StatefulWidget {
+   NewRecipe( {this.recipe});
 
 
   final String title="Neues Rezept";
   Recipe recipe;
   @override
-  State<newRecipe> createState() => _newRecipeState();
+  State<NewRecipe> createState() => _NewRecipeState();
 }
 
-class _newRecipeState extends State<newRecipe> {
+class _NewRecipeState extends State<NewRecipe> {
 
 @override
   void initState()  {
@@ -40,7 +40,7 @@ init();
 Widget ingAutoInput;
 Widget catAutoInput ;
 bool boot=true;
-dbHelper db = dbHelper();
+DbHelper db = DbHelper();
 Recipe recipe = new Recipe();
 List<Ingredient> ingList =[];
 List<String> ingNames=[];
@@ -52,14 +52,15 @@ bool update=false;
 init() async {
     boot=true;
 
-    appBar= AppBar(
+    appBar= AppBar( //um später das widget einfach austauschen zu können
       title: Text("Rezept hinzufügen"),
       actions: [ElevatedButton(onPressed: add, child: const Text("+"))],
     );
 
-    await db.getName("Ingredients").then((value) => ingNames=value).then((value) =>
+    // hier hab ich irgend so ein schrabbeliges vorschläge widget von pub.dev benutzt, zeitdruck geschuldet, copy and paste aus deren anleitung quasi
+    await db.getName("Ingredients").then((value) =>setState(()=>{ ingNames=value})).then((value) =>
     {      ingAutoInput =Expanded(
-        child: SimpleAutoCompleteTextField(
+        child: new SimpleAutoCompleteTextField(
           controller: TextEditingController(text: ""),
           suggestions: ingNames,
           textChanged: (text) =>  text,
@@ -68,7 +69,7 @@ init() async {
         ),
       )
     });
-    await db.getName("Category").then((value) => catNames=value).then((value) =>
+    await db.getName("Category").then((value) => setState(()=>{ catNames=value})).then((value) =>
     {      catAutoInput =Expanded(
       child: SimpleAutoCompleteTextField(
         controller: TextEditingController(text: ""),
@@ -88,7 +89,7 @@ boot=false;
 
 
   addIngredient(String name) async {
-await db.getIng(name).then((value) =>    setState(() { recipe.ingredients.add(value.first);}));
+await db.getIng(name).then((value) =>    setState(() { recipe.ingredients.add(value.first);})); //kommt als Liste, die aber in diesem Fall nur immer genau ein eintrag hat
   }
   add() async {
     String fail;
@@ -108,7 +109,7 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
     if (boot) return ShortLoadingScreen(title: widget.title,index: 0,);
     return Scaffold(
         appBar: appBar,
-        bottomNavigationBar:  BotNav(Index:2),
+        bottomNavigationBar:  BotNav(Index:0),
         floatingActionButton:  FloatingActionButton.extended(
       onPressed: () {
         add();
@@ -162,7 +163,7 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
                             Navigator.push(
                                 context,
                                 PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => addCat(),
+                                  pageBuilder: (_, __, ___) => AdEdCat(),
                                   transitionDuration: const Duration(seconds: 0),
                                 )).then((value) => init()) ;
 
@@ -217,15 +218,15 @@ Color primaryColor= Theme.of(context).colorScheme.primary;
 
                    child: Icon(Icons.fiber_new_sharp, color:primaryColor ,size: MyProps.itemSize(context, "tiny"),),
                    onTap:(){
-                     setState(() {
-                       Navigator.push(
+                     
+                     Navigator.push(
                            context,
                            PageRouteBuilder(
                              pageBuilder: (_, __, ___) => NewIngredient(),
                              transitionDuration: const Duration(seconds: 0),
-                           )).then((value) => init()) ;
+                           )).then((value) =>init());
 
-                     });
+                     
                    },
                  )
 
