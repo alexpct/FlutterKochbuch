@@ -16,7 +16,7 @@ class ShowCat extends StatefulWidget {
 
 
   @override
-  State<ShowCat> createState() => _ShowCatState(dbHelper);
+  State<ShowCat> createState() => _ShowCatState(DbHelper);
 }
 
 class _ShowCatState extends State<ShowCat> {
@@ -30,7 +30,7 @@ class _ShowCatState extends State<ShowCat> {
 
 
  getDb() async { //Holt die Einträge aus der DB und steck sie in 2 Listen
-   db = dbHelper();
+   db = DbHelper();
    await db.getCat();
    for(int i=0;i<db.result.length;i++){
   
@@ -61,7 +61,7 @@ class _ShowCatState extends State<ShowCat> {
         title: Text(widget.title),
       ),
 
-      bottomNavigationBar: const BotNav(Index:1),
+      bottomNavigationBar: const BotNav(index:1),
       body:  SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

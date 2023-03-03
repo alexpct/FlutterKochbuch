@@ -1,17 +1,16 @@
-import 'dart:developer';
+ ///
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
+
 import 'package:kochbuch/helper/objects.dart';
-import 'package:kochbuch/pages/recipe.dart';
 import 'package:sqflite/sqflite.dart';
 
-class dbHelper {
+class DbHelper {
   var _db;
   String resultType = "None";
   var result;
 
-  dbHelper(){open();}
+  DbHelper(){open();}
 
   open() async {
       final database = openDatabase('db.db');
@@ -36,7 +35,6 @@ class dbHelper {
     if(startsWith!=null) print(startsWith);
     if(startsWith!=null)q+="where name LIKE '$startsWith%'";
     result = await _db.rawQuery("select * from Category");
-    print(result.runtimeType);
     return result;
   }
 
@@ -64,8 +62,6 @@ class dbHelper {
     result = await _db.rawQuery("select * from $tablename");
   }
 
-
-
   void dispose(){
     try{_db.close();} catch(e){};
   }
@@ -74,7 +70,7 @@ class dbHelper {
   Future<List<String>>getName(String typ) async{
     resultType ="Cat";
     await open();
-    result = await _db.rawQuery("select Name from "+typ);
+    result = await _db.rawQuery("select Name from $typ");
     List<String> list=[];
     for (var i=0;i<result.length;i++){
      list.add(result[i]['Name']);
@@ -84,30 +80,27 @@ class dbHelper {
 
   getEntry(String table, String name) async{
     await open();
-    result = await _db.rawQuery("select * from "+table+" where name = '"+name+"'");
-    //print(result);
+    result = await _db.rawQuery("select * from $table where name = '$name'");
   }
 
   deleteentry( String table,String name,) async{
     await open();
-    await _db.rawQuery("delete from "+ table +" where name = '"+name+"'");
+    await _db.rawQuery("delete from $table where name = '$name'");
   }
 
-  insertCatDBZ(String Name , Uint8List bytes, String table ) async{
+  insertCatDBZ(String name , Uint8List bytes, String table ) async{
 
     await open();
-    result= await _db.rawQuery("INSERT INTO $table ( Name , Pic ) VALUES ( '$Name', '$bytes')");
-    print(result);
+    result= await _db.rawQuery("INSERT INTO $table ( Name , Pic ) VALUES ( '$name', '$bytes')");
   }
-Future<Recipe> getRecipe(String Name) async {
+ Future<Recipe> getRecipe(String name) async {
   await open();
-  var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '"+Name+"'");
-print(recipe);
-  String Text =  recipe[0]['text'];
-  int Time =  recipe[0]['time'];
+  var recipe = await  _db.rawQuery("select * from 'recipe' where Name = '$name'");
+  String text =  recipe[0]['text'];
+  int time =  recipe[0]['time'];
 
   List<Ingredient> ingredients=[];
-  var recipeIngredients =  await  _db.rawQuery("select * from 'recipeIngredients' where recipe = '"+Name+"'");
+  var recipeIngredients =  await  _db.rawQuery("select * from 'recipeIngredients' where recipe = '$name'");
   for(var i=0; i<recipeIngredients.length;i++){
     Ingredient ing;
     await getIng(recipeIngredients[i]['ingredient']).then((value) => ing=value.first);
@@ -116,24 +109,24 @@ print(recipe);
 
   }
   List<String> cats=[];
-  var recipeCats =  await  _db.rawQuery("select * from 'recipeCats' where recipe = '"+Name+"'");
+  var recipeCats =  await  _db.rawQuery("select * from 'recipeCats' where recipe = '$name'");
   recipeCats.forEach((e)=>cats.add(e['cats']));
 
 
   List<Uint8List> images= <Uint8List>[];
-  var recipePics =  await  _db.rawQuery("select * from 'recipePics' where recipe = '"+Name+"'");
+  var recipePics =  await  _db.rawQuery("select * from 'recipePics' where recipe = '$name'");
   recipePics.forEach((e)=>images.add(e['bytes']));
 
-Recipe ret=Recipe(name: Name, text: Text,ingredients: ingredients, time: Time, cats: cats, images: images);
-return Future.value(ret);
+  Recipe ret=Recipe(name: name, text: text,ingredients: ingredients, time: time, cats: cats, images: images);
+  return Future.value(ret);
 
-}
+ }
 
-deleteRecipe(String Name) async {//weiß grad nicht ob sqlite inner joins kann bzw on delete cascade, denke ja, aber das lite lässt mich stutzen , also was du nicht im kopf hast, das hast du in bei... ähm fingern
-  await _db.rawQuery("delete from recipe  where name = '"+Name+"'");
-  await _db.rawQuery("delete from recipeIngredients  where recipe = '"+Name+"'");
-  await _db.rawQuery("delete from recipePics  where recipe = '"+Name+"'");
-  await _db.rawQuery("delete from recipeCats  where recipe = '"+Name+"'");
+ deleteRecipe(String name) async {
+  await _db.rawQuery("delete from recipe  where name = '$name'");
+  await _db.rawQuery("delete from recipeIngredients  where recipe = '$name'");
+  await _db.rawQuery("delete from recipePics  where recipe = '$name'");
+  await _db.rawQuery("delete from recipeCats  where recipe = '$name'");
 
-}
+ }
 }

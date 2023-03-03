@@ -23,7 +23,7 @@ class EditIn extends StatefulWidget {
 
 class _EditInState extends State<EditIn> {
   Future myFuture;  
-  dbHelper db = dbHelper();
+  DbHelper db = DbHelper();
   String name = "Name"; 
   String fail = "OK";
   Image pictureEdit; // Bild für Anzeige in ImgeBox

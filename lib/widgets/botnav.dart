@@ -1,40 +1,32 @@
-//Alex was here
+//Alex was here  ///
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:kochbuch/main.dart';
-import 'package:kochbuch/pages/manage.dart';
-import 'package:kochbuch/pages/recipe.dart';
-import 'package:kochbuch/pages/snake.dart';
 
 import '../helper/navi.dart';
-import '../pages/editIn.dart';
-import '../pages/mIRC.dart';
 
 
 class BotNav extends StatefulWidget {
-  const BotNav ({  this.Index });
-  final int Index;
+  const BotNav ({Key key,   this.index }) : super(key: key);
+  final int index;
   @override
-  State<BotNav> createState() => _BotNav(cIndex: Index);
+  State<BotNav> createState() => _BotNav(cIndex: index);
 }
   class _BotNav extends State<BotNav> {
 
    _BotNav ({ this.cIndex });
   final int cIndex;
+  @override
   Widget build(BuildContext context){
     void onTabTapped(int index) {
       switch (index){
         case 0:navi(context,0,""); break ;
         case 1: navi(context,1,"") ; break ;
         case 2:  navi(context,2,"") ; break ;
-
-
       }
     }
     return (
         BottomNavigationBar(
           onTap: onTabTapped,
-          currentIndex: cIndex, // this will be set when a new tab is tapped
+          currentIndex: cIndex, 
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -42,7 +34,7 @@ class BotNav extends StatefulWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.mail),
-              label: "Rezepte",
+              label: "Kategorie",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),

@@ -48,7 +48,7 @@ class _RecipeListState extends State<RecipeList> {
 
 
 
-    bottomNavigationBar:  const BotNav(Index:1),
+    bottomNavigationBar:  const BotNav(index:1),
 
     body: null,);
 

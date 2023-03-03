@@ -91,7 +91,7 @@ class Recipe{
   Future<String> save(bool update,[String oldName]) async {
     final database = openDatabase('db.db');
     var db = await database;
-    dbHelper dbH = dbHelper(); 
+    DbHelper dbH = DbHelper(); 
     oldName??= name;
     if (name=="Name"||name=="") return Future<String>.value("Namen eingeben!");
     if (text.length<3) return Future<String>.value( "Beschreibung hinzufügen!");
@@ -128,5 +128,6 @@ class Recipe{
       };
       db.insert("recipePics", val );
     }
+    return "ready";
  }
 }

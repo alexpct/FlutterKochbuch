@@ -1,3 +1,5 @@
+///
+
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 import 'package:kochbuch/pages/snake.dart';
@@ -16,9 +18,6 @@ class ShowRecipe extends StatefulWidget {
   String byName;
   String title ="Rezept anzeigen";
 
-
-
-
    @override
   State<ShowRecipe> createState() => _ShowRecipeState();
 }
@@ -27,8 +26,8 @@ class _ShowRecipeState extends State<ShowRecipe> {
   bool boot=true;
   Widget tabBody;
   String title="Rezept anzeigen";
-
-
+  double leftB;
+  double rightB;
 
   @override
   void initState() {
@@ -36,63 +35,51 @@ class _ShowRecipeState extends State<ShowRecipe> {
     init();
     }
 
-
   init() async {
-    final db = await dbHelper();
-if(widget.recipe!=null) recipe=widget.recipe;
-if(widget.byName!=null) recipe =  await db.getRecipe(widget.byName);
-title=recipe.name;
-
-tabLeft();
-
-setState(() {
-  boot=false;
-});
-
-
-
+    final db = DbHelper();
+    if(widget.recipe!=null) recipe=widget.recipe;
+    if(widget.byName!=null) recipe =  await db.getRecipe(widget.byName);
+    title=recipe.name;
+    tabLeft();
+    setState(() {
+      boot=false;
+    });
   }
-
-  double leftB;
-  double rightB;
   tabLeft(){
     tabBody = Padding(
       padding: const EdgeInsets.all(8.0),
       child: ImageGallery(images: recipe.images,),
     );
-
-
-
-
-
-    setState(() {
-      leftB=MyProps.percent(context, 1);
-      rightB=MyProps.percent(context, 0.5);
-
+    
+  setState(() {
+    leftB=MyProps.percent(context, 1);
+    rightB=MyProps.percent(context, 0.5);
     });
   }
   tabRight(){
 
     tabBody = ListView.builder(
+      shrinkWrap: true,
       padding:  EdgeInsets.all(MyProps.percent(context, 3)),
       itemCount: recipe.ingredients.length,
       itemBuilder: (BuildContext context, int index) {
         final item = recipe.ingredients[index];
 
-        return  FittedBox(fit: BoxFit.contain ,
-            child: IngredientWidget(ingredient:item, quantity: item.quantity.toDouble() ,onTap:(value)=>{},
-                onChange: (value) => {setState((){item.quantity = value;})} ));
-
+        return  FittedBox(
+          fit: BoxFit.contain ,
+            child: IngredientWidget(
+              ingredient:item, quantity: 
+              item.quantity.toDouble() ,
+              onTap:(value)=>{},
+              onChange: (value) => {setState((){item.quantity = value;})}
+             )
+         );
       },
-      shrinkWrap: true,
-
-
     )
     ;
     setState(() {
       leftB=MyProps.percent(context, 0.5);
       rightB=MyProps.percent(context, 1);
-
     });
   }
 
@@ -100,30 +87,23 @@ setState(() {
   @override
   Widget build(BuildContext context) {
    if (boot) return ShortLoadingScreen(title: title,index: 1,);
-Color primaryColor=Theme.of(context).primaryColor;
-
-
-
+   Color primaryColor=Theme.of(context).primaryColor;
    return Scaffold(
        appBar: AppBar(
-         // Here we take the value from the MyHomePage object that was created by
-         // the App.build method, and use it to set our appbar title.
          title: Text(title),
-
-         actions: [ElevatedButton(onPressed: ()=>{Navigator.push(
-           context,
-           PageRouteBuilder(
-             pageBuilder: (_, __, ___) =>  SnakeGame(),
-             transitionDuration: const Duration(seconds: 0),
-           ))}, child:  Text("Zeit: "+recipe.time.toString()+" Minuten"))],
+         actions: [
+          ElevatedButton(
+            onPressed: ()=>{
+              Navigator.push(context,PageRouteBuilder(
+                pageBuilder: (_, __, ___) =>  const SnakeGame(),
+                transitionDuration: const Duration(seconds: 0),
+             ))    
+             }, 
+            child:  Text("Zeit: ${recipe.time} Minuten"))
+         ],
        ),
-
-
-
-       bottomNavigationBar:  const BotNav(Index:1),
-
-       body:
-          Column(
+       bottomNavigationBar:  const BotNav(index:1),
+       body: Column(
             children: [
               Expanded(
                 child: Column(
@@ -135,38 +115,34 @@ Color primaryColor=Theme.of(context).primaryColor;
                           child: InkWell(
                             onTap: tabLeft,
                             child: Container(
-
                               decoration: BoxDecoration(
                                   border: Border.all(color: primaryColor,width: leftB )
-
                               ),
                               padding: EdgeInsets.all(MyProps.percent(context, 3)+rightB),
-                              child: Center(child: Text("Bilder")),
-
-
+                              child: const Center(
+                                child: Text("Bilder")
+                                ),
                             ),
                           ),
-                        ),                         Expanded(
+                        ), 
+                        Expanded(
                           child: InkWell(
                             onTap: tabRight,
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(color: primaryColor,width: rightB )
-
                               ),
                               padding: EdgeInsets.all(MyProps.percent(context, 3)+leftB),
-                              child: Center(child: Text("Zutaten")),
-
-
+                              child: const Center(
+                                child: Text("Zutaten")
+                                ),
                             ),
                           ),
                         )
                       ],
                     ),
-
                     Expanded(
-                      child:
-                         tabBody,
+                      child: tabBody,
                       ),
                     Divider(
                       thickness:1,
@@ -174,9 +150,6 @@ Color primaryColor=Theme.of(context).primaryColor;
                       endIndent: 5,
                       color: primaryColor,
                     ),
-
-
-
                   ],
                 )
               ),
@@ -184,19 +157,16 @@ Color primaryColor=Theme.of(context).primaryColor;
                   child:Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-
                       Expanded(
                         child: Container(
                           margin: EdgeInsets.all(MyProps.percent(context, 2)),
-padding: EdgeInsets.all(MyProps.percent(context, 3)),
+                          padding: EdgeInsets.all(MyProps.percent(context, 3)),
                           decoration: BoxDecoration(
                               border: Border.all(color: primaryColor,width:MyProps.percent(context, 0.6) )
-
-
                           ),
-                          child: SingleChildScrollView(child: Text(recipe.text)),
-
-
+                          child: SingleChildScrollView(
+                            child: Text(recipe.text)
+                            ),
                         ),
                       ),
                     ],
@@ -204,10 +174,6 @@ padding: EdgeInsets.all(MyProps.percent(context, 3)),
               ),
             ],
           )
-
-
    );
   }
-
-
 }

@@ -1,7 +1,5 @@
+///
 
-import 'dart:developer';
-
-import 'package:alert/alert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/navi.dart';
@@ -17,18 +15,18 @@ import '../helper/imagepicker.dart';
 import '../helper/objects.dart';
 
 
-class addCat extends StatefulWidget {
-    addCat( [this.edible]);
+class AdEdCat extends StatefulWidget {
+    AdEdCat( [this.edible]);
    final String edible;
    String title = "Kategorie hinzufügen";
    @override
-   _addCatState createState() => _addCatState();
+   _AdEdCatState createState() => _AdEdCatState();
  }
  
- class _addCatState extends State<addCat> {
+ class _AdEdCatState extends State<AdEdCat> {
    var _image;
-   final db = dbHelper();
-    Future myFuture;  
+   final db = DbHelper();
+   Future myFuture;  
    String name = "Name";
    String fail = "OK";
    bool checkMode = false;
@@ -39,27 +37,25 @@ class addCat extends StatefulWidget {
    Uint8List dbPic;
    List<Map<String, dynamic>>dbEntries=[];
 
-     Future<String> check() async{
-      if(widget.edible==null){
-         titel="Kategorie hinzufügen";
-         return "ready";
+   Future<String> check() async{
+    if(widget.edible==null){
+       titel="Kategorie hinzufügen";
+       return "ready";
       }
-      else{
-        checkMode=true;
-        titel ="Kategorie Editieren";
-        buttonTitel="editieren";
-        await db.getEntry("Category", widget.edible);
-        for(int i=0;i<db.result.length;i++){
+    else{
+      checkMode=true;
+      titel ="Kategorie bearbeiten";
+      buttonTitel="bearbeiten";
+      await db.getEntry("Category", widget.edible);
+      for(int i=0;i<db.result.length;i++){
           dbEntries.add(db.result[i]);  
 
         }
-        dbName=dbEntries[0]['Name'];
-        dbPic=dbEntries[0]['Pic'];
-        pictureedit=Image.memory(dbPic);
-        return"ready";
+       dbName=dbEntries[0]['Name'];
+       dbPic=dbEntries[0]['Pic'];
+       pictureedit=Image.memory(dbPic);
+       return"ready";
       }
-    
-      
    }
 
   getImg(bool useCamera) {
@@ -99,13 +95,10 @@ class addCat extends StatefulWidget {
     myFuture = check();
 }
 
-
    @override
-   Widget build(BuildContext context) {
+Widget build(BuildContext context) {
 
-
-
-return FutureBuilder(
+ return FutureBuilder(
    future: myFuture, 
    builder: (context,snapshot) {
     if (!snapshot.hasData){

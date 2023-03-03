@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kochbuch/pages/addCat.dart';
 import 'package:kochbuch/pages/editIn.dart';
 import 'package:kochbuch/pages/newRecipe.dart';
-import '../helper/navi.dart';
 import '../helper/objects.dart';
 import '../widgets/botnav.dart';
 import '../helper/dbhelper.dart';
@@ -29,7 +28,7 @@ String titel=""; //Appbar Titel
 int editnav;
 
 getNamefromDb(String typ) async { //holen aller Namen aus typ (Kategorie/Zuatetn/Rezept) DB
-  db = dbHelper();
+  db = DbHelper();
   await db.getName(typ);
   for(int i=0;i<db.result.length;i++){
      entrylist.add(db.result[i]);      
@@ -65,7 +64,7 @@ nav( String typ) async{
     Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => addCat(typ),
+          pageBuilder: (_, __, ___) => AdEdCat(typ),
           transitionDuration: const Duration(seconds: 0),
         )) ;
       break;
@@ -79,12 +78,12 @@ nav( String typ) async{
           
       break;
       case "Recipe": 
-      db = dbHelper();
+      db = DbHelper();
       Recipe rez =await db.getRecipe(typ);
       Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => newRecipe(recipe: rez),
+          pageBuilder: (_, __, ___) => NewRecipe(recipe: rez),
           transitionDuration: const Duration(seconds: 0),
         )) ;
           
@@ -138,7 +137,7 @@ deletealert(int index, String name, String typ){    // Alertdialog des Löschen 
       appBar: AppBar(
         title: Text(titel),
       ),
-      bottomNavigationBar:  const BotNav(Index:2),
+      bottomNavigationBar:  const BotNav(index:2),
       body: Center(
         child:
         ListView.builder( //auflistung der entrylist

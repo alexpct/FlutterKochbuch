@@ -5,6 +5,8 @@ import 'dart:math';
 import 'dart:async';
 
 class SnakeGame extends StatefulWidget{
+  const SnakeGame({Key key}) : super(key: key);
+
   @override
   SnakeState createState()=> SnakeState();
 
@@ -100,12 +102,12 @@ class SnakeState extends State<SnakeGame>{
     playing=false;
     showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
-        title: Text('Game Over'),
-        content: Text('Score: ${snake.length-2}',style:TextStyle(fontWeight: FontWeight.bold,color: Colors.black)
+        title: const Text('Game Over'),
+        content: Text('Score: ${snake.length-2}',style:const TextStyle(fontWeight: FontWeight.bold,color: Colors.black)
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Close'),
+            child: const Text('Close'),
             onPressed: (){
               Navigator.of(context).pop();
             },
@@ -121,9 +123,8 @@ class SnakeState extends State<SnakeGame>{
       body: Column(
         children: <Widget> [
           Row(
-            children: [
+            children: const [
               Text("Test"),
-
             ],
           ),
           Expanded(
@@ -147,7 +148,7 @@ class SnakeState extends State<SnakeGame>{
               child: AspectRatio(
                 aspectRatio:row/(coll+2),
                 child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: row),
                     itemCount: row*coll,
                     itemBuilder: (BuildContext context,int index){
@@ -174,7 +175,7 @@ class SnakeState extends State<SnakeGame>{
                       }
 
                       return Container(
-                        margin: EdgeInsets.all(1),
+                        margin: const EdgeInsets.all(1),
                         decoration: BoxDecoration(
                             color: color
                         ),
@@ -192,7 +193,7 @@ class SnakeState extends State<SnakeGame>{
                   style: TextButton.styleFrom(backgroundColor: playing ? Colors.white : Theme.of(context).primaryColor,),
                   child: Text(
                     playing ? "End" : "Start",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   onPressed: (){
                     if(playing){
@@ -205,7 +206,7 @@ class SnakeState extends State<SnakeGame>{
               Text(
 
                 'Score: ${snake.length-2}',
-                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
               ),
             ],
 

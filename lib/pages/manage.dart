@@ -25,15 +25,15 @@ class _ManageState extends State<Manage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      bottomNavigationBar:  const BotNav(Index:2),
+      bottomNavigationBar:  const BotNav(index:2),
         body: Center(
           child: Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
 
             children: <Widget>[  //Imageboxen die onTap zu der auflistung von Kategorie, Zutaten und Rezepten führen
 
               ImgBox(label: "Kategorie\n", icon: Icons.menu_book, onTap: () => navi(context,21,""),size: MyProps.itemSize(context, "normal"),),
-              ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,23,""),size: MyProps.itemSize(context, "normal"),),
-              ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,24,""),size: MyProps.itemSize(context, "normal"),),
+              ImgBox(label: "Zutaten\n ", icon: Icons.kebab_dining,onTap: () =>navi(context,22,""),size: MyProps.itemSize(context, "normal"),),
+              ImgBox(label: "Rezepte\n", icon: Icons.ramen_dining,onTap: () =>navi(context,23,""),size: MyProps.itemSize(context, "normal"),),
 
            ]
           ),

@@ -46,7 +46,7 @@ createdb() async {
 
   }
 }
-dbHelper db = dbHelper();
+DbHelper db = DbHelper();
   @override
   Widget build(BuildContext context) {
 
@@ -54,7 +54,7 @@ dbHelper db = dbHelper();
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        bottomNavigationBar:  const BotNav(Index:2),
+        bottomNavigationBar:  const BotNav(index:2),
         body: Center(
           child: Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center,
 
@@ -64,7 +64,7 @@ dbHelper db = dbHelper();
                 ElevatedButton(onPressed:()=>{ navi(context, 2)}, child: const Text("Navi2")),
                 ElevatedButton(onPressed:()=>{ navi(context, 3,"ei")}, child: const Text("Navi3")),
                 ElevatedButton(onPressed:()=>{ navi(context, 22)}, child: const Text("Navi4")),
-                ElevatedButton(onPressed:()=>{ navi(context, 8)}, child: const Text("Navi5")),
+                ElevatedButton(onPressed:()=>{ navi(context, 5)}, child: const Text("Navi5")),
                 Container(height: 100,),
                 ElevatedButton(onPressed:deldb, child: const Text("Delete database")),
                 ElevatedButton(onPressed:createdb, child: const Text("Create DB")),

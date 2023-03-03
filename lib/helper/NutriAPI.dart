@@ -37,9 +37,9 @@ Future<Ingredient> _buildIngredient(Map<String, dynamic> ing) async {
   Future<List<Ingredient>>  search(String query ) async {
     int thisRun =_runNum.toInt();
     thisRun++;
-    String URI = "https://trackapi.nutritionix.com/v2/search/instant?query=$query&locale=de_DE&branded=false&detailed=true";
+    String uri = "https://trackapi.nutritionix.com/v2/search/instant?query=$query&locale=de_DE&branded=false&detailed=true";
     final response = await http.get(
-      Uri.parse(URI),
+      Uri.parse(uri),
       headers: {
         'x-app-id': '7b773536',
         'x-app-key': '7ff5548603c326b1bca3af594e3f437b',

@@ -1,15 +1,16 @@
+///
 import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/firstrun.dart';
-import 'package:kochbuch/pages/recipe.dart';
+import 'package:kochbuch/pages/showCategory.dart';
 
-class splash extends StatefulWidget {
-
+class Splash extends StatefulWidget {
+  const Splash({Key key}) : super(key: key);
 
   @override
-  State<splash> createState() => _splashState();
+  State<Splash> createState() => _SplashState();
 }
 
-class _splashState extends State<splash> {
+class _SplashState extends State<Splash> {
 Future<bool> fr = firstrun();
 String text = "Bitte warten";
 
@@ -18,22 +19,19 @@ String text = "Bitte warten";
     fr.then((value) => {
       {
         if(value) Navigator.push(
-            context, MaterialPageRoute(builder: (context) =>  ShowCat(),))
+            context, MaterialPageRoute(builder: (context) =>  const ShowCat(),))
         else
           text = "OhOh"
       }});
     return Scaffold(
-
       body: Center(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-           Container(child: CircularProgressIndicator(strokeWidth: 5),width: 400, height: 100 ) , Text(text),
+           Container(width: 400, height: 100, child: const CircularProgressIndicator(strokeWidth: 5) ) , Text(text),
           ],
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }}

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kochbuch/helper/tinyHelpers.dart';
 
 class ImgBox extends StatelessWidget{
-  ImgBox({ this.label, this.icon,this.image,  this.onTap,this.file,this.size=-1,this.fontSize=25
-  , this.noMargin=false, this.noBorder=false}){
+  ImgBox({Key key,  this.label, this.icon,this.image,  this.onTap,this.file,this.size=-1,this.fontSize=25
+  , this.noMargin=false, this.noBorder=false}) : super(key: key){
 if (label.length > _maxChar) _labelSplit();
 
 }
@@ -29,7 +29,7 @@ if (label.length > _maxChar) _labelSplit();
     String sub1 = label.substring(0,idx).trim();
     String sub2 = label.substring(idx+1);
     if(sub2.length>_maxChar) sub2 =sub2.substring(0,11).trimRight();
-    label = sub1+hyphen+"\n"+sub2;
+    label = "$sub1$hyphen\n$sub2";
     if(fontSize==25) fontSize=15;
 
 
@@ -42,20 +42,26 @@ if (label.length > _maxChar) _labelSplit();
        if(file!=null){
          wid = Image.file(file,width: size, height: size);
        }
-       else if (image!=null) wid = Container(child: image, width: size, height: size);
-       else  wid = Icon(
+       else if (image!=null) {
+         wid = Container(
+          width: size, 
+          height: size, 
+          child: image
+        );
+       } else {
+         wid = Icon(
          icon ?? Icons.favorite ,
          color:Theme.of(context).colorScheme.primary,
          size: size,
        );
-Border b=  Border.all(color: Theme.of(context).colorScheme.primary, width:  size/30);
-if(noBorder) b=null;
-    return(
-        InkWell(
-          onTap: () {
-           onTap();
-          }
-          ,
+       }
+      Border b=  Border.all(color: Theme.of(context).colorScheme.primary, width:  size/30);
+      if(noBorder) b=null;
+          return(
+              InkWell(
+                onTap: () {
+                onTap();
+                },
           child:  Container(
             margin:  EdgeInsets.all(noMargin? 0:   MyProps.itemSize(context, "tiny")),
             padding: const EdgeInsets.all(5),
@@ -64,20 +70,21 @@ if(noBorder) b=null;
             decoration: BoxDecoration(
                 border: b
             ),
-
             child:FittedBox(
-
-                child:Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-
-        children: <Widget>[  wid ,Text(label, textAlign: TextAlign.center,
-          overflow: TextOverflow.clip,
-          style:  TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize), )],
-     )),
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[  
+                  wid ,
+                  Text(
+                    label, 
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
+                    style:  TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize), 
+                  )
+          ],
+      )
+     ),
     )
-    ));
-  }
-
-
-
+  ));
+ }
 }

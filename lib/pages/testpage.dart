@@ -29,7 +29,7 @@ class Testpage extends StatefulWidget {
 }
 
 class _TestState extends State<Testpage> {
-  final db = dbHelper();
+  final db = DbHelper();
   List<Cat> cats = [];
   String txt = "wow";
 
@@ -118,7 +118,7 @@ Widget ee;
 test2() async {
     Recipe test = await db.getRecipe("Test");
     Navigator.push(context,  PageRouteBuilder(
-    pageBuilder: (_, __, ___) => newRecipe(recipe: test),
+    pageBuilder: (_, __, ___) => NewRecipe(recipe: test),
   transitionDuration: const Duration(seconds: 0),
   ));
 }
@@ -155,7 +155,7 @@ test2() async {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        bottomNavigationBar: BotNav(Index: 2),
+        bottomNavigationBar: BotNav(index: 2),
         body: SingleChildScrollView(
             child: Column(mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -9,8 +9,7 @@ import '../pages/devstart.dart';
 import '../pages/editIn.dart';
 import '../pages/mIRC.dart';
 import '../pages/manage.dart';
-import '../pages/recipe.dart';
-import '../pages/snake.dart';
+import '../pages/showCategory.dart';
 
 void navi(context, int page, [String name=""]){
 
@@ -24,13 +23,13 @@ void navi(context, int page, [String name=""]){
     case 1:Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  ShowCat(),
+          pageBuilder: (_, __, ___) =>  const ShowCat(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 2: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  Manage(),
+          pageBuilder: (_, __, ___) =>  const Manage(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break ;
     case 21: Navigator.push(
@@ -42,46 +41,46 @@ void navi(context, int page, [String name=""]){
     case 22: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>  NewIngredient( ),
-          transitionDuration: const Duration(seconds: 0),
-        )) ; break ;
-        case 23: Navigator.push(
-        context,
-        PageRouteBuilder(
           pageBuilder: (_, __, ___) => const ManageIRC(type:"Ingredients"),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-         case 24: Navigator.push(
+    case 23: Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => const ManageIRC(type:"Recipe"),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-        case 3: Navigator.push(
+     case 3: Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) =>  NewIngredient( ),
+          transitionDuration: const Duration(seconds: 0),
+        )) ; break ;
+     case 4: Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => EditIn(name),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-    case 4: Navigator.push(
+    case 5: Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => Testpage(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-    case 5: Navigator.push(
+    case 6: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => newRecipe(),
+          pageBuilder: (_, __, ___) => NewRecipe(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-         case 6: Navigator.push(
+     case 7: Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => addCat(),
+          pageBuilder: (_, __, ___) => AdEdCat(),
           transitionDuration: const Duration(seconds: 0),
         )) ; break;
-        case 8: Navigator.push(
+     case 8: Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => ShowRecipe(byName: "test"),

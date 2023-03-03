@@ -4,7 +4,7 @@ import 'botnav.dart';
 
 class ShortLoadingScreen extends StatelessWidget {
 
-  ShortLoadingScreen({this.title, this.index});
+  ShortLoadingScreen({Key key, this.title, this.index}) : super(key: key);
 int index;
 String title;
 
@@ -14,7 +14,7 @@ String title;
       appBar: AppBar(
         title: Text(title),
       ),
-      bottomNavigationBar:  BotNav(Index:index),
+      bottomNavigationBar:  BotNav(index:index),
 
       body: Center(
 
@@ -22,7 +22,12 @@ String title;
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(child: CircularProgressIndicator(strokeWidth: 5),width: MyProps.itemSize(context, "fill"), height:  MyProps.itemSize(context, "huge") ) , Text("Wenn du das lesen kannnst warst du schnell oder es lief was schief"),
+            Container(
+              width: MyProps.itemSize(context, "fill"), 
+              height:  MyProps.itemSize(context, "huge"), 
+              child: const CircularProgressIndicator(strokeWidth: 5) 
+              ) , 
+           const Text("Wenn du das lesen kannnst warst du schnell oder es lief was schief"),
           ],
         ),
       ),
